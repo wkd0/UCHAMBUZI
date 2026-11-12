@@ -1,0 +1,29 @@
+# Sessions Focus
+
+> Référence de composant ou recette historique, conservée pour sa provenance. Pour la V1.0.0, utiliser l’[index courant](README.md), les [commandes](commandes.md) et la [note de recette V1](releases/1.0.0.md). Ce document ne certifie pas le candidat actuel.
+
+Les modules `focus_sessions`, `focus_storage` et `focus_workspace` utilisent uniquement la bibliothèque standard Python. Ils ne présentent aucune interface terminal et ne lancent aucune opération ni lecture de contenu des fichiers sélectionnés.
+
+## Intégration
+
+Ajouter `src` au chemin Python, puis construire `SessionManager()` ; un chemin racine peut être fourni pour les tests ou l'installateur. Par défaut, le stockage est `uchambuzi-data` dans le dossier Documents défini par `user-dirs.dirs` (chemin absolu ou `$HOME`), sinon `~/Documents`. Seul `sessions/` est créé à la première écriture. Le répertoire de travail est indépendant et toujours sélectionné explicitement.
+
+`create(name, workspace, history_enabled)` retourne une session. `list_sessions()`, `open(id)` / `resume(id)` et `delete(id, confirmation=id)` sont les points d'entrée. Les entrées corrompues sont signalées à la liste et leur ouverture lève `CorruptSession`. Une session offre `data` (copie), `rename`, `add_message`, `update_message`, `set_context`, `set_workspace`, `add_resource`, `validate_workspace`, `set_history`, `save`, `export`, `close` et `snapshot`. Chaque modification est enregistrée immédiatement ; la fermeture conserve l'historique. L'export JSON crée exclusivement un nouveau fichier privé et conserve le texte original.
+
+Le champ `state` vaut `running`, `complete`, `cancelled` ou `failed`. Un fragment reçu est ajouté en `running`, puis actualisé avec `update_message` au fil de sa réception et terminé seulement après confirmation du moteur. Après un arrêt inattendu, l'intégrateur peut utiliser `open(id, recover_interrupted=True)` pour marquer les fragments persistés `cancelled` sans en modifier le texte. Il doit d'abord s'assurer qu'aucun moteur ne traite encore cette session ; une ouverture ordinaire ne déclare pas interrompu un travail concurrent. Les changements de mode et de scénario sont conservés dans `context_events`, en plus de l'état courant.
+
+`snapshot()` adapte messages utilisateur/assistant et contexte courant au contrat Focus v1. Ce contrat ne représente ni les états, ni les dates, ni les résultats d'outils ; les intégrateurs doivent utiliser `data` pour ces informations. Le contrat `Model.local` ne peut pas être déduit du nom du fournisseur : l'adaptateur le fixe à `False` de façon conservatrice. Un futur contrat devrait exposer ces métadonnées, le répertoire, le mode distinct du profil, et la localité explicite du modèle. Les commandes slash anglaises et les réglages de l'interface restent à intégrer par leurs missions respectives.
+
+## Isolation et confidentialité
+
+Le contexte contient mode, scénario, fournisseur, modèle, répertoire, indicateurs, cibles, paramètres, références et données réutilisables. Un changement de mode ou scénario efface les données réutilisables, cibles, indicateurs, paramètres, instructions temporaires et autorisations ; un changement de mode efface aussi le scénario précédent sauf si un nouveau est fourni. Les instructions temporaires et autorisations restent uniquement en mémoire. Un résultat d'outil exige `allow_tool=True` après décision de l'intégrateur ; ce paramètre ne constitue pas une autorisation d'exécution.
+
+`history_enabled=False` conserve les messages uniquement en mémoire et retire l'historique persistant lors du changement ; sa réactivation vide les messages en mémoire pour éviter leur réapparition inattendue. L'export explicite inclut l'état en mémoire, même lorsque l'historique est désactivé. La suppression exige l'identifiant exact ; aucune suppression automatique ni journal technique n'est effectuée. L'export et la suppression des copies restent sous contrôle utilisateur ; une suppression logique ne garantit pas l'effacement physique sur disque ou dans des sauvegardes. Aucun chiffrement n'est fourni.
+
+Le moteur refuse les contenus signalés `sensitive=True` et certains motifs courants de secrets ; cette détection est incomplète et ne peut pas reconnaître toutes les données confidentielles. Les appelants doivent filtrer les secrets et décider quelles données peuvent être persistées avant tout appel, y compris noms, contexte et métadonnées. Les documents ne sont jamais transmis automatiquement. Les fichiers JSON et exports sont créés en `0600`, le dossier sessions en `0700` ; la protection du dossier racine préexistant et des sauvegardes incombe à l'environnement.
+
+## Durabilité et accès concurrents
+
+Chaque session est un fichier JSON versionné. Les écritures prennent un verrou `flock`, contrôlent la révision, écrivent dans un fichier temporaire privé, synchronisent fichier et répertoire puis remplacent atomiquement l'ancien fichier. Une révision périmée lève `ConflictError` : rouvrir et résoudre le conflit, sans écraser silencieusement. Une interruption avant remplacement laisse l'ancienne version ; après remplacement, la nouvelle. Les éventuels fichiers temporaires orphelins ne sont pas chargés automatiquement et peuvent contenir des données privées. La version 1, de même structure principale, est migrée en mémoire vers 2 ; une version inconnue est refusée. Il ne s'agit pas d'une sauvegarde externe contre la corruption du disque.
+
+Les chemins sont résolus réellement, y compris liens symboliques, puis contrôlés sous le répertoire actif ; seuls les fichiers lisibles peuvent être ajoutés. L'appelant doit revalider juste avant utilisation : un changement concurrent des liens ou permissions peut invalider une vérification préalable. Ce service n'offre pas de bac à sable et ne doit pas servir seul à autoriser une lecture sensible. Les chemins disparus lèvent une erreur lors de `validate_workspace`.

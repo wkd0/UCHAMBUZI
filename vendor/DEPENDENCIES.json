@@ -1,0 +1,1416 @@
+{
+  "description": "Inventaire documentaire des wheels embarqués ; déclarations des métadonnées, sans conclusion juridique.",
+  "generated_at": "2026-11-11",
+  "wheels": [
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "aiohappyeyeballs-2.6.1-py3-none-any.whl",
+      "name": "aiohappyeyeballs",
+      "version": "2.6.1",
+      "license_metadata": "PSF-2.0",
+      "notice_files": [
+        "aiohappyeyeballs-2.6.1.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "aiohttp-3.12.13-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "name": "aiohttp",
+      "version": "3.12.13",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "aiohttp-3.12.13.dist-info/licenses/",
+        "aiohttp-3.12.13.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "aiosignal-1.3.2-py2.py3-none-any.whl",
+      "name": "aiosignal",
+      "version": "1.3.2",
+      "license_metadata": "Apache 2.0",
+      "notice_files": [
+        "aiosignal-1.3.2.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "attrs-25.3.0-py3-none-any.whl",
+      "name": "attrs",
+      "version": "25.3.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "attrs-25.3.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "certifi-2025.6.15-py3-none-any.whl",
+      "name": "certifi",
+      "version": "2025.6.15",
+      "license_metadata": "MPL-2.0",
+      "notice_files": [
+        "certifi-2025.6.15.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "chardet-5.2.0-py3-none-any.whl",
+      "name": "chardet",
+      "version": "5.2.0",
+      "license_metadata": "LGPL",
+      "notice_files": [
+        "chardet-5.2.0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "charset_normalizer-3.4.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "name": "charset-normalizer",
+      "version": "3.4.2",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "charset_normalizer-3.4.2.dist-info/licenses/",
+        "charset_normalizer-3.4.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "frozenlist-1.7.0-cp313-cp313-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "name": "frozenlist",
+      "version": "1.7.0",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "frozenlist-1.7.0.dist-info/licenses/",
+        "frozenlist-1.7.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "idna-3.10-py3-none-any.whl",
+      "name": "idna",
+      "version": "3.10",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "idna-3.10.dist-info/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "markdown_it_py-3.0.0-py3-none-any.whl",
+      "name": "markdown-it-py",
+      "version": "3.0.0",
+      "license_metadata": "MIT License",
+      "notice_files": [
+        "markdown_it_py-3.0.0.dist-info/LICENSE",
+        "markdown_it_py-3.0.0.dist-info/LICENSE.markdown-it"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "mdurl-0.1.2-py3-none-any.whl",
+      "name": "mdurl",
+      "version": "0.1.2",
+      "license_metadata": "MIT License",
+      "notice_files": [
+        "mdurl-0.1.2.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "multidict-6.6.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "multidict",
+      "version": "6.6.2",
+      "license_metadata": "Apache License 2.0",
+      "notice_files": [
+        "multidict-6.6.2.dist-info/licenses/",
+        "multidict-6.6.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "pillow-11.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "pillow",
+      "version": "11.3.0",
+      "license_metadata": "MIT-CMU",
+      "notice_files": [
+        "pillow-11.3.0.dist-info/licenses/",
+        "pillow-11.3.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "propcache-0.3.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "name": "propcache",
+      "version": "0.3.2",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "propcache-0.3.2.dist-info/licenses/",
+        "propcache-0.3.2.dist-info/licenses/LICENSE",
+        "propcache-0.3.2.dist-info/licenses/NOTICE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "pygments-2.19.2-py3-none-any.whl",
+      "name": "Pygments",
+      "version": "2.19.2",
+      "license_metadata": "BSD-2-Clause",
+      "notice_files": [
+        "pygments-2.19.2.dist-info/licenses/AUTHORS",
+        "pygments-2.19.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "python_dotenv-1.1.1-py3-none-any.whl",
+      "name": "python-dotenv",
+      "version": "1.1.1",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "python_dotenv-1.1.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "reportlab-4.4.2-py3-none-any.whl",
+      "name": "reportlab",
+      "version": "4.4.2",
+      "license_metadata": "BSD license (see license.txt for details), Copyright (c) 2000-2025, ReportLab Inc.",
+      "notice_files": [
+        "reportlab/fonts/DarkGarden-copying-gpl.txt",
+        "reportlab/fonts/DarkGarden-copying.txt",
+        "reportlab/fonts/bitstream-vera-license.txt",
+        "reportlab-4.4.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "requests-2.32.4-py3-none-any.whl",
+      "name": "requests",
+      "version": "2.32.4",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "requests-2.32.4.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "rich-14.0.0-py3-none-any.whl",
+      "name": "rich",
+      "version": "14.0.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "rich-14.0.0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "urllib3-2.5.0-py3-none-any.whl",
+      "name": "urllib3",
+      "version": "2.5.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "urllib3-2.5.0.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/blackbird/blackbird-linux-x86_64-cp313.zip",
+      "wheel": "yarl-1.20.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "name": "yarl",
+      "version": "1.20.1",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "yarl-1.20.1.dist-info/licenses/",
+        "yarl-1.20.1.dist-info/licenses/LICENSE",
+        "yarl-1.20.1.dist-info/licenses/NOTICE"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "anyio-4.16.0-py3-none-any.whl",
+      "name": "anyio",
+      "version": "4.16.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "anyio-4.16.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "attrs-26.1.0-py3-none-any.whl",
+      "name": "attrs",
+      "version": "26.1.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "attrs-26.1.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "beautifulsoup4-4.15.0-py3-none-any.whl",
+      "name": "beautifulsoup4",
+      "version": "4.15.0",
+      "license_metadata": "MIT License",
+      "notice_files": [
+        "beautifulsoup4-4.15.0.dist-info/licenses/AUTHORS",
+        "beautifulsoup4-4.15.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "bs4-0.0.2-py2.py3-none-any.whl",
+      "name": "bs4",
+      "version": "0.0.2",
+      "license_metadata": "MIT License",
+      "notice_files": []
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "certifi-2026.10.23-py3-none-any.whl",
+      "name": "certifi",
+      "version": "2026.10.23",
+      "license_metadata": "MPL-2.0",
+      "notice_files": [
+        "certifi-2026.10.23.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "colorama-0.4.6-py2.py3-none-any.whl",
+      "name": "colorama",
+      "version": "0.4.6",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "colorama-0.4.6.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "h11-0.16.0-py3-none-any.whl",
+      "name": "h11",
+      "version": "0.16.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "h11-0.16.0.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "holehe-1.61-py3-none-any.whl",
+      "name": "holehe",
+      "version": "1.61",
+      "license_metadata": "GNU General Public License v3 (GPLv3)",
+      "notice_files": [
+        "holehe-1.61.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "httpcore-1.0.9-py3-none-any.whl",
+      "name": "httpcore",
+      "version": "1.0.9",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "httpcore-1.0.9.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "httpx-0.28.1-py3-none-any.whl",
+      "name": "httpx",
+      "version": "0.28.1",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "httpx-0.28.1.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "idna-3.20-py3-none-any.whl",
+      "name": "idna",
+      "version": "3.20",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "idna-3.20.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "outcome-1.3.0.post0-py2.py3-none-any.whl",
+      "name": "outcome",
+      "version": "1.3.0.post0",
+      "license_metadata": "MIT OR Apache-2.0",
+      "notice_files": [
+        "outcome-1.3.0.post0.dist-info/LICENSE",
+        "outcome-1.3.0.post0.dist-info/LICENSE.APACHE2",
+        "outcome-1.3.0.post0.dist-info/LICENSE.MIT"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "sniffio-1.3.1-py3-none-any.whl",
+      "name": "sniffio",
+      "version": "1.3.1",
+      "license_metadata": "MIT OR Apache-2.0",
+      "notice_files": [
+        "sniffio-1.3.1.dist-info/LICENSE",
+        "sniffio-1.3.1.dist-info/LICENSE.APACHE2",
+        "sniffio-1.3.1.dist-info/LICENSE.MIT"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "sortedcontainers-2.4.0-py2.py3-none-any.whl",
+      "name": "sortedcontainers",
+      "version": "2.4.0",
+      "license_metadata": "Apache 2.0",
+      "notice_files": [
+        "sortedcontainers-2.4.0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "soupsieve-4.1-py3-none-any.whl",
+      "name": "soupsieve",
+      "version": "4.1",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "soupsieve-4.1.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "termcolor-3.3.0-py3-none-any.whl",
+      "name": "termcolor",
+      "version": "3.3.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "termcolor-3.3.0.dist-info/licenses/COPYING.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "tqdm-4.70.1-py3-none-any.whl",
+      "name": "tqdm",
+      "version": "4.70.1",
+      "license_metadata": "MPL-2.0 AND MIT",
+      "notice_files": [
+        "tqdm-4.70.1.dist-info/licenses/LICENCE"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "trio-0.35.0-py3-none-any.whl",
+      "name": "trio",
+      "version": "0.35.0",
+      "license_metadata": "MIT OR Apache-2.0",
+      "notice_files": [
+        "trio-0.35.0.dist-info/licenses/LICENSE",
+        "trio-0.35.0.dist-info/licenses/LICENSE.APACHE2",
+        "trio-0.35.0.dist-info/licenses/LICENSE.MIT"
+      ]
+    },
+    {
+      "bundle": "vendor/holehe/holehe-linux-x86_64-cp313.zip",
+      "wheel": "typing_extensions-4.16.0-py3-none-any.whl",
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "license_metadata": "PSF-2.0",
+      "notice_files": [
+        "typing_extensions-4.16.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "PySocks-1.7.1-py3-none-any.whl",
+      "name": "PySocks",
+      "version": "1.7.1",
+      "license_metadata": "BSD",
+      "notice_files": [
+        "PySocks-1.7.1.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "XMind-1.2.0-py2.py3-none-any.whl",
+      "name": "XMind",
+      "version": "1.2.0",
+      "license_metadata": "MIT",
+      "notice_files": []
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "about_time-4.2.1-py3-none-any.whl",
+      "name": "about-time",
+      "version": "4.2.1",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "about_time-4.2.1.data/data/LICENSE",
+        "about_time-4.2.1.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "aiodns-4.0.4-py3-none-any.whl",
+      "name": "aiodns",
+      "version": "4.0.4",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "aiodns-4.0.4.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "aiohappyeyeballs-2.7.1-py3-none-any.whl",
+      "name": "aiohappyeyeballs",
+      "version": "2.7.1",
+      "license_metadata": "PSF-2.0",
+      "notice_files": [
+        "aiohappyeyeballs-2.7.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "aiohttp-3.14.5-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "aiohttp",
+      "version": "3.14.5",
+      "license_metadata": "Apache-2.0 AND MIT",
+      "notice_files": [
+        "aiohttp-3.14.5.dist-info/licenses/",
+        "aiohttp-3.14.5.dist-info/licenses/LICENSE.txt",
+        "aiohttp-3.14.5.dist-info/licenses/vendor/",
+        "aiohttp-3.14.5.dist-info/licenses/vendor/llhttp/",
+        "aiohttp-3.14.5.dist-info/licenses/vendor/llhttp/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "aiohttp_socks-0.12.0-py3-none-any.whl",
+      "name": "aiohttp_socks",
+      "version": "0.12.0",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "aiohttp_socks-0.12.0.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "aiosignal-1.4.0-py3-none-any.whl",
+      "name": "aiosignal",
+      "version": "1.4.0",
+      "license_metadata": "Apache 2.0",
+      "notice_files": [
+        "aiosignal-1.4.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "alive_progress-3.3.0-py3-none-any.whl",
+      "name": "alive-progress",
+      "version": "3.3.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "alive_progress-3.3.0.data/data/LICENSE",
+        "alive_progress-3.3.0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "asgiref-3.13.0-py3-none-any.whl",
+      "name": "asgiref",
+      "version": "3.13.0",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "asgiref-3.13.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "asttokens-3.0.2-py3-none-any.whl",
+      "name": "asttokens",
+      "version": "3.0.2",
+      "license_metadata": "Apache 2.0",
+      "notice_files": [
+        "asttokens-3.0.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "attrs-26.1.0-py3-none-any.whl",
+      "name": "attrs",
+      "version": "26.1.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "attrs-26.1.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "beautifulsoup4-4.15.0-py3-none-any.whl",
+      "name": "beautifulsoup4",
+      "version": "4.15.0",
+      "license_metadata": "MIT License",
+      "notice_files": [
+        "beautifulsoup4-4.15.0.dist-info/licenses/AUTHORS",
+        "beautifulsoup4-4.15.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "blinker-1.9.0-py3-none-any.whl",
+      "name": "blinker",
+      "version": "1.9.0",
+      "license_metadata": "MIT License",
+      "notice_files": [
+        "blinker-1.9.0.dist-info/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "certifi-2026.10.23-py3-none-any.whl",
+      "name": "certifi",
+      "version": "2026.10.23",
+      "license_metadata": "MPL-2.0",
+      "notice_files": [
+        "certifi-2026.10.23.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "cffi-2.1.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "name": "cffi",
+      "version": "2.1.1",
+      "license_metadata": "MIT-0",
+      "notice_files": [
+        "cffi-2.1.1.dist-info/licenses/",
+        "cffi-2.1.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "charset_normalizer-3.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "charset-normalizer",
+      "version": "3.5.2",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "charset_normalizer-3.5.2.dist-info/licenses/",
+        "charset_normalizer-3.5.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "click-8.5.1-py3-none-any.whl",
+      "name": "click",
+      "version": "8.5.1",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "click-8.5.1.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "colorama-0.4.6-py2.py3-none-any.whl",
+      "name": "colorama",
+      "version": "0.4.6",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "colorama-0.4.6.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "curl_cffi-0.17.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "name": "curl_cffi",
+      "version": "0.17.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "curl_cffi-0.17.0.dist-info/licenses/",
+        "curl_cffi-0.17.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "executing-2.3.0-py3-none-any.whl",
+      "name": "executing",
+      "version": "2.3.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "executing-2.3.0.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "flask-3.1.3-py3-none-any.whl",
+      "name": "Flask",
+      "version": "3.1.3",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "flask-3.1.3.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "frozenlist-1.8.0-cp313-cp313-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+      "name": "frozenlist",
+      "version": "1.8.0",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "frozenlist-1.8.0.dist-info/licenses/",
+        "frozenlist-1.8.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "graphemeu-0.7.2-py3-none-any.whl",
+      "name": "graphemeu",
+      "version": "0.7.2",
+      "license_metadata": "Voir METADATA",
+      "notice_files": [
+        "graphemeu-0.7.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "html5lib-1.1-py2.py3-none-any.whl",
+      "name": "html5lib",
+      "version": "1.1",
+      "license_metadata": "MIT License",
+      "notice_files": [
+        "html5lib-1.1.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "idna-3.20-py3-none-any.whl",
+      "name": "idna",
+      "version": "3.20",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "idna-3.20.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "ipython-9.18.1-py3-none-any.whl",
+      "name": "ipython",
+      "version": "9.18.1",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "ipython-9.18.1.dist-info/licenses/COPYING.rst",
+        "ipython-9.18.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "ipython_pygments_lexers-1.1.1-py3-none-any.whl",
+      "name": "ipython_pygments_lexers",
+      "version": "1.1.1",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "ipython_pygments_lexers-1.1.1.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "itsdangerous-2.2.0-py3-none-any.whl",
+      "name": "itsdangerous",
+      "version": "2.2.0",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "itsdangerous-2.2.0.dist-info/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "jedi-0.20.1-py2.py3-none-any.whl",
+      "name": "jedi",
+      "version": "0.20.1",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "jedi/third_party/django-stubs/LICENSE.txt",
+        "jedi/third_party/typeshed/LICENSE",
+        "jedi-0.20.1.dist-info/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "jinja2-3.1.6-py3-none-any.whl",
+      "name": "Jinja2",
+      "version": "3.1.6",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "jinja2-3.1.6.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "jsonpickle-4.1.4-py3-none-any.whl",
+      "name": "jsonpickle",
+      "version": "4.1.4",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "jsonpickle-4.1.4.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "lxml-6.1.3-cp313-cp313-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "lxml",
+      "version": "6.1.3",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "lxml-6.1.3.dist-info/licenses/",
+        "lxml-6.1.3.dist-info/licenses/LICENSE.txt",
+        "lxml-6.1.3.dist-info/licenses/LICENSES.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "maigret-0.6.6-py3-none-any.whl",
+      "name": "maigret",
+      "version": "0.6.6",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "maigret-0.6.6.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "markupsafe-3.0.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "MarkupSafe",
+      "version": "3.0.4",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "markupsafe-3.0.4.dist-info/licenses/",
+        "markupsafe-3.0.4.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "matplotlib_inline-0.2.2-py3-none-any.whl",
+      "name": "matplotlib-inline",
+      "version": "0.2.2",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "matplotlib_inline-0.2.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "multidict-7.2.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "multidict",
+      "version": "7.2.1",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "multidict-7.2.1.dist-info/licenses/",
+        "multidict-7.2.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "networkx-2.8.8-py3-none-any.whl",
+      "name": "networkx",
+      "version": "2.8.8",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "networkx-2.8.8.data/data/share/doc/networkx-2.8.8/LICENSE.txt",
+        "networkx-2.8.8.dist-info/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "parso-0.8.7-py2.py3-none-any.whl",
+      "name": "parso",
+      "version": "0.8.7",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "parso-0.8.7.dist-info/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "pexpect-4.9.0-py2.py3-none-any.whl",
+      "name": "pexpect",
+      "version": "4.9.0",
+      "license_metadata": "ISC license",
+      "notice_files": [
+        "pexpect-4.9.0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "pillow-13.0.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "pillow",
+      "version": "13.0.0",
+      "license_metadata": "MIT-CMU",
+      "notice_files": [
+        "pillow-13.0.0.dist-info/licenses/",
+        "pillow-13.0.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "platformdirs-4.14.5-py3-none-any.whl",
+      "name": "platformdirs",
+      "version": "4.14.5",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "platformdirs-4.14.5.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "prompt_toolkit-3.0.53-py3-none-any.whl",
+      "name": "prompt_toolkit",
+      "version": "3.0.53",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "prompt_toolkit-3.0.53.dist-info/licenses/AUTHORS.rst",
+        "prompt_toolkit-3.0.53.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "propcache-0.5.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "propcache",
+      "version": "0.5.4",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "propcache-0.5.4.dist-info/licenses/",
+        "propcache-0.5.4.dist-info/licenses/LICENSE",
+        "propcache-0.5.4.dist-info/licenses/NOTICE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "psutil",
+      "version": "7.2.2",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "psutil-7.2.2.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "ptyprocess-0.7.0-py2.py3-none-any.whl",
+      "name": "ptyprocess",
+      "version": "0.7.0",
+      "license_metadata": "UNKNOWN",
+      "notice_files": [
+        "ptyprocess-0.7.0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "pure_eval-0.2.4-py3-none-any.whl",
+      "name": "pure_eval",
+      "version": "0.2.4",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "pure_eval-0.2.4.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "pycares-5.2.1-cp313-cp313-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "pycares",
+      "version": "5.2.1",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "pycares-5.2.1.dist-info/licenses/",
+        "pycares-5.2.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "pycountry-26.2.16-py3-none-any.whl",
+      "name": "pycountry",
+      "version": "26.2.16",
+      "license_metadata": "LGPL-2.1-only",
+      "notice_files": [
+        "pycountry/COPYRIGHT.txt",
+        "pycountry-26.2.16.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "pycparser-3.12-py3-none-any.whl",
+      "name": "pycparser",
+      "version": "3.12",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "pycparser-3.12.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "pygments-2.21.0-py3-none-any.whl",
+      "name": "Pygments",
+      "version": "2.21.0",
+      "license_metadata": "BSD-2-Clause",
+      "notice_files": [
+        "pygments-2.21.0.dist-info/licenses/AUTHORS",
+        "pygments-2.21.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "license_metadata": "Dual License",
+      "notice_files": [
+        "python_dateutil-2.9.0.post0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "python_socks-3.2.1-py3-none-any.whl",
+      "name": "python-socks",
+      "version": "3.2.1",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "python_socks-3.2.1.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "pyvis-0.3.2-py3-none-any.whl",
+      "name": "pyvis",
+      "version": "0.3.2",
+      "license_metadata": "BSD",
+      "notice_files": [
+        "pyvis-0.3.2.dist-info/LICENSE_BSD.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "reportlab-5.1.0-py3-none-any.whl",
+      "name": "reportlab",
+      "version": "5.1.0",
+      "license_metadata": "BSD license (see license.txt for details), Copyright (c) 2000-2025, ReportLab Inc.",
+      "notice_files": [
+        "reportlab/license.txt",
+        "reportlab/fonts/DarkGarden-copying-gpl.txt",
+        "reportlab/fonts/DarkGarden-copying.txt",
+        "reportlab/fonts/bitstream-vera-license.txt",
+        "reportlab-5.1.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "requests-2.34.2-py3-none-any.whl",
+      "name": "requests",
+      "version": "2.34.2",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "requests-2.34.2.dist-info/licenses/LICENSE",
+        "requests-2.34.2.dist-info/licenses/NOTICE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "six-1.17.0-py2.py3-none-any.whl",
+      "name": "six",
+      "version": "1.17.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "six-1.17.0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "socid_extractor-0.1.1-py3-none-any.whl",
+      "name": "socid-extractor",
+      "version": "0.1.1",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "socid_extractor-0.1.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "soupsieve-2.10-py3-none-any.whl",
+      "name": "soupsieve",
+      "version": "2.10",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "soupsieve-2.10.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "stack_data-0.6.3-py3-none-any.whl",
+      "name": "stack-data",
+      "version": "0.6.3",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "stack_data-0.6.3.dist-info/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "traitlets-5.16.1-py3-none-any.whl",
+      "name": "traitlets",
+      "version": "5.16.1",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "traitlets-5.16.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "typing_extensions-4.16.0-py3-none-any.whl",
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "license_metadata": "PSF-2.0",
+      "notice_files": [
+        "typing_extensions-4.16.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "urllib3-2.8.0-py3-none-any.whl",
+      "name": "urllib3",
+      "version": "2.8.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "urllib3-2.8.0.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "wcwidth-0.9.4-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "name": "wcwidth",
+      "version": "0.9.4",
+      "license_metadata": "MIT License",
+      "notice_files": [
+        "wcwidth-0.9.4.dist-info/licenses/",
+        "wcwidth-0.9.4.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "webencodings-0.6.1-py3-none-any.whl",
+      "name": "webencodings",
+      "version": "0.6.1",
+      "license_metadata": "BSD License",
+      "notice_files": [
+        "webencodings-0.6.1.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "werkzeug-3.1.9-py3-none-any.whl",
+      "name": "Werkzeug",
+      "version": "3.1.9",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "werkzeug/debug/shared/ICON_LICENSE.md",
+        "werkzeug-3.1.9.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/maigret/maigret-linux-x86_64-cp313.zip",
+      "wheel": "yarl-1.25.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "yarl",
+      "version": "1.25.1",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "yarl-1.25.1.dist-info/licenses/",
+        "yarl-1.25.1.dist-info/licenses/LICENSE",
+        "yarl-1.25.1.dist-info/licenses/NOTICE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "PySocks-1.7.1-py3-none-any.whl",
+      "name": "PySocks",
+      "version": "1.7.1",
+      "license_metadata": "BSD",
+      "notice_files": [
+        "PySocks-1.7.1.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "attrs-26.1.0-py3-none-any.whl",
+      "name": "attrs",
+      "version": "26.1.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "attrs-26.1.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "beautifulsoup4-4.15.0-py3-none-any.whl",
+      "name": "beautifulsoup4",
+      "version": "4.15.0",
+      "license_metadata": "MIT License",
+      "notice_files": [
+        "beautifulsoup4-4.15.0.dist-info/licenses/AUTHORS",
+        "beautifulsoup4-4.15.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "certifi-2026.10.23-py3-none-any.whl",
+      "name": "certifi",
+      "version": "2026.10.23",
+      "license_metadata": "MPL-2.0",
+      "notice_files": [
+        "certifi-2026.10.23.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "charset_normalizer-3.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "charset-normalizer",
+      "version": "3.5.2",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "charset_normalizer-3.5.2.dist-info/licenses/",
+        "charset_normalizer-3.5.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "galeodes-0.7-py3-none-any.whl",
+      "name": "galeodes",
+      "version": "0.7",
+      "license_metadata": "AGPL-3.0",
+      "notice_files": [
+        "galeodes-0.7.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "h11-0.16.0-py3-none-any.whl",
+      "name": "h11",
+      "version": "0.16.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "h11-0.16.0.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "idna-3.20-py3-none-any.whl",
+      "name": "idna",
+      "version": "3.20",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "idna-3.20.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "langdetect-1.0.9-py3-none-any.whl",
+      "name": "langdetect",
+      "version": "1.0.9",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "langdetect-1.0.9.dist-info/licenses/LICENSE",
+        "langdetect-1.0.9.dist-info/licenses/NOTICE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "lxml-6.1.3-cp313-cp313-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "lxml",
+      "version": "6.1.3",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "lxml-6.1.3.dist-info/licenses/",
+        "lxml-6.1.3.dist-info/licenses/LICENSE.txt",
+        "lxml-6.1.3.dist-info/licenses/LICENSES.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "outcome-1.3.0.post0-py2.py3-none-any.whl",
+      "name": "outcome",
+      "version": "1.3.0.post0",
+      "license_metadata": "MIT OR Apache-2.0",
+      "notice_files": [
+        "outcome-1.3.0.post0.dist-info/LICENSE",
+        "outcome-1.3.0.post0.dist-info/LICENSE.APACHE2",
+        "outcome-1.3.0.post0.dist-info/LICENSE.MIT"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "pillow-13.0.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "pillow",
+      "version": "13.0.0",
+      "license_metadata": "MIT-CMU",
+      "notice_files": [
+        "pillow-13.0.0.dist-info/licenses/",
+        "pillow-13.0.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "requests-2.34.2-py3-none-any.whl",
+      "name": "requests",
+      "version": "2.34.2",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "requests-2.34.2.dist-info/licenses/LICENSE",
+        "requests-2.34.2.dist-info/licenses/NOTICE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "selenium-4.52.0-py3-none-any.whl",
+      "name": "selenium",
+      "version": "4.52.0",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "selenium-4.52.0.dist-info/LICENSE",
+        "selenium-4.52.0.dist-info/NOTICE",
+        "selenium/webdriver/common/selenium-manager-THIRD-PARTY-NOTICES.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "six-1.17.0-py2.py3-none-any.whl",
+      "name": "six",
+      "version": "1.17.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "six-1.17.0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "sniffio-1.3.1-py3-none-any.whl",
+      "name": "sniffio",
+      "version": "1.3.1",
+      "license_metadata": "MIT OR Apache-2.0",
+      "notice_files": [
+        "sniffio-1.3.1.dist-info/LICENSE",
+        "sniffio-1.3.1.dist-info/LICENSE.APACHE2",
+        "sniffio-1.3.1.dist-info/LICENSE.MIT"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "social_analyzer-0.45-py3-none-any.whl",
+      "name": "social-analyzer",
+      "version": "0.45",
+      "license_metadata": "AGPL-3.0",
+      "notice_files": [
+        "social_analyzer-0.45.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "sortedcontainers-2.4.0-py2.py3-none-any.whl",
+      "name": "sortedcontainers",
+      "version": "2.4.0",
+      "license_metadata": "Apache 2.0",
+      "notice_files": [
+        "sortedcontainers-2.4.0.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "soupsieve-4.1-py3-none-any.whl",
+      "name": "soupsieve",
+      "version": "4.1",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "soupsieve-4.1.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "termcolor-3.3.0-py3-none-any.whl",
+      "name": "termcolor",
+      "version": "3.3.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "termcolor-3.3.0.dist-info/licenses/COPYING.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "tld-0.13.2-py2.py3-none-any.whl",
+      "name": "tld",
+      "version": "0.13.2",
+      "license_metadata": "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later",
+      "notice_files": [
+        "tld-0.13.2.dist-info/licenses/LICENSE.rst",
+        "tld-0.13.2.dist-info/licenses/LICENSE_GPL2.0.txt",
+        "tld-0.13.2.dist-info/licenses/LICENSE_LGPL_2.1.txt",
+        "tld-0.13.2.dist-info/licenses/LICENSE_MPL_1.1.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "trio-0.35.0-py3-none-any.whl",
+      "name": "trio",
+      "version": "0.35.0",
+      "license_metadata": "MIT OR Apache-2.0",
+      "notice_files": [
+        "trio-0.35.0.dist-info/licenses/LICENSE",
+        "trio-0.35.0.dist-info/licenses/LICENSE.APACHE2",
+        "trio-0.35.0.dist-info/licenses/LICENSE.MIT"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "trio_websocket-0.12.2-py3-none-any.whl",
+      "name": "trio-websocket",
+      "version": "0.12.2",
+      "license_metadata": "MIT License",
+      "notice_files": [
+        "trio_websocket-0.12.2.dist-info/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "typing_extensions-4.16.0-py3-none-any.whl",
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "license_metadata": "PSF-2.0",
+      "notice_files": [
+        "typing_extensions-4.16.0.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "urllib3-2.8.0-py3-none-any.whl",
+      "name": "urllib3",
+      "version": "2.8.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "urllib3-2.8.0.dist-info/licenses/LICENSE.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "websocket_client-1.9.2-py3-none-any.whl",
+      "name": "websocket-client",
+      "version": "1.9.2",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "websocket_client-1.9.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/social-analyzer/social-analyzer-linux-x86_64-cp313.zip",
+      "wheel": "wsproto-1.3.2-py3-none-any.whl",
+      "name": "wsproto",
+      "version": "1.3.2",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "wsproto-1.3.2.dist-info/licenses/LICENSE"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+<!--
+UCHAMBUZI - Assistant IA local pour l'investigation numerique
+Fichier       : uchambuzi-lockup-horizontal-opaque.svg
+Role          : Variante du lockup horizontal avec fond blanc opaque pour le README
+Projet initie : Wakanda (WKD) - 2026
+Contributions : Communaute des developpeurs UCHAMBUZI
+Copyright     : (c) 2026 Wakanda (WKD) et contributeurs respectifs
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 256" width="880" height="256" role="img" aria-labelledby="title">
+  <rect width="880" height="256" fill="#FFFFFF"/>
+  <title id="title">UCHAMBUZI — horizontal lockup on opaque white background</title>
+  <g id="symbol" transform="translate(0,16) scale(0.88)">
+    <rect x="116" y="24" width="24" height="6" rx="3" fill="#E85D26"/>
+    <rect x="108" y="34" width="40" height="6" rx="3" fill="#E85D26"/>
+    <rect x="100" y="44" width="56" height="6" rx="3" fill="#E85D26"/>
+    <path fill-rule="evenodd" fill="#0D1B2A" d="M12,128 Q60,52 128,52 Q196,52 244,128 Q196,204 128,204 Q60,204 12,128 Z M128,84 A44,44 0 1,0 128.1,84 Z"/>
+    <circle cx="128" cy="128" r="18" fill="#0D1B2A"/>
+    <rect x="125.5" y="88" width="5" height="32" fill="#0D1B2A"/>
+    <rect x="125.5" y="136" width="5" height="32" fill="#0D1B2A"/>
+    <rect x="88" y="125.5" width="32" height="5" fill="#0D1B2A"/>
+    <rect x="136" y="125.5" width="32" height="5" fill="#0D1B2A"/>
+    <circle cx="44" cy="128" r="6" fill="#E85D26"/>
+    <circle cx="32" cy="112" r="5" fill="#E85D26"/>
+    <circle cx="32" cy="144" r="5" fill="#E85D26"/>
+    <circle cx="212" cy="128" r="6" fill="#E85D26"/>
+    <circle cx="224" cy="112" r="5" fill="#E85D26"/>
+    <circle cx="224" cy="144" r="5" fill="#E85D26"/>
+  </g>
+  <g id="wordmark">
+    <text x="280" y="142" font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', 'Courier New', monospace" font-size="48" font-weight="600" letter-spacing="10" fill="#0D1B2A">UCHAMBUZI</text>
+  </g>
+</svg>

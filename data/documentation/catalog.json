@@ -1,0 +1,669 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "file-manual",
+      "title": "file(1), note de lecture du manuel amont local",
+      "origin": "https://www.darwinsys.com/file/",
+      "authority": "upstream_manual",
+      "verification": "consulted_local",
+      "consulted_at": "2026-11-07",
+      "review_due": "2026-12-07",
+      "local_path": "file.md",
+      "sha256": "bff5beb22202aff889db988bf404c8262e095b192830925a9e18f0cbda13358e",
+      "original_local_path": "/usr/share/man/man1/file.1.gz",
+      "original_sha256": "7cef83cc744a8af5342336922d90ad0fdc3f103422b74f1a1475739090db8104",
+      "original_uncompressed_sha256": "5b537184dabc1813252c5ca2c81ad9386b056e53daeb23306eee99dfae1b1fa5",
+      "documented_version": "5.46",
+      "version_pattern": "(?:file-)?5\\.46",
+      "environment": "Ubuntu et Kali GNU/Linux Rolling 2025.3; manuel identique, bandeau file-5.46 observé; aucune analyse exécutée par cette mission",
+      "summary": "Note locale de lecture; consultation par agent, aucune approbation humaine implicite.",
+      "content_kind": "uchambuzi_reading_note",
+      "authority_scope": "original_packaged_manual",
+      "provenance_basis": "local_packaged_manual_and_copyright_metadata",
+      "origin_consulted": false,
+      "verification_scope": "local_manual_reading_and_note_integrity_only",
+      "known_compatible_versions": [],
+      "compatibility_scope": "documented_version_only_not_execution_tested",
+      "package": "file 1:5.46-5build2",
+      "original_author": "Ian F. Darwin, Christos Zoulas et contributeurs",
+      "local_observations": [
+        {
+          "environment": "Kali GNU/Linux Rolling 2025.3",
+          "package": "file 1:5.46-5",
+          "version_banner": "file-5.46",
+          "manual_sha256": "7cef83cc744a8af5342336922d90ad0fdc3f103422b74f1a1475739090db8104",
+          "consulted_at": "2026-11-07",
+          "analysis_executed": false
+        }
+      ]
+    },
+    {
+      "id": "dig-manual",
+      "title": "dig(1), note de lecture du manuel amont local",
+      "origin": "https://bind9.readthedocs.io/en/latest/manpages.html",
+      "authority": "upstream_manual",
+      "verification": "consulted_local",
+      "consulted_at": "2026-11-07",
+      "review_due": "2026-12-07",
+      "local_path": "dig.md",
+      "sha256": "d3d6e7ae203e6c2ce5291641c0cde865343bbcb16753f6cfa0275ed58c1ed9e7",
+      "original_local_path": "/usr/share/man/man1/dig.1.gz",
+      "original_sha256": "ea0bc673a6a04335495eff79f36019677aeed04c56642177687b693c42f08b94",
+      "original_uncompressed_sha256": "a0f531af06ec05abb5c336475bdc65af785a5164d1d8a9db74c351029a6d2fbb",
+      "documented_version": "9.20.24-1ubuntu0.5-Ubuntu",
+      "version_pattern": "(?:DiG )?9\\.20\\.24-1ubuntu0\\.5-Ubuntu",
+      "environment": "Ubuntu; compatibilité Kali non testée",
+      "summary": "Note locale de lecture; consultation par agent, aucune approbation humaine implicite.",
+      "content_kind": "uchambuzi_reading_note",
+      "authority_scope": "original_packaged_manual",
+      "provenance_basis": "local_packaged_manual_and_copyright_metadata",
+      "origin_consulted": false,
+      "verification_scope": "local_manual_reading_and_note_integrity_only",
+      "known_compatible_versions": [],
+      "compatibility_scope": "documented_version_only_not_execution_tested",
+      "package": "bind9-dnsutils 1:9.20.24-1ubuntu0.5",
+      "original_author": "Internet Systems Consortium"
+    },
+    {
+      "id": "dig-kali-manual",
+      "title": "dig(1), note de lecture Kali 9.20.11-4+b1-Debian",
+      "origin": "https://bind9.readthedocs.io/en/latest/manpages.html",
+      "authority": "upstream_manual",
+      "verification": "consulted_local",
+      "consulted_at": "2026-11-07",
+      "review_due": "2026-12-07",
+      "local_path": "dig-kali.md",
+      "sha256": "d9b0f05ddfae95ba1c4bc850957dccfaffae5a84b785510ad7c6445946ed1dd4",
+      "original_local_path": "/usr/share/man/man1/dig.1.gz",
+      "original_sha256": "faaf11b7648a35d0df5b2fb87d0e4c7889e6a1e25e70b2f6037a1020097815c4",
+      "original_uncompressed_sha256": "aa73b2dd16e0f0e0701645dd181729d320dffe6eee62281a1fafd85e4032236e",
+      "documented_version": "9.20.11-4+b1-Debian",
+      "version_pattern": "(?:DiG )?9\\.20\\.11-4\\+b1-Debian",
+      "environment": "Kali GNU/Linux Rolling 2025.3; manuel et bandeau examinés, aucune requête DNS exécutée",
+      "summary": "Note locale de lecture; consultation par agent, aucune approbation humaine implicite.",
+      "content_kind": "uchambuzi_reading_note",
+      "authority_scope": "original_packaged_manual",
+      "provenance_basis": "local_packaged_manual_and_copyright_metadata",
+      "origin_consulted": false,
+      "verification_scope": "local_manual_reading_and_note_integrity_only",
+      "known_compatible_versions": [],
+      "compatibility_scope": "documented_version_only_not_execution_tested",
+      "package": "bind9-dnsutils 1:9.20.11-4+b1",
+      "original_author": "Internet Systems Consortium",
+      "manual_date": "2025-07-04",
+      "documented_operations": [
+        "dns_query",
+        "dns_reverse"
+      ],
+      "preparation_note": "Préparation prise en charge uniquement pour le bandeau exact DiG 9.20.11-4+b1-Debian ; aucune exécution DNS ni autorisation implicite."
+    },
+    {
+      "id": "exiftool-kali-manual",
+      "title": "ExifTool — note du manuel Kali 13.25",
+      "origin": "https://exiftool.org/",
+      "authority": "upstream_manual",
+      "verification": "consulted_local",
+      "consulted_at": "2026-11-08",
+      "review_due": "2026-12-08",
+      "local_path": "exiftool-kali.md",
+      "sha256": "6527afd45598dbc0595aed46742cd7a421d203294a550067e4d3f8764fca8a23",
+      "original_local_path": "/usr/share/man/man1/exiftool.1p.gz",
+      "original_sha256": "bd0ebd668ff69c1eb79a006d85612fd2e2c54baaa3e897d977f43b07fa68a150",
+      "original_uncompressed_sha256": "90b1a4d37062e819ddbe39957dea31909cfb60e5db5dfaaea1e0d35d1b6e101a",
+      "documented_version": "13.25",
+      "version_pattern": "(?:13\\.25|13\\.25)",
+      "environment": "Kali GNU/Linux Rolling 2025.3; diagnostic de version seulement",
+      "summary": "Manuel local lu, synthèse UCHAMBUZI; aucun test de méthode ni approbation humaine.",
+      "content_kind": "uchambuzi_reading_note",
+      "authority_scope": "original_packaged_manual",
+      "provenance_basis": "local_packaged_manual_and_copyright_metadata",
+      "origin_consulted": false,
+      "verification_scope": "local_manual_reading_and_note_integrity_only",
+      "known_compatible_versions": [],
+      "compatibility_scope": "documented_version_only_not_execution_tested",
+      "package": "libimage-exiftool-perl 13.25+dfsg-1",
+      "manual_owner": "libimage-exiftool-perl: /usr/share/man/man1/exiftool.1p.gz",
+      "manual_date": "2025-03-16",
+      "original_author": "Phil Harvey",
+      "observed_banner": "13.25",
+      "version_binding": "paquet propriétaire du manuel et diagnostic local; pas de plage extrapolée",
+      "preparation_note": "Documentation seulement : la préparation exige une règle dédiée, revue et testée par le moteur de commandes.",
+      "documented_operations": [
+        "read_metadata"
+      ]
+    },
+    {
+      "id": "strings-kali-manual",
+      "title": "GNU strings — note du manuel Kali 2.45",
+      "origin": "https://sourceware.org/binutils/docs/binutils/strings.html",
+      "authority": "upstream_manual",
+      "verification": "consulted_local",
+      "consulted_at": "2026-11-08",
+      "review_due": "2026-12-08",
+      "local_path": "strings-kali.md",
+      "sha256": "be55e1e3b81168e43c7d345303719074254085bdbe274bcccefb6de33e455167",
+      "original_local_path": "/usr/share/man/man1/strings.1.gz",
+      "original_sha256": "22693da2dc372b7516af0c3f9e60621316e887c028af8f02998806ad7c928ffd",
+      "original_uncompressed_sha256": "98aee6be33d0a2f574abb899ee0c4cb379e4da10a5687ad9028202a121328aed",
+      "documented_version": "2.45",
+      "version_pattern": "(?:GNU\\ strings\\ \\(GNU\\ Binutils\\ for\\ Debian\\)\\ 2\\.45|2\\.45)",
+      "environment": "Kali GNU/Linux Rolling 2025.3; diagnostic de version seulement",
+      "summary": "Manuel local lu, synthèse UCHAMBUZI; aucun test de méthode ni approbation humaine.",
+      "content_kind": "uchambuzi_reading_note",
+      "authority_scope": "original_packaged_manual",
+      "provenance_basis": "local_packaged_manual_and_copyright_metadata",
+      "origin_consulted": false,
+      "verification_scope": "local_manual_reading_and_note_integrity_only",
+      "known_compatible_versions": [],
+      "compatibility_scope": "documented_version_only_not_execution_tested",
+      "package": "binutils 2.45-4",
+      "manual_owner": "binutils-common:amd64: /usr/share/man/man1/strings.1.gz",
+      "manual_date": "2025-08-16",
+      "original_author": "Free Software Foundation et contributeurs GNU Binutils",
+      "observed_banner": "GNU strings (GNU Binutils for Debian) 2.45",
+      "version_binding": "paquet propriétaire du manuel et diagnostic local; pas de plage extrapolée",
+      "preparation_note": "Documentation seulement : la préparation exige une règle dédiée, revue et testée par le moteur de commandes.",
+      "documented_operations": [
+        "extract_strings"
+      ]
+    },
+    {
+      "id": "whois-kali-manual",
+      "title": "whois — note du manuel Kali 5.6.4",
+      "origin": "https://www.kali.org/tools/whois/",
+      "authority": "upstream_manual",
+      "verification": "consulted_local",
+      "consulted_at": "2026-11-08",
+      "review_due": "2026-12-08",
+      "local_path": "whois-kali.md",
+      "sha256": "823bddd294d91502e32f7af048372429007577d1a582769791b2fa567fe09ec7",
+      "original_local_path": "/usr/share/man/man1/whois.1.gz",
+      "original_sha256": "aa185745b9f06de0bc2744f86963d07ddec2741dee2a1d8ead0aeac40eb120d6",
+      "original_uncompressed_sha256": "74ff8b3ae7c59193d366d679aad9d328c2917a38399bb7d73a39264604d038fc",
+      "documented_version": "5.6.4",
+      "version_pattern": "(?:Version\\ 5\\.6\\.4\\.|5\\.6\\.4)",
+      "environment": "Kali GNU/Linux Rolling 2025.3; diagnostic de version seulement",
+      "summary": "Manuel local lu, synthèse UCHAMBUZI; aucun test de méthode ni approbation humaine.",
+      "content_kind": "uchambuzi_reading_note",
+      "authority_scope": "original_packaged_manual",
+      "provenance_basis": "local_packaged_manual_and_copyright_metadata",
+      "origin_consulted": false,
+      "verification_scope": "local_manual_reading_and_note_integrity_only",
+      "known_compatible_versions": [],
+      "compatibility_scope": "documented_version_only_not_execution_tested",
+      "package": "whois 5.6.4",
+      "manual_owner": "whois: /usr/share/man/man1/whois.1.gz",
+      "manual_date": "2019-12-30",
+      "original_author": "Marco d’Itri",
+      "observed_banner": "Version 5.6.4.",
+      "version_binding": "paquet propriétaire du manuel et diagnostic local; pas de plage extrapolée",
+      "preparation_note": "Documentation seulement : la préparation exige une règle dédiée, revue et testée par le moteur de commandes."
+    },
+    {
+      "id": "tshark-kali-manual",
+      "title": "TShark — note du manuel Kali 4.4.7",
+      "origin": "https://www.wireshark.org/docs/man-pages/tshark.html",
+      "authority": "upstream_manual",
+      "verification": "consulted_local",
+      "consulted_at": "2026-11-08",
+      "review_due": "2026-12-08",
+      "local_path": "tshark-kali.md",
+      "sha256": "20d7974050976d77eea898b6c33ca2a7e51e2ce91f8e02db34b7c67fbd1172e6",
+      "original_local_path": "/usr/share/man/man1/tshark.1.gz",
+      "original_sha256": "700078f2dca215cb6d50c9979c0f23ce646a9781c6a54780a5ab85a60bdc1459",
+      "original_uncompressed_sha256": "9b2f81424159a66aca3d4dcb8f3802ae198270de674182daf5ae17ba6db7e020",
+      "documented_version": "4.4.7",
+      "version_pattern": "(?:TShark\\ \\(Wireshark\\)\\ 4\\.4\\.7\\.|4\\.4\\.7)",
+      "environment": "Kali GNU/Linux Rolling 2025.3; diagnostic de version seulement",
+      "summary": "Manuel local lu, synthèse UCHAMBUZI; aucun test de méthode ni approbation humaine.",
+      "content_kind": "uchambuzi_reading_note",
+      "authority_scope": "original_packaged_manual",
+      "provenance_basis": "local_packaged_manual_and_copyright_metadata",
+      "origin_consulted": false,
+      "verification_scope": "local_manual_reading_and_note_integrity_only",
+      "known_compatible_versions": [],
+      "compatibility_scope": "documented_version_only_not_execution_tested",
+      "package": "tshark 4.4.7-1+b1",
+      "manual_owner": "tshark: /usr/share/man/man1/tshark.1.gz",
+      "manual_date": "2025-08-17",
+      "original_author": "Gerald Combs et contributeurs Wireshark",
+      "observed_banner": "TShark (Wireshark) 4.4.7.",
+      "version_binding": "paquet propriétaire du manuel et diagnostic local; pas de plage extrapolée",
+      "preparation_note": "Documentation seulement : la préparation exige une règle dédiée, revue et testée par le moteur de commandes."
+    },
+    {
+      "id": "curl-kali-manual",
+      "title": "curl — note du manuel Kali 8.15.0",
+      "origin": "https://curl.se/docs/manpage.html",
+      "authority": "upstream_manual",
+      "verification": "consulted_local",
+      "consulted_at": "2026-11-08",
+      "review_due": "2026-12-08",
+      "local_path": "curl-kali.md",
+      "sha256": "ded95eb169342b87bc32656a244df5a0b7a4ce15e5e671948cae8e7fc145d8f6",
+      "original_local_path": "/usr/share/man/man1/curl.1.gz",
+      "original_sha256": "6b49f2ff528fb831b359fab6e9be25012c3c77fccc99820155203c6a4a1e404c",
+      "original_uncompressed_sha256": "ee0c8d6d97f040e8eda5ff5cec4f21bd752ce333e184df91fcf6ba3081794294",
+      "documented_version": "8.15.0",
+      "version_pattern": "(?:curl\\ 8\\.15\\.0\\ \\(x86_64\\-pc\\-linux\\-gnu\\)\\ libcurl/8\\.15\\.0\\ OpenSSL/3\\.5\\.2\\ zlib/1\\.3\\.1\\ brotli/1\\.1\\.0\\ zstd/1\\.5\\.7\\ libidn2/2\\.3\\.8\\ libpsl/0\\.21\\.2\\ libssh2/1\\.11\\.1\\ nghttp2/1\\.64\\.0\\ nghttp3/1\\.8\\.0\\ librtmp/2\\.3\\ OpenLDAP/2\\.6\\.10|8\\.15\\.0)",
+      "environment": "Kali GNU/Linux Rolling 2025.3; diagnostic de version seulement",
+      "summary": "Manuel local lu, synthèse UCHAMBUZI; aucun test de méthode ni approbation humaine.",
+      "content_kind": "uchambuzi_reading_note",
+      "authority_scope": "original_packaged_manual",
+      "provenance_basis": "local_packaged_manual_and_copyright_metadata",
+      "origin_consulted": false,
+      "verification_scope": "local_manual_reading_and_note_integrity_only",
+      "known_compatible_versions": [],
+      "compatibility_scope": "documented_version_only_not_execution_tested",
+      "package": "curl 8.15.0-1",
+      "manual_owner": "curl: /usr/share/man/man1/curl.1.gz",
+      "manual_date": "2025-08-10",
+      "original_author": "Daniel Stenberg et contributeurs curl",
+      "observed_banner": "curl 8.15.0 (x86_64-pc-linux-gnu) libcurl/8.15.0 OpenSSL/3.5.2 zlib/1.3.1 brotli/1.1.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.2 libssh2/1.11.1 nghttp2/1.64.0 nghttp3/1.8.0 librtmp/2.3 OpenLDAP/2.6.10",
+      "version_binding": "paquet propriétaire du manuel et diagnostic local; pas de plage extrapolée",
+      "preparation_note": "Documentation seulement : la préparation exige une règle dédiée, revue et testée par le moteur de commandes."
+    }
+  ],
+  "tools": [
+    {
+      "id": "file",
+      "name": "file",
+      "function": "Classification heuristique du type de fichier par signatures et tests.",
+      "objective": "Identifier le type probable d’un fichier.",
+      "indicator_types": [
+        "file"
+      ],
+      "features": [
+        "Tests de système de fichiers, signatures magic et langage."
+      ],
+      "prerequisites": [
+        "Fichier lisible, base magic et version locale à vérifier.",
+        "Copie de travail et montage adaptés au contexte forensic.",
+        "Examiner MAGIC, les bases personnelles et la base magic; vérifier le montage et les liens."
+      ],
+      "limits": [
+        "Identification heuristique; aucune preuve d’authenticité.",
+        "Ne préserve pas à lui seul les métadonnées ni la chaîne de conservation.",
+        "Un montage distant peut provoquer du trafic malgré une opération de lecture de fichier."
+      ],
+      "safety": [
+        "La lecture peut modifier les temps d’accès.",
+        "Contenu hostile : analyse à isoler dans un environnement adapté."
+      ],
+      "interaction": "local_read",
+      "expected_result": "Description probable du type, si une analyse séparée est réalisée.",
+      "sources": [
+        "file-manual"
+      ]
+    },
+    {
+      "id": "dig",
+      "name": "dig",
+      "function": "Consultation DNS pour un hôte ou recherche inverse d’une adresse IP.",
+      "objective": "Examiner les enregistrements DNS pertinents pour l’indice.",
+      "indicator_types": [
+        "ip",
+        "domain",
+        "email",
+        "url"
+      ],
+      "features": [
+        "Requête A/AAAA/MX/TXT selon objectif explicitement choisi.",
+        "Recherche inverse PTR pour une IP."
+      ],
+      "prerequisites": [
+        "Résolveur autorisé et réseau nécessaires à une requête.",
+        "Pour URL ou e-mail : extraire et valider l’hôte/domaine seulement; aucune boîte ni page n’est analysée.",
+        "Choisir explicitement type DNS et serveur; contrôler les options personnelles .digrc."
+      ],
+      "limits": [
+        "Réponses variables selon date, cache et résolveur.",
+        "Ne prouve ni attribution, propriété, existence de boîte ni accessibilité HTTP."
+      ],
+      "safety": [
+        "Le résolveur et les serveurs peuvent journaliser la requête.",
+        "Une requête peut atteindre indirectement l’infrastructure de la cible."
+      ],
+      "interaction": "network_query",
+      "expected_result": "Enregistrements retournés par le serveur, ou absence/erreur; aucun résultat présumé.",
+      "sources": [
+        "dig-manual"
+      ],
+      "sources_by_version": {
+        "DiG 9.20.11-4+b1-Debian": [
+          "dig-kali-manual"
+        ],
+        "9.20.11-4+b1-Debian": [
+          "dig-kali-manual"
+        ]
+      }
+    },
+    {
+      "id": "exiftool",
+      "name": "ExifTool",
+      "function": "Lire les métadonnées des formats pris en charge, en complément du type probable fourni par file.",
+      "objective": "Examiner les métadonnées déclarées ou calculées d’un fichier.",
+      "indicator_types": [
+        "file"
+      ],
+      "features": [
+        "Lecture EXIF, IPTC, XMP et autres métadonnées selon format.",
+        "Affichage des noms et groupes des tags; sortie JSON possible."
+      ],
+      "prerequisites": [
+        "Copie de travail lisible et format pris en charge; ne pas confondre lecture et écriture.",
+        "Désactiver la configuration personnelle avant toute opération préparée; contrôler environnement et montage."
+      ],
+      "limits": [
+        "Métadonnées modifiables, absentes ou contradictoires; une date ou un auteur ne prouve pas l’origine.",
+        "Certains tags sont calculés/composites; absence de tag ne prouve pas absence d’information."
+      ],
+      "safety": [
+        "L’outil peut aussi écrire ou supprimer des métadonnées; aucune affectation de tag n’est autorisée ici.",
+        "Données hostiles et configuration personnalisée à isoler; une lecture peut modifier l’atime ou utiliser un montage distant."
+      ],
+      "interaction": "local_read",
+      "expected_result": "Tags avec noms/groupes, avertissement ou erreur de format; aucune authenticité ni chronologie n’est démontrée.",
+      "sources": [
+        "exiftool-kali-manual"
+      ],
+      "restrictions": [
+        "Lecture seule d’un fichier ordinaire sélectionné; pas de répertoire, stdin ou récursion.",
+        "Refuser affectations, -tagsFromFile, -geotag, -csv=, -json=, -w/-W, -o, -execute, -stay_open, -@, -if et expressions de format."
+      ],
+      "interpretation": "Croiser les tags avec le format, les fuseaux et d’autres sources; distinguer valeur stockée, conversion et calcul.",
+      "documented_options": [
+        {
+          "argument": "-config \"\"",
+          "purpose": "Désactiver la configuration par défaut; deux arguments, premier paramètre obligatoire."
+        },
+        {
+          "argument": "-a",
+          "purpose": "Afficher aussi les tags dupliqués."
+        },
+        {
+          "argument": "-G1",
+          "purpose": "Afficher le groupe de famille 1 par tag."
+        },
+        {
+          "argument": "-s",
+          "purpose": "Afficher les noms techniques des tags."
+        },
+        {
+          "argument": "-j",
+          "purpose": "Sortie JSON sans argument de fichier; -j=FICHIER est un import et est exclu."
+        },
+        {
+          "argument": "-n",
+          "purpose": "Désactiver les conversions de présentation, pas toutes les valeurs calculées."
+        }
+      ],
+      "documented_operations": [
+        {
+          "id": "read_metadata",
+          "version_banners": [
+            "13.25"
+          ],
+          "status": "documented_not_prepared",
+          "syntax": "exiftool -config \"\" -j -G1 -s -- CHEMIN_ABSOLU",
+          "parameters": {},
+          "restrictions": [
+            "Premier argument -config, suivi d’une chaîne vide réelle, avant toute autre option.",
+            "Un seul fichier ordinaire absolu dans une racine sélectionnée; refuser liens et traversées.",
+            "Paramètres vides, aucune option libre, affectation ou import; JSON non fiable et pas forcément exhaustif."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "strings",
+      "name": "GNU strings",
+      "function": "Repérer les séquences de caractères imprimables, sans interpréter la structure du fichier comme ExifTool.",
+      "objective": "Chercher des fragments textuels et leurs positions dans un fichier.",
+      "indicator_types": [
+        "file"
+      ],
+      "features": [
+        "Recherche de chaînes avec longueur minimale explicite.",
+        "Offsets et encodage choisis; lecture brute complète avec -a."
+      ],
+      "prerequisites": [
+        "Fichier ordinaire lisible, copie sélectionnée et limites de taille/temps/sortie.",
+        "Choisir longueur minimale et encodage; ne pas exécuter le fichier analysé."
+      ],
+      "limits": [
+        "Une chaîne peut être fortuite, inactive ou injectée; elle ne prouve aucune exécution ni connexion.",
+        "Les données chiffrées, compressées, obfusquées ou d’un autre encodage peuvent rester invisibles."
+      ],
+      "safety": [
+        "Le manuel signale l’exposition au parseur BFD avec -d; privilégier -a pour lecture brute.",
+        "Sortie hostile ou volumineuse : échapper les contrôles, limiter l’affichage; atime et montages distants à examiner."
+      ],
+      "interaction": "local_read",
+      "expected_result": "Fragments imprimables accompagnés éventuellement d’offsets, ou absence; aucun comportement du fichier n’est établi.",
+      "sources": [
+        "strings-kali-manual"
+      ],
+      "restrictions": [
+        "Fichier absolu ordinaire seulement; pas de répertoire, FIFO, périphérique ou stdin.",
+        "Pas de -d, -T/--target ni de @fichier de paramètres; pas d’option libre, shell ou pipeline."
+      ],
+      "interpretation": "Relier chaque fragment à son offset et à l’encodage choisi; confirmer toute hypothèse avec un outil approprié.",
+      "documented_options": [
+        {
+          "argument": "-a",
+          "purpose": "Parcourir tout le fichier, sans analyse de sections par BFD."
+        },
+        {
+          "argument": "-n N",
+          "purpose": "Longueur minimale; défaut 4 dans le manuel, borne à définir par le préparateur."
+        },
+        {
+          "argument": "-t x",
+          "purpose": "Offsets hexadécimaux; -t d pour décimaux."
+        },
+        {
+          "argument": "-e s",
+          "purpose": "Octets sur 7 bits; -e l pour 16 bits little-endian, -e b pour big-endian."
+        }
+      ],
+      "documented_operations": [
+        {
+          "id": "extract_strings",
+          "version_banners": [
+            "GNU strings (GNU Binutils for Debian) 2.45"
+          ],
+          "status": "documented_not_prepared",
+          "syntax": "strings -a -n MIN_LENGTH -e s CHEMIN_ABSOLU",
+          "parameters": {
+            "min_length": {
+              "type": "integer",
+              "required": true,
+              "minimum": 4,
+              "maximum": 64,
+              "boolean_allowed": false,
+              "policy": "restriction UCHAMBUZI, pas une limite du manuel GNU"
+            }
+          },
+          "restrictions": [
+            "Un seul chemin absolu de fichier ordinaire dans une racine sélectionnée, sans liens ni traversées.",
+            "Le manuel décrit un défaut de 4, sans maximum 64; la borne 4..64 est une restriction du préparateur.",
+            "Refuser booléens, chaînes, flottants, valeurs hors bornes ou paramètres supplémentaires.",
+            "Lecture brute complète via -a; encodage fixe -e s; pas de @fichier, -d, -T, stdin ou option libre."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "whois",
+      "name": "whois",
+      "function": "Interroger un service WHOIS pour des informations d’enregistrement de domaine ou d’allocation réseau.",
+      "objective": "Consulter les informations d’enregistrement publiées pour l’indice sélectionné.",
+      "indicator_types": [
+        "domain",
+        "ip"
+      ],
+      "features": [
+        "Requête d’un domaine ou d’une adresse/réseau auprès d’un serveur WHOIS.",
+        "Choix de serveur et contrôle de la récursion de renvoi."
+      ],
+      "prerequisites": [
+        "Serveur et cible autorisés, connexion réseau distincte; contrôler /etc/whois.conf et l’environnement.",
+        "Pour e-mail/URL : sélectionner puis valider un nouvel indice domaine ou IP avant toute requête."
+      ],
+      "limits": [
+        "Données variables, masquées ou historiques; un titulaire déclaré n’identifie pas forcément l’utilisateur réel.",
+        "Le manuel fourni est daté de 2019; la disponibilité et les politiques actuelles des registres ne sont pas vérifiées."
+      ],
+      "safety": [
+        "La requête est transmise et peut être journalisée; renvois possibles vers plusieurs serveurs.",
+        "Le manuel avertit de risques du parseur de ligne de commande : aucune donnée non contrôlée ni option libre."
+      ],
+      "interaction": "network_query",
+      "expected_result": "Réponse WHOIS déclarative, renvoi, limitation ou erreur; aucun lien d’attribution certain.",
+      "sources": [
+        "whois-kali-manual"
+      ],
+      "restrictions": [
+        "Réseau soumis à une sélection et une autorisation distinctes; aucun appel WHOIS automatique.",
+        "Pas de recherche massive, collecte de personnes ou masquage des avertissements légaux avec -H."
+      ],
+      "interpretation": "Traiter le résultat comme une déclaration du service à une date donnée; conserver les disclaimers et recouper.",
+      "documented_options": [
+        {
+          "argument": "-h HOST",
+          "purpose": "Sélectionner un serveur explicitement."
+        },
+        {
+          "argument": "-p PORT",
+          "purpose": "Choisir un port; aucune valeur ni destination n’est autorisée par cette fiche."
+        },
+        {
+          "argument": "--no-recursion",
+          "purpose": "Désactiver les renvois du registre au registrar."
+        },
+        {
+          "argument": "--version",
+          "purpose": "Diagnostic sans objet recherché."
+        }
+      ]
+    },
+    {
+      "id": "tshark",
+      "name": "TShark",
+      "function": "Décoder une capture réseau existante si le fichier sélectionné est effectivement une capture prise en charge.",
+      "objective": "Examiner des paquets dans une capture réseau déjà acquise.",
+      "indicator_types": [
+        "file"
+      ],
+      "features": [
+        "Lecture de captures et dissection de protocoles.",
+        "Filtres d’affichage et sélection de champs de sortie."
+      ],
+      "prerequisites": [
+        "Confirmer humainement qu’il s’agit d’une capture compatible; aucun contenu ni extension n’est vérifié ici.",
+        "Lecture hors ligne avec -r et -n; contrôler profils, plugins et Lua, sans privilège de capture."
+      ],
+      "limits": [
+        "Une capture partielle, chiffrée ou tronquée limite l’analyse; les dissections peuvent être erronées.",
+        "Aucune acquisition, exhaustivité du trafic, identité d’auteur ni intégrité probatoire n’est établie."
+      ],
+      "safety": [
+        "Sans -r, une invocation peut capturer en direct; -n désactive les résolutions mais -N peut le remplacer.",
+        "Dissecteurs/plugins/Lua et capture hostile : isoler l’environnement; une lecture locale ne garantit pas l’absence de trafic."
+      ],
+      "interaction": "local_read",
+      "expected_result": "Paquets/champs décodés, avertissements ou erreur de format, uniquement après une analyse séparée.",
+      "sources": [
+        "tshark-kali-manual"
+      ],
+      "restrictions": [
+        "Fiche limitée à une capture déjà acquise; aucune capture live, interface, extcap ou élévation.",
+        "Pas de -w, -X, script Lua, plugin fourni par la cible, filtre arbitraire ou export automatique."
+      ],
+      "interpretation": "Relier les champs aux paquets et au contexte d’acquisition; un paquet isolé ne suffit pas à attribuer une action.",
+      "documented_options": [
+        {
+          "argument": "-r FICHIER",
+          "purpose": "Lire une capture existante; exclure stdin/FIFO."
+        },
+        {
+          "argument": "-n",
+          "purpose": "Désactiver la résolution de noms; interdire -N qui la réactive."
+        },
+        {
+          "argument": "-Y FILTRE",
+          "purpose": "Filtre d’affichage, distinct d’un filtre de capture."
+        },
+        {
+          "argument": "-T fields -e CHAMP",
+          "purpose": "Sélection de champs, chacun explicitement choisi et validé."
+        }
+      ],
+      "applicability_note": "Proposition conditionnelle : sélectionner humainement une capture compatible; ni extension ni contenu du fichier n’ont été vérifiés."
+    },
+    {
+      "id": "curl",
+      "name": "curl",
+      "function": "Examiner une réponse HTTP(S) par une requête active vers une URL explicitement sélectionnée.",
+      "objective": "Comprendre les en-têtes ou erreurs d’une réponse HTTP(S), après autorisation réseau distincte.",
+      "indicator_types": [
+        "url"
+      ],
+      "features": [
+        "Transferts URL; la fiche restreint l’étude à HTTP et HTTPS.",
+        "Requête HEAD, restriction de protocoles et délais configurables."
+      ],
+      "prerequisites": [
+        "Autorisation pour URL, hôte, ports, DNS et proxy éventuel; ne pas transmettre d’indice confidentiel implicitement.",
+        "Contrôler curlrc, proxy, certificats, variables d’environnement et limites de sortie/temps."
+      ],
+      "limits": [
+        "Un code ou un en-tête est déclaratif et ne prouve ni sûreté, propriété ni contenu complet d’un site.",
+        "HEAD peut être refusé ou traité différemment de GET; aucune exécution de page ni analyse de navigateur."
+      ],
+      "safety": [
+        "Opération réseau active et journalisable; DNS, proxy, redirections et hôtes tiers sont à examiner.",
+        "Ne pas suivre une redirection, désactiver TLS, joindre des identifiants ou envoyer des fichiers automatiquement."
+      ],
+      "interaction": "active",
+      "expected_result": "En-têtes HTTP(S), statut ou erreur après requête séparée; aucun résultat technique n’est présumé.",
+      "sources": [
+        "curl-kali-manual"
+      ],
+      "restrictions": [
+        "HTTP(S) uniquement dans cette fiche; aucun transfert file://, upload, POST, secret, cookie ou authentification automatique.",
+        "Pas de --location, --insecure, --config, lecture @fichier, écriture de fichier ou paramètre libre."
+      ],
+      "interpretation": "Conserver date, URL sélectionnée et périmètre; interpréter les statuts comme réponses du service, sans garantie d’attribution.",
+      "documented_options": [
+        {
+          "argument": "-q",
+          "purpose": "Premier argument pour ignorer le curlrc par défaut; ne neutralise pas les variables de proxy."
+        },
+        {
+          "argument": "--head",
+          "purpose": "HEAD pour HTTP; n’est pas une consultation passive."
+        },
+        {
+          "argument": "--proto =http,https",
+          "purpose": "Limiter les protocoles HTTP(S), pas les destinations."
+        },
+        {
+          "argument": "--globoff",
+          "purpose": "Désactiver les expansions d’URL."
+        },
+        {
+          "argument": "--connect-timeout SECONDES",
+          "purpose": "Limiter la phase de connexion."
+        },
+        {
+          "argument": "--max-time SECONDES",
+          "purpose": "Limiter chaque transfert; les retries modifient la portée du délai."
+        }
+      ]
+    }
+  ],
+  "date_timezone": "Europe/Zurich"
+}

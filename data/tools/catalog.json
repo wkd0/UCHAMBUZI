@@ -1,0 +1,826 @@
+{
+  "schema_version": 1,
+  "tools": [
+    {
+      "id": "whois",
+      "name": "whois",
+      "team": "osint",
+      "specialties": [
+        "domain"
+      ],
+      "source": "kali",
+      "executable": "whois",
+      "version_cmd": [
+        "--version"
+      ],
+      "version_pin": null,
+      "input_types": [
+        "domain",
+        "ip"
+      ],
+      "activity": "passive",
+      "needs_network": true,
+      "license": "GPL-2.0-or-later",
+      "upstream_url": "https://www.kali.org/tools/whois/",
+      "artifact": null,
+      "notes": "Paquet APT : whois. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "dig",
+      "name": "dig",
+      "team": "osint",
+      "specialties": [
+        "domain"
+      ],
+      "source": "kali",
+      "executable": "dig",
+      "version_cmd": [
+        "-v"
+      ],
+      "version_pin": null,
+      "input_types": [
+        "domain",
+        "ip"
+      ],
+      "activity": "passive",
+      "needs_network": true,
+      "license": "MPL-2.0",
+      "upstream_url": "https://www.kali.org/tools/bind9/",
+      "artifact": null,
+      "notes": "Paquet APT : bind9-dnsutils. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "dnsrecon",
+      "name": "dnsrecon",
+      "team": "osint",
+      "specialties": [
+        "domain"
+      ],
+      "source": "kali",
+      "executable": "dnsrecon",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-2.0-only",
+      "upstream_url": "https://www.kali.org/tools/dnsrecon/",
+      "artifact": null,
+      "notes": "Paquet APT : dnsrecon. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "dnsenum",
+      "name": "dnsenum",
+      "team": "osint",
+      "specialties": [
+        "domain"
+      ],
+      "source": "kali",
+      "executable": "dnsenum",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-2.0-only",
+      "upstream_url": "https://www.kali.org/tools/dnsenum/",
+      "artifact": null,
+      "notes": "Paquet APT : dnsenum. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "amass",
+      "name": "amass",
+      "team": "osint",
+      "specialties": [
+        "domain",
+        "infra"
+      ],
+      "source": "kali",
+      "executable": "amass",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain",
+        "ip"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "Apache-2.0",
+      "upstream_url": "https://www.kali.org/tools/amass/",
+      "artifact": null,
+      "notes": "Paquet APT : amass. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "sublist3r",
+      "name": "sublist3r",
+      "team": "osint",
+      "specialties": [
+        "domain"
+      ],
+      "source": "kali",
+      "executable": "sublist3r",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-2.0-only",
+      "upstream_url": "https://www.kali.org/tools/sublist3r/",
+      "artifact": null,
+      "notes": "Paquet APT : sublist3r. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "fierce",
+      "name": "fierce",
+      "team": "osint",
+      "specialties": [
+        "domain"
+      ],
+      "source": "kali",
+      "executable": "fierce",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-3.0-only",
+      "upstream_url": "https://www.kali.org/tools/fierce/",
+      "artifact": null,
+      "notes": "Paquet APT : fierce. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "theharvester",
+      "name": "theHarvester",
+      "team": "osint",
+      "specialties": [
+        "domain",
+        "person"
+      ],
+      "source": "kali",
+      "executable": "theHarvester",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain",
+        "email"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-2.0-only",
+      "upstream_url": "https://www.kali.org/tools/theharvester/",
+      "artifact": null,
+      "notes": "Paquet APT : theharvester. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "dmitry",
+      "name": "dmitry",
+      "team": "osint",
+      "specialties": [
+        "domain",
+        "infra"
+      ],
+      "source": "kali",
+      "executable": "dmitry",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain",
+        "ip"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-2.0-only",
+      "upstream_url": "https://www.kali.org/tools/dmitry/",
+      "artifact": null,
+      "notes": "Paquet APT : dmitry. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "whatweb",
+      "name": "whatweb",
+      "team": "osint",
+      "specialties": [
+        "infra"
+      ],
+      "source": "kali",
+      "executable": "whatweb",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "url",
+        "domain"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-2.0-or-later",
+      "upstream_url": "https://www.kali.org/tools/whatweb/",
+      "artifact": null,
+      "notes": "Paquet APT : whatweb. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "wafw00f",
+      "name": "wafw00f",
+      "team": "osint",
+      "specialties": [
+        "infra"
+      ],
+      "source": "kali",
+      "executable": "wafw00f",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "url"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "BSD-3-Clause",
+      "upstream_url": "https://www.kali.org/tools/wafw00f/",
+      "artifact": null,
+      "notes": "Paquet APT : wafw00f. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "sherlock",
+      "name": "sherlock",
+      "team": "osint",
+      "specialties": [
+        "social",
+        "person"
+      ],
+      "source": "kali",
+      "executable": "sherlock",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "username"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "MIT",
+      "upstream_url": "https://www.kali.org/tools/sherlock/",
+      "artifact": null,
+      "notes": "Paquet APT : sherlock. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "spiderfoot",
+      "name": "spiderfoot",
+      "team": "osint",
+      "specialties": [
+        "domain",
+        "infra",
+        "person"
+      ],
+      "source": "kali",
+      "executable": "spiderfoot",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain",
+        "ip",
+        "email"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "MIT",
+      "upstream_url": "https://www.kali.org/tools/spiderfoot/",
+      "artifact": null,
+      "notes": "Paquet APT : spiderfoot. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "recon-ng",
+      "name": "recon-ng",
+      "team": "osint",
+      "specialties": [
+        "domain",
+        "person"
+      ],
+      "source": "kali",
+      "executable": "recon-ng",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain",
+        "email",
+        "username"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-3.0-only",
+      "upstream_url": "https://www.kali.org/tools/recon-ng/",
+      "artifact": null,
+      "notes": "Paquet APT : recon-ng. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "exiftool",
+      "name": "exiftool",
+      "team": "osint",
+      "specialties": [
+        "media"
+      ],
+      "source": "kali",
+      "executable": "exiftool",
+      "version_cmd": [
+        "-ver"
+      ],
+      "version_pin": null,
+      "input_types": [
+        "image",
+        "file"
+      ],
+      "activity": "passive",
+      "needs_network": false,
+      "license": "Artistic-1.0-Perl OR GPL-1.0-or-later",
+      "upstream_url": "https://www.kali.org/tools/exiftool/",
+      "artifact": null,
+      "notes": "Paquet APT : libimage-exiftool-perl. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "mat2",
+      "name": "mat2",
+      "team": "osint",
+      "specialties": [
+        "media"
+      ],
+      "source": "kali",
+      "executable": "mat2",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "file",
+        "image"
+      ],
+      "activity": "passive",
+      "needs_network": false,
+      "license": "LGPL-3.0-or-later",
+      "upstream_url": "https://www.kali.org/tools/mat2/",
+      "artifact": null,
+      "notes": "Paquet APT : mat2. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "foremost",
+      "name": "foremost",
+      "team": "osint",
+      "specialties": [
+        "media"
+      ],
+      "source": "kali",
+      "executable": "foremost",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "file"
+      ],
+      "activity": "passive",
+      "needs_network": false,
+      "license": "Public-domain",
+      "upstream_url": "https://www.kali.org/tools/foremost/",
+      "artifact": null,
+      "notes": "Paquet APT : foremost. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "binwalk",
+      "name": "binwalk",
+      "team": "osint",
+      "specialties": [
+        "media"
+      ],
+      "source": "kali",
+      "executable": "binwalk",
+      "version_cmd": [
+        "--help"
+      ],
+      "version_pin": null,
+      "input_types": [
+        "file"
+      ],
+      "activity": "passive",
+      "needs_network": false,
+      "license": "MIT",
+      "upstream_url": "https://www.kali.org/tools/binwalk/",
+      "artifact": null,
+      "notes": "Paquet APT : binwalk. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "strings",
+      "name": "strings",
+      "team": "osint",
+      "specialties": [
+        "media"
+      ],
+      "source": "kali",
+      "executable": "strings",
+      "version_cmd": [
+        "--version"
+      ],
+      "version_pin": null,
+      "input_types": [
+        "file"
+      ],
+      "activity": "passive",
+      "needs_network": false,
+      "license": "GPL-3.0-or-later",
+      "upstream_url": "https://www.kali.org/tools/binutils/",
+      "artifact": null,
+      "notes": "Paquet APT : binutils. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "metagoofil",
+      "name": "metagoofil",
+      "team": "osint",
+      "specialties": [
+        "domain",
+        "media"
+      ],
+      "source": "kali",
+      "executable": "metagoofil",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-2.0-only",
+      "upstream_url": "https://www.kali.org/tools/metagoofil/",
+      "artifact": null,
+      "notes": "Paquet APT : metagoofil. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "curl",
+      "name": "curl",
+      "team": "osint",
+      "specialties": [
+        "infra"
+      ],
+      "source": "kali",
+      "executable": "curl",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "url"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "curl",
+      "upstream_url": "https://www.kali.org/tools/curl/",
+      "artifact": null,
+      "notes": "Paquet APT : curl. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "nmap",
+      "name": "nmap",
+      "team": "osint",
+      "specialties": [
+        "infra"
+      ],
+      "source": "kali",
+      "executable": "nmap",
+      "version_cmd": [
+        "--version"
+      ],
+      "version_pin": null,
+      "input_types": [
+        "ip",
+        "domain"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "NPSL-0.94",
+      "upstream_url": "https://www.kali.org/tools/nmap/",
+      "artifact": null,
+      "notes": "Paquet APT : nmap. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+    },
+    {
+      "id": "maigret",
+      "name": "maigret",
+      "team": "osint",
+      "specialties": [
+        "social",
+        "person"
+      ],
+      "source": "vendored",
+      "executable": "maigret",
+      "version_cmd": [],
+      "version_pin": "0.6.6-21577cf",
+      "input_types": [
+        "username"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "MIT",
+      "upstream_url": "https://github.com/soxoj/maigret",
+      "artifact": {
+        "file": "maigret-linux-x86_64-cp313.zip",
+        "sha256": "4b0eb6deb7f2e04668fe87ebb5cb3ed8fa003ef1f24b67008ffefd5ac815c44c",
+        "install": "venv"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Bundle Python 3.13 Linux x86_64, dépendances incluses."
+    },
+    {
+      "id": "holehe",
+      "name": "holehe",
+      "team": "osint",
+      "specialties": [
+        "person"
+      ],
+      "source": "vendored",
+      "executable": "holehe",
+      "version_cmd": [],
+      "version_pin": "1.61-14da70f",
+      "input_types": [
+        "email"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-3.0",
+      "upstream_url": "https://github.com/megadose/holehe",
+      "artifact": {
+        "file": "holehe-linux-x86_64-cp313.zip",
+        "sha256": "4540683c166cdd71b23a83519608d5080e2d3659d3cbc72d0e37799874de89b2",
+        "install": "venv"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Bundle Python 3.13 Linux x86_64, dépendances incluses."
+    },
+    {
+      "id": "phoneinfoga",
+      "name": "phoneinfoga",
+      "team": "osint",
+      "specialties": [
+        "person"
+      ],
+      "source": "vendored",
+      "executable": "phoneinfoga",
+      "version_cmd": [],
+      "version_pin": "2.11.0",
+      "input_types": [
+        "phone"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-3.0",
+      "upstream_url": "https://github.com/sundowndev/phoneinfoga",
+      "artifact": {
+        "file": "phoneinfoga",
+        "sha256": "faaeb80bff24eaffe64df4cc37ade6c5a8cf92a76498da08a85bf09f122d3955",
+        "install": "binary"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Binaire Linux x86_64."
+    },
+    {
+      "id": "subfinder",
+      "name": "subfinder",
+      "team": "osint",
+      "specialties": [
+        "domain"
+      ],
+      "source": "vendored",
+      "executable": "subfinder",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain"
+      ],
+      "activity": "passive",
+      "needs_network": true,
+      "license": "MIT",
+      "upstream_url": "https://github.com/projectdiscovery/subfinder",
+      "artifact": null,
+      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+    },
+    {
+      "id": "httpx",
+      "name": "httpx",
+      "team": "osint",
+      "specialties": [
+        "infra"
+      ],
+      "source": "vendored",
+      "executable": "httpx",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "url",
+        "domain"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "MIT",
+      "upstream_url": "https://github.com/projectdiscovery/httpx",
+      "artifact": null,
+      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+    },
+    {
+      "id": "dnsx",
+      "name": "dnsx",
+      "team": "osint",
+      "specialties": [
+        "domain"
+      ],
+      "source": "vendored",
+      "executable": "dnsx",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "domain"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "MIT",
+      "upstream_url": "https://github.com/projectdiscovery/dnsx",
+      "artifact": null,
+      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+    },
+    {
+      "id": "waybackurls",
+      "name": "waybackurls",
+      "team": "osint",
+      "specialties": [
+        "web_archive"
+      ],
+      "source": "vendored",
+      "executable": "waybackurls",
+      "version_cmd": [],
+      "version_pin": "8d27cf3",
+      "input_types": [
+        "domain"
+      ],
+      "activity": "passive",
+      "needs_network": true,
+      "license": "NOASSERTION",
+      "upstream_url": "https://github.com/tomnomnom/waybackurls",
+      "artifact": null,
+      "notes": "[À venir] Aucune copie distribuée ; installation bloquée faute de licence amont déclarée."
+    },
+    {
+      "id": "gau",
+      "name": "gau",
+      "team": "osint",
+      "specialties": [
+        "web_archive"
+      ],
+      "source": "vendored",
+      "executable": "gau",
+      "version_cmd": [],
+      "version_pin": "4eabace",
+      "input_types": [
+        "domain"
+      ],
+      "activity": "passive",
+      "needs_network": true,
+      "license": "MIT",
+      "upstream_url": "https://github.com/lc/gau",
+      "artifact": {
+        "file": "gau",
+        "sha256": "b1bc1315bf04eaac0e374739128ae4dbb1cdddd0a4cf3cc1b0ded869735d467c",
+        "install": "binary"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Binaire Linux x86_64."
+    },
+    {
+      "id": "photon",
+      "name": "photon",
+      "team": "osint",
+      "specialties": [
+        "domain"
+      ],
+      "source": "vendored",
+      "executable": "photon",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "url"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-3.0",
+      "upstream_url": "https://github.com/s0md3v/Photon",
+      "artifact": null,
+      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+    },
+    {
+      "id": "trufflehog",
+      "name": "trufflehog",
+      "team": "osint",
+      "specialties": [
+        "leaks"
+      ],
+      "source": "vendored",
+      "executable": "trufflehog",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "file"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "AGPL-3.0",
+      "upstream_url": "https://github.com/trufflesecurity/trufflehog",
+      "artifact": null,
+      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+    },
+    {
+      "id": "gitleaks",
+      "name": "gitleaks",
+      "team": "osint",
+      "specialties": [
+        "leaks"
+      ],
+      "source": "vendored",
+      "executable": "gitleaks",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "file"
+      ],
+      "activity": "passive",
+      "needs_network": false,
+      "license": "MIT",
+      "upstream_url": "https://github.com/gitleaks/gitleaks",
+      "artifact": null,
+      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+    },
+    {
+      "id": "social-analyzer",
+      "name": "social-analyzer",
+      "team": "osint",
+      "specialties": [
+        "social",
+        "person"
+      ],
+      "source": "vendored",
+      "executable": "social-analyzer",
+      "version_cmd": [],
+      "version_pin": "0.45-c585f42",
+      "input_types": [
+        "username"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "AGPL-3.0",
+      "upstream_url": "https://github.com/qeeqbox/social-analyzer",
+      "artifact": {
+        "file": "social-analyzer-linux-x86_64-cp313.zip",
+        "sha256": "79994ce8ed580b4d173db2b6b3933d0ecd92c558a65c9b192f736cdbf5e96ca4",
+        "install": "venv"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Bundle Python 3.13 Linux x86_64, dépendances incluses."
+    },
+    {
+      "id": "blackbird",
+      "name": "blackbird",
+      "team": "osint",
+      "specialties": [
+        "social",
+        "person"
+      ],
+      "source": "vendored",
+      "executable": "blackbird",
+      "version_cmd": [
+        "--help"
+      ],
+      "version_pin": "471ef970",
+      "input_types": [
+        "username",
+        "email"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-3.0",
+      "upstream_url": "https://github.com/p1ngul1n0/blackbird",
+      "artifact": {
+        "file": "blackbird-linux-x86_64-cp313.zip",
+        "sha256": "750700ac4fdb36abe8bfb67ad00c64cf9d881d8808bd0269bf4edc7db448ca1b",
+        "install": "venv"
+      },
+      "notes": "Bundle hors ligne Python 3.13 Linux x86_64 ; GPLv3 dans docs/LICENSE. Mises à jour et fonctions IA avec clé désactivées par le lanceur."
+    },
+    {
+      "id": "whatsmyname",
+      "name": "WhatsMyName",
+      "team": "osint",
+      "specialties": [
+        "person",
+        "social"
+      ],
+      "source": "builtin",
+      "executable": "whatsmyname",
+      "version_cmd": [],
+      "version_pin": null,
+      "input_types": [
+        "username"
+      ],
+      "activity": "active",
+      "needs_network": true,
+      "license": "GPL-3.0-or-later AND CC-BY-SA-4.0",
+      "upstream_url": "https://github.com/WebBreacher/WhatsMyName",
+      "artifact": null,
+      "notes": "Moteur UCHAMBUZI natif : GPL-3.0-or-later. Dataset data/tools/wmn-data.json : CC-BY-SA-4.0 (Micah Hoffman). Composants identifiés séparément."
+    }
+  ]
+}
