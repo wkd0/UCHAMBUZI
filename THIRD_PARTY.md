@@ -1,4 +1,4 @@
-# Composants tiers — candidate privée UCHAMBUZI 2.0.0
+# Composants tiers — candidate privée UCHAMBUZI 1.1.0
 
 Le code UCHAMBUZI est sous GPL-3.0-or-later. Les composants tiers conservent
 leurs licences propres. Le catalogue n'accorde aucun droit supplémentaire.
@@ -8,7 +8,7 @@ Les déclarations ci-dessous sont celles du catalogue et des copies conservées.
 
 ## Copies embarquées
 
-La table décrit les douze copies de la candidate privée 2.0.0, non publiée ; la version publique 1.0.0 en contient six.
+La table décrit les douze copies de la candidate privée 1.1.0, non publiée ; la version publique 1.0.0 en contient six.
 
 | Outil | Version/révision | Licence déclarée | Notice conservée |
 | --- | --- | --- | --- |

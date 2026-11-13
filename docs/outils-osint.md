@@ -1,4 +1,4 @@
-# Outils OSINT — candidate privée 2.0.0
+# Outils OSINT — candidate privée 1.1.0
 
 Cette candidate privée complète les six copies de la version publique 1.0.0
 par six nouvelles copies vérifiées. Le paquet public 1.0.0 reste distinct.
@@ -81,4 +81,4 @@ remplacée automatiquement. Les versions ne changent qu'avec un catalogue approu
 
 Consulter [THIRD_PARTY](../THIRD_PARTY.md) pour les licences conservées et
 [vendor](../vendor/README.uchambuzi.md) pour les révisions et la reconstruction.
-La [note 2.0.0](releases/2.0.0.md) décrit la candidate et sa compatibilité ; la [note V1](releases/1.0.0.md) reste historique.
+La [note 1.1.0](releases/1.1.0.md) décrit la candidate et sa compatibilité ; la [note V1](releases/1.0.0.md) reste historique.

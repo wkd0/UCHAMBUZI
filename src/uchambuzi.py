@@ -34,7 +34,7 @@ import commandes
 from parcours import (analyse, prepare_selected, refusal, render_analysis, render_preparation,
                       context_for_choice, CaseManager, methods_reviews, stage_corpus_file)
 
-VERSION = '2.0.0'
+VERSION = '1.1.0'
 REPOSITORY = 'https://github.com/wkd0/UCHAMBUZI.git'
 SOURCE_BRANCH = 'beta'
 

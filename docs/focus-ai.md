@@ -1,7 +1,7 @@
-# Moteur IA — candidate privée Textual 2.0.0
+# Moteur IA — candidate privée Textual 1.1.0
 
 Ce guide décrit le moteur de la candidate non publiée. La recette V1 citée
-ci-dessous reste une preuve historique de la 1.0.0, pas une nouvelle recette 2.0.0.
+ci-dessous reste une preuve historique de la 1.0.0, pas une nouvelle recette 1.1.0.
 
 Le dialogue courant passe par `FocusREPL`, `conversation.Session` et le runtime
 Ollama ou les fournisseurs distants facultatifs configurés par `/settings`.

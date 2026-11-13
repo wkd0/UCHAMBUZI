@@ -1,6 +1,6 @@
 # Mise à jour et maintenance sous Kali Linux
 
-> Candidate privée : 2.0.0 (13 novembre 2026), non publiée. La stable publique reste 1.0.0. Voir la [compatibilité 2.0.0](releases/2.0.0.md). Utiliser Python 3.13 et python3.13-venv pour les bundles ; voir les [commandes courantes](commandes.md), le [changelog](../CHANGELOG.md) et la [recette historique V1](releases/1.0.0.md), qui ne qualifie pas la candidate 2.0.0.
+> Candidate privée : 1.1.0 (13 novembre 2026), non publiée. La stable publique reste 1.0.0. Voir la [compatibilité 1.1.0](releases/1.1.0.md). Utiliser Python 3.13 et python3.13-venv pour les bundles ; voir les [commandes courantes](commandes.md), le [changelog](../CHANGELOG.md) et la [recette historique V1](releases/1.0.0.md), qui ne qualifie pas la candidate 1.1.0.
 
 Ces procédures s’exécutent sur Kali. Fermez les sessions UCHAMBUZI avant une
 mise à jour et conservez une sauvegarde privée de vos dossiers d’enquête.
@@ -29,13 +29,13 @@ et votre configuration ; une mise à jour ne demande pas de désinstallation ave
 
 ## Mettre à jour par paquet Debian
 
-La 2.0.0 est une candidate privée : la commande ci-dessous suppose que ce paquet
+La 1.1.0 est une candidate privée : la commande ci-dessous suppose que ce paquet
 validé vous a été fourni. Les releases publiques proposent encore la 1.0.0.
 Obtenez le `.deb` validé par votre canal de distribution et contrôlez son empreinte
 avec la référence reçue par un canal de confiance. Depuis son répertoire sur Kali :
 
 ```bash
-sudo apt install ./uchambuzi_2.0.0-1_amd64.deb
+sudo apt install ./uchambuzi_1.1.0-1_amd64.deb
 /usr/bin/uchambuzi --version
 /usr/bin/uchambuzi doctor
 /usr/bin/uchambuzi

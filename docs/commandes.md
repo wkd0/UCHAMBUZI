@@ -1,7 +1,7 @@
-# Commandes UCHAMBUZI 2.0.0
+# Commandes UCHAMBUZI 1.1.0
 
 Cette référence suit la branche de développement non publiée. Elle comprend
-douze copies embarquées dans la candidate privée 2.0.0 ; la stable publique reste 1.0.0.
+douze copies embarquées dans la candidate privée 1.1.0 ; la stable publique reste 1.0.0.
 
 Saisissez ces commandes dans `uchambuzi` sur Kali. `/` ouvre la complétion.
 L'accueil est Assist ; les commandes d'investigation demandent `/team 1`.

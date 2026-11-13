@@ -8,7 +8,7 @@
 2 Mio, HTTPS public uniquement, aucune redirection suivie. Dans le code courant,
 le raccourci `/pseudo` appelle ce moteur après avoir affiché le niveau **actif** et
 obtenu l'accord `[o/N]`. Les résultats sont ajoutés au dossier si un cas est
-actif. La candidate privée courante est décrite dans la [note 2.0.0](releases/2.0.0.md).
+actif. La candidate privée courante est décrite dans la [note 1.1.0](releases/1.1.0.md).
 La [note V1](releases/1.0.0.md) conserve les vérifications historiques de la 1.0.0.
 
 Les règles GET HTTPS sont prises en charge ; les règles POST, HTTP et désactivées
@@ -51,11 +51,11 @@ UCHAMBUZI_TEST_VENDOR=1 python3 -m unittest discover -s tests -p test_vendor_acc
 
 Ces recettes isolent leurs données et nettoient leurs installations. La seconde
 installe les copies distribuées avec l'interface Textual (douze dans la candidate privée
-2.0.0, six dans la version publique 1.0.0), vérifie leurs aides et leurs
+1.1.0, six dans la version publique 1.0.0), vérifie leurs aides et leurs
 dépendances, refuse les recherches réseau et exécute les étapes PhoneInfoga
 locales. Ces commandes sont des procédures à exécuter, pas des résultats nouveaux.
 La [note V1](releases/1.0.0.md) conserve les résultats de cette ancienne version ;
-elle ne qualifie pas les douze copies de la 2.0.0. Les recherches sur les sites Internet doivent toujours
+elle ne qualifie pas les douze copies de la 1.1.0. Les recherches sur les sites Internet doivent toujours
 être recoupées et sont soumises à approbation.
 
 Le lanceur Blackbird utilise `--username`, impose `--no-update` et travaille sur

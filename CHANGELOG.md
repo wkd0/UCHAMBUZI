@@ -1,8 +1,12 @@
 # Changelog
 
-## 2.0.0 — 13 novembre 2026 (candidate privée)
+## 1.1.0 — 13 novembre 2026 (candidate privée)
 
 Cette candidate n'est pas encore publiée sur le dépôt de distribution.
+La cible produit 1.1.0 remplace le choix préparatoire 2.0.0 abandonné sur décision
+de WKD : l’évolution reste OSINT ; les versions majeures marquent les grands caps
+de périmètre, notamment les nouvelles Teams. Les limites de compatibilité restent
+applicables indépendamment de ce numéro.
 
 ### Compatibilité
 
@@ -26,7 +30,7 @@ Cette candidate n'est pas encore publiée sur le dépôt de distribution.
 ### Évolutions et corrections
 
 - Cohérence de candidate : guides actifs, exemples Debian, identifiant client et
-  aides des dossiers/rapports alignés sur la 2.0.0 et le journal ordinaire UTC.
+  aides des dossiers/rapports alignés sur la 1.1.0 et le journal ordinaire UTC.
 
 - Holehe : conserver les résultats consultables mais exclure ses sorties des pivots automatiques.
 

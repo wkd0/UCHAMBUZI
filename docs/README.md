@@ -1,8 +1,8 @@
-# Documentation UCHAMBUZI 2.0.0
+# Documentation UCHAMBUZI 1.1.0
 
-Les guides courants décrivent la candidate privée 2.0.0 du 13 novembre 2026,
+Les guides courants décrivent la candidate privée 1.1.0 du 13 novembre 2026,
 non publiée. La version publique reste 1.0.0. Le [changelog](../CHANGELOG.md)
-et la [note 2.0.0](releases/2.0.0.md) précisent le contenu et la rupture
+et la [note 1.1.0](releases/1.1.0.md) précisent le contenu et la rupture
 concernant le journal et la compatibilité des dossiers.
 
 | Guide | Contenu |
@@ -14,12 +14,12 @@ concernant le journal et la compatibilité des dossiers.
 | [Utilisation](utilisation-terminal.md) | Première session |
 | [Interaction Textual](focus-textual-ux.md) | Saisie, raccourcis, streaming et thèmes |
 | [Assist et Teams](assist-teams.md) | Sélection et limites des pôles |
-| [Fonctionnalités](fonctionnalites.md) | Périmètre de la candidate 2.0.0 |
+| [Fonctionnalités](fonctionnalites.md) | Périmètre de la candidate 1.1.0 |
 | [Outils OSINT](outils-osint.md) | Catalogue, copies embarquées et limites |
 | [WhatsMyName et Blackbird](osint-wmn-blackbird.md) | Moteur natif et restrictions |
 | [Moteur IA](focus-ai.md) | Contexte, streaming et limites |
 | [Composants tiers](../THIRD_PARTY.md) | Révisions, licences et notices |
-| [2.0.0](releases/2.0.0.md) | Candidate privée et compatibilité |
+| [1.1.0](releases/1.1.0.md) | Candidate privée et compatibilité |
 | [1.0.0](releases/1.0.0.md) | Historique de la première stable |
 | [Changelog](../CHANGELOG.md) | Changements par version |
 | [Feuille de route](roadmap.md) | Évolutions prévues |

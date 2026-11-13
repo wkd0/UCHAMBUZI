@@ -1,4 +1,4 @@
-# Utiliser UCHAMBUZI 2.0.0
+# Utiliser UCHAMBUZI 1.1.0
 
 Sur Kali : `uchambuzi --version`, `uchambuzi doctor`, puis `uchambuzi`.
 L'accueil commence en Assist. `/ai` choisit un modèle local et `/settings`

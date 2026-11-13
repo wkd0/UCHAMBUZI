@@ -1,4 +1,4 @@
-# Installation UCHAMBUZI 2.0.0 sur Kali
+# Installation UCHAMBUZI 1.1.0 sur Kali
 
 ## Prérequis et paquet Debian
 
@@ -9,7 +9,7 @@ Le paquet déclare `python3.13`, `python3.13-venv`, `python3-rich`,
 L'installation des prérequis système peut nécessiter un accès aux dépôts Kali.
 
 ```sh
-sudo apt install ./uchambuzi_2.0.0-1_amd64.deb
+sudo apt install ./uchambuzi_1.1.0-1_amd64.deb
 type -a uchambuzi
 uchambuzi --version
 uchambuzi doctor
@@ -20,8 +20,8 @@ Le chemin attendu est `/usr/bin/uchambuzi` ; les ressources sont sous
 `/usr/share/uchambuzi`. Un ancien alias ou lanceur utilisateur peut avoir priorité.
 Après installation : `dpkg -V uchambuzi` ne doit signaler aucune altération.
 Le paquet public disponible reste la 1.0.0. Ces guides décrivent la candidate
-privée 2.0.0 ; utilisez le paquet 2.0.0 seulement lorsqu'il vous est fourni et
-validé. Voir les [ruptures et précautions](releases/2.0.0.md).
+privée 1.1.0 ; utilisez le paquet 1.1.0 seulement lorsqu'il vous est fourni et
+validé. Voir les [ruptures et précautions](releases/1.1.0.md).
 
 Dans l'application : `/team 1`, puis `/tools setup`, confirmer avec `o` puis
 Entrée. Les douze copies sont installées depuis les artefacts locaux vérifiés,
@@ -95,7 +95,7 @@ Le lanceur utilisateur et l'application sont gérés par manifeste. Ne pas méla
 cette voie avec le paquet système sans examiner `type -a uchambuzi`.
 La construction du paquet s'effectue sur Kali depuis le dépôt privé de
 développement ; les scripts de packaging ne sont pas inclus dans l'arbre de
-distribution. Le paquet attendu est `uchambuzi_2.0.0-1_amd64.deb`.
+distribution. Le paquet attendu est `uchambuzi_1.1.0-1_amd64.deb`.
 
 ## Données et conservation
 
@@ -120,7 +120,7 @@ acceptés sont repris dans le contexte IA ; ni les autorisations ni les fragment
 de génération interrompue ne sont restaurés. Les détections de secrets et
 d’injections restent partielles. Sauvegardez le dossier entier, conversations et
 journal ensemble ; ces contrôles ne garantissent pas l'absence de modification
-du contenu. Les dossiers créés ou réécrits en 2.0.0 ne sont pas utilisables avec
+du contenu. Les dossiers créés ou réécrits en 1.1.0 ne sont pas utilisables avec
 la 1.0.0. Fermez les anciennes sessions et sauvegardez avant mise à jour.
 
 Les réinstallations préservent les données utilisateur. La maintenance par

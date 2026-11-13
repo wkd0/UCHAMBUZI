@@ -12,13 +12,13 @@ garde l’enquêteur dans la boucle : chaque opération proposée est expliquée
 classée passive ou active dans les parcours intégrés, puis soumise à son
 approbation avant exécution. Le shell libre est identifié séparément.
 
-**Candidate privée : 2.0.0 · Kali Linux amd64 · 13 novembre 2026**
+**Candidate privée : 1.1.0 · Kali Linux amd64 · 13 novembre 2026**
 
 Cette candidate inclut douze copies d'outils vérifiées, l'aide locale des outils
 Kali, des résultats lisibles et un journal UTC en clair. Elle conserve le catalogue
 interactif, le shell approuvé, les conversations par dossier et les accès IA nommés.
 Elle retire la garantie de chaînage SHA-256 de la 1.0.0 : voir la
-[compatibilité 2.0.0](docs/releases/2.0.0.md) et le [changelog](CHANGELOG.md).
+[compatibilité 1.1.0](docs/releases/1.1.0.md) et le [changelog](CHANGELOG.md).
 La version publique reste 1.0.0 jusqu'à une publication distincte.
 
 [Fonctionnement](#fonctionnement) · [Installation](#installation) ·
@@ -78,7 +78,7 @@ n’implique pas que toutes ses options sont intégrées. Le bouton **Aide** con
 la documentation locale en arrière-plan : manuel, fiche embarquée ou `--help`,
 avec indication de la source et de la troncature de l’extrait.
 
-La candidate 2.0.0 embarque **gau, Maigret, Holehe, PhoneInfoga,
+La candidate 1.1.0 embarque **gau, Maigret, Holehe, PhoneInfoga,
 Social Analyzer, Blackbird, Subfinder, HTTPX, DNSX, Photon, TruffleHog et Gitleaks**, soit douze
 copies figées et vérifiées par empreinte SHA-256. `/tools setup` prépare les
 copies livrées à partir des artefacts locaux ; leur présence au catalogue ne
@@ -107,7 +107,7 @@ L’approbation de `/terminal` couvre la session entière.
   structure et de révision protègent la cohérence des écritures ; ils ne sont
   pas une vérification cryptographique ni une garantie d'inaltérabilité.
 - **Compatibilité** : les anciens dossiers restent lisibles, mais les nouveaux
-  dossiers et les dossiers réécrits en 2.0.0 ne sont pas utilisables en 1.0.0.
+  dossiers et les dossiers réécrits en 1.1.0 ne sont pas utilisables en 1.0.0.
   Conservez une sauvegarde complète avant mise à jour et fermez les anciennes
   sessions. L'ouverture ne retire pas automatiquement les traces historiques.
 - **Données non fiables** : les sorties et fichiers analysés sont traités comme
@@ -155,13 +155,13 @@ hors loopback ; un tunnel local peut néanmoins relayer Ollama vers une autre ma
 ## Installation
 
 Le paquet utilisateur est destiné à **Kali Linux amd64**. La candidate porte le
-nom `uchambuzi_2.0.0-1_amd64.deb` ; elle n'est pas encore disponible dans les
+nom `uchambuzi_1.1.0-1_amd64.deb` ; elle n'est pas encore disponible dans les
 [releases publiques](https://github.com/wkd0/uchambuzi/releases), qui proposent
-la 1.0.0. Lorsque le paquet 2.0.0 validé vous est fourni, vérifiez sa somme de
+la 1.0.0. Lorsque le paquet 1.1.0 validé vous est fourni, vérifiez sa somme de
 contrôle puis, après sauvegarde de vos dossiers et fermeture des sessions :
 
 ```sh
-sudo apt install ./uchambuzi_2.0.0-1_amd64.deb
+sudo apt install ./uchambuzi_1.1.0-1_amd64.deb
 uchambuzi --version
 uchambuzi doctor
 uchambuzi
@@ -207,7 +207,7 @@ fictives.
 - [Interface Textual](docs/focus-textual-ux.md) · [Assist et Teams](docs/assist-teams.md)
 - [Fonctionnalités](docs/fonctionnalites.md) · [outils OSINT et limites](docs/outils-osint.md)
 - [Composants tiers et licences](THIRD_PARTY.md) · [sources vendor](vendor/README.uchambuzi.md)
-- [Changelog](CHANGELOG.md) · [candidate 2.0.0](docs/releases/2.0.0.md) · [historique 1.0.0](docs/releases/1.0.0.md)
+- [Changelog](CHANGELOG.md) · [candidate 1.1.0](docs/releases/1.1.0.md) · [historique 1.0.0](docs/releases/1.0.0.md)
 
 ## Développement
 

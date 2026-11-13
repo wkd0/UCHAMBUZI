@@ -1,9 +1,9 @@
-# Feuille de route après préparation de la candidate 2.0.0
+# Feuille de route après préparation de la candidate 1.1.0
 
-La candidate privée 2.0.0 se concentre sur Assist et l'OSINT Team : interface
+La candidate privée 1.1.0 se concentre sur Assist et l'OSINT Team : interface
 Textual, IA locale, douze copies tierces embarquées, WhatsMyName, playbooks,
 dossiers et rapports avec journal ordinaire horodaté UTC. La stable publique
-reste 1.0.0. Voir la [note de candidate](releases/2.0.0.md).
+reste 1.0.0. Voir la [note de candidate](releases/1.1.0.md).
 
 Les évolutions suivantes concernent les Teams Red, Blue et Purple, la maintenance
 des copies tierces, les nouveaux outils approuvés et la qualification des services
