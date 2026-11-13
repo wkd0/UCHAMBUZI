@@ -1,13 +1,14 @@
-# Feuille de route après préparation de la V1.0.0
+# Feuille de route après préparation de la candidate 2.0.0
 
-La V1 se concentre sur Assist et l'OSINT Team : interface Textual, IA locale,
-six outils embarqués, WhatsMyName, playbooks, dossiers et rapports.
-La publication de la version préparée attend la validation explicite du propriétaire.
-Voir la [note du candidat](releases/1.0.0.md).
+La candidate privée 2.0.0 se concentre sur Assist et l'OSINT Team : interface
+Textual, IA locale, douze copies tierces embarquées, WhatsMyName, playbooks,
+dossiers et rapports avec journal ordinaire horodaté UTC. La stable publique
+reste 1.0.0. Voir la [note de candidate](releases/2.0.0.md).
 
 Les évolutions suivantes concernent les Teams Red, Blue et Purple, la maintenance
 des copies tierces, les nouveaux outils approuvés et la qualification des services
-OSINT. Les entrées « À venir » du catalogue restent déclaratives.
+OSINT. Les entrées « À venir » du catalogue restent déclaratives. Les améliorations
+UX en validation dans une branche distincte ne font pas partie de cette candidate.
 
 Les guides et recettes historiques sont identifiés dans l'[index](README.md).
 Une recette ancienne ne vaut pas validation d'un nouvel artefact. Chaque nouvelle

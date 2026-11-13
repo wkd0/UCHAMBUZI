@@ -202,7 +202,7 @@ class ResponsesRuntime:
             timer.start()
             connection.request('POST', self.path, body, {
                 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key,
-                'User-Agent': 'UCHAMBUZI/1.0',
+                'User-Agent': 'UCHAMBUZI/2.0.0',
             })
             response = connection.getresponse()
             raw = response.read(_MAX_RESPONSE + 1)

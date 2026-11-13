@@ -14,7 +14,7 @@ concernant le journal et la compatibilité des dossiers.
 | [Utilisation](utilisation-terminal.md) | Première session |
 | [Interaction Textual](focus-textual-ux.md) | Saisie, raccourcis, streaming et thèmes |
 | [Assist et Teams](assist-teams.md) | Sélection et limites des pôles |
-| [Fonctionnalités](fonctionnalites.md) | Périmètre de la V1 |
+| [Fonctionnalités](fonctionnalites.md) | Périmètre de la candidate 2.0.0 |
 | [Outils OSINT](outils-osint.md) | Catalogue, copies embarquées et limites |
 | [WhatsMyName et Blackbird](osint-wmn-blackbird.md) | Moteur natif et restrictions |
 | [Moteur IA](focus-ai.md) | Contexte, streaming et limites |

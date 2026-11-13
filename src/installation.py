@@ -635,7 +635,7 @@ def release_identity(tag):
     """N'accepte qu'un tag de version explicite, sans chemin ni requete."""
     match = re.fullmatch(r'v?([0-9]+\.[0-9]+\.[0-9]+(?:-(?:alpha|beta|rc)\.[0-9]+)?)', tag or '')
     if not match:
-        raise ValueError('Tag de release invalide : exemple v0.3.0-beta.1.')
+        raise ValueError('Tag de release invalide : exemple v2.0.0.')
     return 'v' + match[1], match[1]
 
 

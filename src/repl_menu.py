@@ -45,7 +45,7 @@ DEFAULT_COMMAND_DOCS: dict[str, str] = {
     '/indicator': 'Déclare un indicateur technique explicite avec son type',
     '/target': 'Sélectionne un hôte ou un indice dérivé pour analyse',
     '/prepare': 'Prépare une commande d\'investigation sans exécution automatique',
-    '/investigation': 'Gère le dossier d\'enquête actif et consulte le journal de preuve SHA-256',
+    '/investigation': 'Gère le dossier d\'enquête actif et consulte le journal horodaté UTC',
     '/tools': 'Vérifie l\'inventaire et la présence des 7 outils Kali (dig, exiftool...)',
     '/audit': 'Inspecte un fichier suspect contre les injections de prompt',
     '/methods': 'Bibliothèque de méthodes d\'investigation validées et éprouvées',

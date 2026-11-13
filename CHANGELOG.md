@@ -25,6 +25,9 @@ Cette candidate n'est pas encore publiée sur le dépôt de distribution.
 
 ### Évolutions et corrections
 
+- Cohérence de candidate : guides actifs, exemples Debian, identifiant client et
+  aides des dossiers/rapports alignés sur la 2.0.0 et le journal ordinaire UTC.
+
 - Holehe : conserver les résultats consultables mais exclure ses sorties des pivots automatiques.
 
 - Résultats, rapports et états documentaires présentés en français lisible,

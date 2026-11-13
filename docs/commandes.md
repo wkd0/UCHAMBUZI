@@ -78,9 +78,9 @@ Aucune sortie d'outil ni réponse IA n'est exécutée comme commande libre.
 Pour une approbation, taper `o` puis Entrée ; Entrée seule ou `n` refuse.
 `/investigation open` ne demande pas de formulaire de cadre d'enquête. Ouvrir un dossier
 avant les opérations permet de conserver les analyses, préparations et résultats.
-Le chaînage local détecte les altérations par rapport au journal présent ; il
-ne remplace pas une signature externe et un acteur contrôlant toute la machine
-peut réécrire les données.
+Le journal est en clair et horodaté UTC, sans chaînage ni empreinte de traçabilité
+SHA-256. Les contrôles de structure et de révision ne constituent pas une
+vérification cryptographique et ne détectent pas toute modification du contenu.
 
 Les préférences de lancement et les dossiers d'enquête sont dans
 `<Documents XDG>/uchambuzi-data/`. Les copies d'outils gérées sont dans

@@ -244,10 +244,10 @@ BUILTIN_COMMANDS: tuple[Command, ...] = (
     Command(
         name='/investigation',
         aliases=('/case', '/cases'),
-        summary="Gère le dossier d'enquête actif et consulte le journal de preuve SHA-256",
+        summary="Gère le dossier d'enquête actif et consulte le journal horodaté UTC",
         usage="/investigation [create <id> [titre]|open <id>|rename <titre>|close|archive|delete|log]",
         group="forensic",
-        help_description="Gestion des dossiers d'enquête & journal SHA-256",
+        help_description="Gestion des dossiers d'enquête et journal en clair UTC",
     ),
     Command(name='/copy', summary='Copie la sélection, la réponse ou /copy commande', group='session'),
     Command(name='/terminal', summary='Ouvre un shell Bash libre dans le dossier actif ; exit pour revenir', group='investigation'),
@@ -257,7 +257,7 @@ BUILTIN_COMMANDS: tuple[Command, ...] = (
         summary="Exporte le dossier vérifié en Markdown local",
         usage="/report",
         group="forensic",
-        help_description="Rapport OSINT : cadre, indices, constats et empreintes SHA-256",
+        help_description="Rapport OSINT : cadre, indices, constats et journal en clair UTC",
     ),
     Command(
         name='/audit',

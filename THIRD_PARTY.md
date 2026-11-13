@@ -1,4 +1,4 @@
-# Composants tiers — UCHAMBUZI 1.0.0
+# Composants tiers — candidate privée UCHAMBUZI 2.0.0
 
 Le code UCHAMBUZI est sous GPL-3.0-or-later. Les composants tiers conservent
 leurs licences propres. Le catalogue n'accorde aucun droit supplémentaire.
@@ -8,8 +8,7 @@ Les déclarations ci-dessous sont celles du catalogue et des copies conservées.
 
 ## Copies embarquées
 
-La table suit la branche de développement non publiée, qui contient douze
-copies ; la version publique 1.0.0 en contient six.
+La table décrit les douze copies de la candidate privée 2.0.0, non publiée ; la version publique 1.0.0 en contient six.
 
 | Outil | Version/révision | Licence déclarée | Notice conservée |
 | --- | --- | --- | --- |
@@ -63,5 +62,6 @@ Une entrée du catalogue ne signifie pas qu'un paquet tiers est embarqué.
 Les copies distribuées doivent disposer d'une licence identifiée.
 
 La table Unicode dérivée de `src/focus_view.py` conserve sa notice Unicode 3.0
-également reproduite dans [debian/copyright](debian/copyright). Les dépendances
+également reproduite dans les métadonnées `debian/copyright` du paquet Debian
+(et dans les sources privées de construction). Les dépendances
 Textual, Rich et Prompt Toolkit restent des paquets système séparés.
