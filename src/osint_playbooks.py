@@ -20,7 +20,7 @@ Playbooks natifs :
 3. Email / Pseudonyme : holehe/maigret/sherlock -> corrélation -> niveau de certitude
 4. Surface d'exposition d'une organisation : theHarvester -> subfinder -> httpx -> trufflehog/gitleaks
 5. Renseignement téléphonique : phoneinfoga (sans clé) -> scans et dorks
-6. Archives web : waybackurls -> gau -> curl snapshot API
+6. Archives web : gau -> curl snapshot API
 
 Zéro clé API, zéro compte requis. Traçabilité SHA-256 dans le dossier d'enquête.
 """
@@ -215,13 +215,12 @@ PLAYBOOK_DOMAIN = OSINTPlaybook(
         PlaybookStep(
             step_number=6,
             title="Recherche d'URLs archivées sur Wayback Machine",
-            tool_id="waybackurls",
+            tool_id="gau",
             activity="passive",
             prerequisites="Nom de domaine cible.",
-            command_template="waybackurls {target}",
+            command_template="gau --providers wayback,commoncrawl {target}",
             looking_for="Historique des URLs indexées au fil des années, anciens endpoints, paramètres sensibles, fichiers oubliés (.bak, .json, .env).",
             next_pivot="Endpoints d'anciennes API dépréciées ou fichiers sensibles archivés.",
-            alternative_tool_ids=("gau",),
             notes="Consultation passive des archives publiques du Web sans contact avec la cible.",
         ),
     ),
@@ -449,7 +448,7 @@ PLAYBOOK_PHONE = OSINTPlaybook(
 
 # ============================================================================
 # 6. Playbook : Archives web
-# waybackurls -> gau -> curl snapshot API
+# gau -> curl snapshot API
 # ============================================================================
 
 PLAYBOOK_WEB_ARCHIVES = OSINTPlaybook(
@@ -462,18 +461,6 @@ PLAYBOOK_WEB_ARCHIVES = OSINTPlaybook(
     steps=(
         PlaybookStep(
             step_number=1,
-            title="Extraction des URLs archivées sur Wayback Machine",
-            tool_id="waybackurls",
-            activity="passive",
-            prerequisites="Nom de domaine ou URL cible.",
-            command_template="waybackurls {target}",
-            looking_for="Index complet des pages, ressources et paramètres enregistrés par la Wayback Machine au fil des années.",
-            next_pivot="Endpoints d'anciennes versions, documents téléchargeables (.pdf, .docx) et fichiers sensibles (.sql, .env, .json).",
-            alternative_tool_ids=("gau",),
-            notes="Extraction passive auprès de l'Internet Archive sans contacter le serveur cible.",
-        ),
-        PlaybookStep(
-            step_number=2,
             title="Recoupement multi-fournisseurs d'archives (gau)",
             tool_id="gau",
             activity="passive",
@@ -481,11 +468,10 @@ PLAYBOOK_WEB_ARCHIVES = OSINTPlaybook(
             command_template="gau --providers wayback,commoncrawl {target}",
             looking_for="Corrélation croisée des URLs archivées via Wayback Machine et Common Crawl pour maximiser l'exhaustivité de l'historique.",
             next_pivot="Fichiers de sauvegarde ou endpoints d'administration disparus de la version actuelle.",
-            alternative_tool_ids=("waybackurls",),
             notes="Agrégation de plusieurs dépôts mondiaux d'archives publiques du Web.",
         ),
         PlaybookStep(
-            step_number=3,
+            step_number=2,
             title="Disponibilité et métadonnées du snapshot le plus récent",
             tool_id="curl",
             activity="passive",

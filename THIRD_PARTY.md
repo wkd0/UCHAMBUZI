@@ -8,14 +8,23 @@ Les déclarations ci-dessous sont celles du catalogue et des copies conservées.
 
 ## Copies embarquées
 
+La table suit la branche de développement non publiée, qui contient douze
+copies ; la version publique 1.0.0 en contient six.
+
 | Outil | Version/révision | Licence déclarée | Notice conservée |
 | --- | --- | --- | --- |
 | [maigret](https://github.com/soxoj/maigret) | 0.6.6-21577cf | MIT | [Texte local](vendor/maigret/LICENSE) |
-| [holehe](https://github.com/megadose/holehe) | 1.61-14da70f | GPL-3.0 | [Texte local](vendor/holehe/LICENSE.md) |
+| [holehe](https://github.com/megadose/holehe) | 1.61-14da70f-r1 | GPL-3.0 | [Texte local](vendor/holehe/LICENSE.md) |
 | [phoneinfoga](https://github.com/sundowndev/phoneinfoga) | 2.11.0 | GPL-3.0 | [Texte local](vendor/phoneinfoga/LICENSE) |
 | [gau](https://github.com/lc/gau) | 4eabace | MIT | [Texte local](vendor/gau/LICENSE) |
-| [social-analyzer](https://github.com/qeeqbox/social-analyzer) | 0.45-c585f42 | AGPL-3.0 | [Texte local](vendor/social-analyzer/LICENSE) |
+| [social-analyzer](https://github.com/qeeqbox/social-analyzer) | 0.45-c585f42-r1 | AGPL-3.0 | [Texte local](vendor/social-analyzer/LICENSE) |
 | [blackbird](https://github.com/p1ngul1n0/blackbird) | 471ef970 | GPL-3.0 | [Texte local](vendor/blackbird/docs/LICENSE) |
+| [subfinder](https://github.com/projectdiscovery/subfinder) | 2.17.0 | MIT | [Texte local](vendor/subfinder/LICENSE.md) |
+| [httpx](https://github.com/projectdiscovery/httpx) | 1.12.0 | MIT | [Texte local](vendor/httpx/LICENSE.md) |
+| [dnsx](https://github.com/projectdiscovery/dnsx) | 1.3.1 | MIT | [Texte local](vendor/dnsx/LICENSE.md) |
+| [photon](https://github.com/s0md3v/Photon) | 1.3.0-r1 | GPL-3.0 | [Texte local](vendor/photon/LICENSE) |
+| [trufflehog](https://github.com/trufflesecurity/trufflehog) | 3.99.8 | AGPL-3.0 | [Texte local](vendor/trufflehog/LICENSE) |
+| [gitleaks](https://github.com/gitleaks/gitleaks) | 8.30.1 | MIT | [Texte local](vendor/gitleaks/LICENSE) |
 
 Les auteurs et contributeurs sont ceux des notices et historiques amont conservés.
 Les révisions et transformations locales sont décrites dans
@@ -24,7 +33,10 @@ des outils restent applicables à leurs copies ; elles ne sont pas remplacées p
 la licence du lanceur. Les sources de PhoneInfoga **v2.11.0** sont conservées dans
 l'archive source correspondante, issue du tag amont (commit
 `5f6156f567613a07ea8e3f04b004864582060a57`), séparément de l'ancien arbre de sources.
-Les sources des autres outils restent dans leurs répertoires `vendor/<outil>/`.
+Les sources, archives et notices des autres outils restent dans leurs répertoires
+`vendor/<outil>/`. Les sources du tag TruffleHog sont incluses ; la complétude
+des sources et notices de ses dépendances Go doit encore être vérifiée avant
+une publication. La présente recette ne publie aucun paquet.
 
 Les bundles Python contiennent les wheels des outils et de leurs dépendances,
 avec leurs notices originales. L'[inventaire des dépendances](vendor/DEPENDENCIES.json)
@@ -47,10 +59,8 @@ Le catalogue représente cette combinaison par
 
 ## Composants non distribués et références
 
-Waybackurls n'est pas distribué : licence non déclarée (`NOASSERTION`) et
-installation bloquée. Subfinder, httpx, dnsx, photon, trufflehog et gitleaks sont
-des entrées déclaratives sans artefact approuvé livré. Une entrée du catalogue
-ne signifie pas qu'un paquet tiers est embarqué.
+Une entrée du catalogue ne signifie pas qu'un paquet tiers est embarqué.
+Les copies distribuées doivent disposer d'une licence identifiée.
 
 La table Unicode dérivée de `src/focus_view.py` conserve sa notice Unicode 3.0
 également reproduite dans [debian/copyright](debian/copyright). Les dépendances

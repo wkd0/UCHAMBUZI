@@ -513,9 +513,10 @@ class SettingsUI:
 
     def payload(self, text):
         self.prepare_history()
-        messages = [{'role':'system', 'content':self.instructions.compose_active_instructions(active_scenario=self.ai.scenario)}]
+        user_text = self.wire_text(text)
+        messages = [{'role':'system', 'content':self.ai.system_instructions(user_text)}]
         messages += [{'role':m.role.value, 'content':m.text} for m in self.ai.history]
-        messages.append({'role':'user', 'content':self.wire_text(text)})
+        messages.append({'role':'user', 'content':user_text})
         if len(json.dumps(messages, ensure_ascii=False).encode('utf-8')) > self.controller.context_budget:
             raise SettingsError('Budget de contexte dépassé ; aucun envoi')
         provider = self.ai.providers.get(self.ai.provider_id)

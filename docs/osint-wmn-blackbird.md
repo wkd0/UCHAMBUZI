@@ -49,7 +49,8 @@ UCHAMBUZI_TEST_VENDOR=1 python3 -m unittest discover -s tests -p test_vendor_acc
 ```
 
 Ces recettes isolent leurs données et nettoient leurs installations. La seconde
-installe les six copies avec l'interface Textual, vérifie leurs aides et leurs
+installe les copies distribuées avec l'interface Textual (douze sur la branche
+de développement, six dans la version publique 1.0.0), vérifie leurs aides et leurs
 dépendances, refuse les recherches réseau et exécute les étapes PhoneInfoga
 locales. La [note V1](releases/1.0.0.md) distingue les résultats du candidat des
 contrôles réseau anciens. Les recherches sur les sites Internet doivent toujours

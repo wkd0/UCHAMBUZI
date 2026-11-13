@@ -1411,6 +1411,81 @@
       "notice_files": [
         "wsproto-1.3.2.dist-info/licenses/LICENSE"
       ]
+    },
+    {
+      "bundle": "vendor/photon/photon-linux-x86_64-cp313.zip",
+      "wheel": "certifi-2026.10.23-py3-none-any.whl",
+      "name": "certifi",
+      "version": "2026.10.23",
+      "license_metadata": "MPL-2.0",
+      "notice_files": [
+        "certifi-2026.10.23.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/photon/photon-linux-x86_64-cp313.zip",
+      "wheel": "charset_normalizer-3.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "name": "charset-normalizer",
+      "version": "3.5.2",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "charset_normalizer-3.5.2.dist-info/licenses/",
+        "charset_normalizer-3.5.2.dist-info/licenses/LICENSE"
+      ]
+    },
+    {
+      "bundle": "vendor/photon/photon-linux-x86_64-cp313.zip",
+      "wheel": "idna-3.20-py3-none-any.whl",
+      "name": "idna",
+      "version": "3.20",
+      "license_metadata": "BSD-3-Clause",
+      "notice_files": [
+        "idna-3.20.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/photon/photon-linux-x86_64-cp313.zip",
+      "wheel": "photon-1.3.0.post1-py3-none-any.whl",
+      "name": "photon",
+      "version": "1.3.0.post1",
+      "license_metadata": "GPL-3.0",
+      "notice_files": [
+        "photon-1.3.0.post1.dist-info/licenses/LICENSE.md"
+      ]
+    },
+    {
+      "bundle": "vendor/photon/photon-linux-x86_64-cp313.zip",
+      "wheel": "requests-2.34.2-py3-none-any.whl",
+      "name": "requests",
+      "version": "2.34.2",
+      "license_metadata": "Apache-2.0",
+      "notice_files": [
+        "requests-2.34.2.dist-info/licenses/LICENSE",
+        "requests-2.34.2.dist-info/licenses/NOTICE"
+      ]
+    },
+    {
+      "bundle": "vendor/photon/photon-linux-x86_64-cp313.zip",
+      "wheel": "tld-0.13.2-py2.py3-none-any.whl",
+      "name": "tld",
+      "version": "0.13.2",
+      "license_metadata": "MPL-1.1 OR GPL-2.0-only OR LGPL-2.1-or-later",
+      "notice_files": [
+        "tld-0.13.2.dist-info/licenses/LICENSE.rst",
+        "tld-0.13.2.dist-info/licenses/LICENSE_GPL2.0.txt",
+        "tld-0.13.2.dist-info/licenses/LICENSE_LGPL_2.1.txt",
+        "tld-0.13.2.dist-info/licenses/LICENSE_MPL_1.1.txt"
+      ]
+    },
+    {
+      "bundle": "vendor/photon/photon-linux-x86_64-cp313.zip",
+      "wheel": "urllib3-2.8.0-py3-none-any.whl",
+      "name": "urllib3",
+      "version": "2.8.0",
+      "license_metadata": "MIT",
+      "notice_files": [
+        "urllib3-2.8.0.dist-info/licenses/LICENSE.txt"
+      ]
     }
   ]
 }

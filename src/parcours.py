@@ -9,6 +9,9 @@
 # ============================================================================
 """Orchestration déterministe; la réponse IA ne pilote jamais ce parcours."""
 import copy
+import ctypes
+import shutil
+import tempfile
 import fcntl
 from functools import wraps
 from datetime import datetime, timezone
@@ -70,14 +73,16 @@ def _guard_case_write(function):
         if cid is None and not opening:
             return function(self, *args, **kwargs)
         directory = self.case_dir(cid, create=opening and not kwargs.get('existing_only', False))
-        descriptor = os.open(directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        lock_path = directory.parent / ('.lock-' + cid)
+        installation.no_links(lock_path)
+        descriptor = os.open(lock_path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
         try:
             fcntl.flock(descriptor, fcntl.LOCK_EX)
             if not opening and self.state is not None:
                 current_path = directory / 'case.json'
                 installation.no_links(current_path)
                 current = self._verify_case(json.loads(current_path.read_text(encoding='utf-8')), cid)
-                if current.get('sha256') != self.state.get('sha256'):
+                if current.get('revision', 0) != self.state.get('revision', 0):
                     raise ValueError('Dossier modifié par une autre session ; le rouvrir avant toute écriture.')
             return function(self, *args, **kwargs)
         finally:
@@ -86,7 +91,7 @@ def _guard_case_write(function):
 
 
 class CaseManager:
-    """Gestionnaire de dossiers d'enquête isolés avec journalisation horodatée chaînée."""
+    """Gestionnaire de dossiers d'enquête isolés avec journalisation horodatée."""
 
     def __init__(self, base_dir=None):
         self._base_dir = Path(base_dir) if base_dir is not None else None
@@ -115,23 +120,15 @@ class CaseManager:
     def _now():
         return datetime.now(timezone.utc).isoformat()
 
-    @staticmethod
-    def _sign_case(payload):
-        body = copy.deepcopy(payload)
-        body.pop('sha256', None)
-        body['sha256'] = documentation.digest(body)
-        return body
-
     @classmethod
     def _verify_case(cls, payload, expected_id):
         if not isinstance(payload, dict) or payload.get('schema_version') != 1:
             raise ValueError('Schéma de dossier d’enquête invalide.')
         if payload.get('case_id') != expected_id:
             raise ValueError('Identifiant de dossier incohérent.')
-        snapshot = copy.deepcopy(payload)
-        recorded_hash = snapshot.pop('sha256', None)
-        if not recorded_hash or documentation.digest(snapshot) != recorded_hash:
-            raise ValueError('Intégrité du dossier d’enquête compromise : ' + str(expected_id))
+        revision = payload.get('revision', 0)
+        if type(revision) is not int or revision < 0:
+            raise ValueError('Révision de dossier invalide.')
         for key in ('indicators', 'prepared_commands', 'contexts'):
             if not isinstance(payload.get(key), list):
                 raise ValueError('Structure de dossier d’enquête corrompue : ' + key)
@@ -143,23 +140,19 @@ class CaseManager:
         if not journal_path.exists():
             raise ValueError('Journal d’enquête absent pour le dossier : ' + str(expected_id))
         entries = []
-        prev_hash = '0' * 64
-        for idx, line in enumerate(journal_path.read_text(encoding='utf-8').splitlines(), 1):
+        for line in journal_path.read_text(encoding='utf-8').splitlines():
             if not line.strip():
                 continue
             entry = json.loads(line)
-            if not isinstance(entry, dict):
+            if (not isinstance(entry, dict) or entry.get('seq') != len(entries) + 1
+                    or entry.get('case_id') != expected_id
+                    or not isinstance(entry.get('event_type'), str)
+                    or not isinstance(entry.get('summary'), str)
+                    or not isinstance(entry.get('details'), dict)):
                 raise ValueError('Entrée de journal invalide.')
-            recorded_hash = entry.pop('sha256', None)
-            if (entry.get('seq') != idx or entry.get('case_id') != expected_id
-                    or entry.get('prev_sha256') != prev_hash
-                    or documentation.digest(entry) != recorded_hash):
-                raise ValueError('Chaîne d’intégrité du journal d’enquête rompue.')
             timestamp = datetime.fromisoformat(entry.get('timestamp', ''))
             if timestamp.tzinfo is None:
                 raise ValueError('Horodatage sans fuseau dans le journal d’enquête.')
-            entry['sha256'] = recorded_hash
-            prev_hash = recorded_hash
             entries.append(entry)
         if not entries:
             raise ValueError('Journal d’enquête vide.')
@@ -169,7 +162,6 @@ class CaseManager:
         journal_path = directory / 'journal.jsonl'
         installation.no_links(journal_path)
         entries = self._verify_and_load_journal(directory, case_id) if journal_path.exists() else []
-        prev_hash = entries[-1]['sha256'] if entries else '0' * 64
         entry = dict(
             seq=len(entries) + 1,
             timestamp=self._now(),
@@ -177,9 +169,7 @@ class CaseManager:
             event_type=event_type,
             summary=summary,
             details=copy.deepcopy(details),
-            prev_sha256=prev_hash,
         )
-        entry['sha256'] = documentation.digest(entry)
         entries.append(entry)
         serialized = ''.join(json.dumps(item, ensure_ascii=False, sort_keys=True) + '\n' for item in entries)
         installation.atomic_write(journal_path, serialized.encode('utf-8'), 0o600)
@@ -187,7 +177,8 @@ class CaseManager:
 
     def _save_case(self, directory, state):
         state['updated_at'] = self._now()
-        signed = self._sign_case(state)
+        state['revision'] = state.get('revision', 0) + 1
+        signed = copy.deepcopy(state)
         case_path = directory / 'case.json'
         installation.no_links(case_path)
         installation.atomic_write(
@@ -205,7 +196,7 @@ class CaseManager:
         cid = validate_case_id(case_id)
         if title is not None and (not isinstance(title, str) or len(title) > 200):
             raise ValueError('Titre de dossier invalide.')
-        directory = self.case_dir(cid, create=True)
+        directory = self.case_dir(cid, create=not existing_only)
         case_path = directory / 'case.json'
         installation.no_links(case_path)
         if create_only and case_path.exists():
@@ -218,7 +209,6 @@ class CaseManager:
             self.status(cid)
             state.pop('closed_at', None)
             state.pop('archived_at', None)
-            state.pop('sealed_journal_sha256', None)
             if title:
                 state['title'] = title.strip()
             self._append_journal(directory, cid, 'case_reopened', 'Réouverture du dossier d’enquête.',
@@ -268,7 +258,6 @@ class CaseManager:
             raise ValueError('Aucun dossier actif')
         directory = self.case_dir()
         row = finding.to_dict()
-        row['sha256'] = documentation.digest(row)
         self.state.setdefault('findings', []).append(row)
         self._append_journal(directory, self.active_case_id, 'finding_recorded',
                              'Constat qualifié consigné.', row)
@@ -280,9 +269,8 @@ class CaseManager:
             return None
         cid = self.active_case_id
         directory = self.case_dir(cid, create=False)
-        seal = self._append_journal(directory, cid, 'case_closed', 'Fermeture du dossier d’enquête.', {})
-        self.state['closed_at'] = seal['timestamp']
-        self.state['sealed_journal_sha256'] = seal['sha256']
+        event = self._append_journal(directory, cid, 'case_closed', 'Fermeture du dossier d’enquête.', {})
+        self.state['closed_at'] = event['timestamp']
         self._save_case(directory, self.state)
         self.active_case_id = None
         self.state = None
@@ -311,12 +299,11 @@ class CaseManager:
                                      'Dossier archivé ; réouverture explicite possible.', {})
         self.state['archived_at'] = event['timestamp']
         self._save_case(directory, self.state)
-        # close_case seals the journal with the existing, verified closing format.
         return CaseManager.close_case.__wrapped__(self)
 
     @_guard_case_write
     def delete_case(self):
-        """Delete only the verified active case; UI must obtain explicit approval."""
+        """Delete only the active case; UI must obtain explicit approval."""
         import shutil
         if not self.active_case_id:
             raise ValueError('Aucun dossier actif.')
@@ -343,7 +330,6 @@ class CaseManager:
                 validation=ind.get('validation'),
                 ambiguities=list(ind.get('ambiguities', [])),
             )
-            entry['sha256'] = documentation.digest(entry)
             self.state['indicators'].append(entry)
             recorded_indicators.append(entry)
         self.state['latest_analysis'] = copy.deepcopy(analysis_result)
@@ -353,7 +339,7 @@ class CaseManager:
             'analysis_recorded',
             f"Analyse enregistrée ({len(recorded_indicators)} indice(s)).",
             {'indicators': [{'type': i['type'], 'normalized': i['normalized'], 'validation': i['validation'],
-                             'sha256': i['sha256']} for i in recorded_indicators]},
+                             } for i in recorded_indicators]},
         )
         return self._save_case(directory, self.state)
 
@@ -375,7 +361,6 @@ class CaseManager:
             executed=False,
             plan_id=cmd.get('id'),
         )
-        entry['sha256'] = documentation.digest(entry)
         self.state['prepared_commands'].append(entry)
         if isinstance(self.state.get('latest_analysis'), dict):
             self.state['latest_analysis']['last_preparation'] = copy.deepcopy(preparation_result)
@@ -385,7 +370,7 @@ class CaseManager:
             'command_prepared',
             f"Préparation enregistrée ({entry['status']}).",
             {'status': entry['status'], 'tool_id': entry['tool_id'], 'display': entry['display'],
-             'error': entry['error'], 'sha256': entry['sha256']},
+             'error': entry['error']},
         )
         return self._save_case(directory, self.state)
 
@@ -396,27 +381,24 @@ class CaseManager:
         directory = self.case_dir(self.active_case_id, create=False)
         now = self._now()
         snapshot = copy.deepcopy(selected_context)
-        context_hash = documentation.digest(snapshot)
         entry = dict(
             recorded_at=now,
-            context_sha256=context_hash,
             selected_choice=snapshot.get('selected_choice'),
             context=snapshot,
         )
-        entry['sha256'] = documentation.digest(entry)
         self.state['contexts'].append(entry)
         self._append_journal(
             directory,
             self.active_case_id,
             'context_selected',
             'Contexte technique associé au dossier.',
-            {'context_sha256': context_hash, 'selected_choice': snapshot.get('selected_choice')},
+            {'selected_choice': snapshot.get('selected_choice')},
         )
         return self._save_case(directory, self.state)
 
     @_guard_case_write
     def record_execution(self, execution_result):
-        """Consigne la sortie complète d'une exécution approuvée dans le journal chaîné."""
+        """Consigne la sortie complète d'une exécution approuvée dans le journal horodaté."""
         if not self.active_case_id or self.state is None:
             return None
         snapshot = copy.deepcopy(execution_result)
@@ -438,8 +420,7 @@ class CaseManager:
             f"Audit anti-injection sur {audit_report['path']} (injection={audit_report['injection_detected']}).",
             {
                 'path': audit_report['path'],
-                'sha256': audit_report['sha256'],
-                'sha256_scope': audit_report.get('sha256_scope', 'unspecified'),
+                **({'sha256': audit_report['sha256'], 'sha256_scope': audit_report.get('sha256_scope', 'unspecified')} if 'sha256' in audit_report and audit_report.get('sha256_scope') not in ('stdout', 'results') else {}),
                 'bytes_inspected': audit_report['bytes_inspected'],
                 'truncated': audit_report['truncated'],
                 'injection_detected': audit_report['injection_detected'],
@@ -447,6 +428,84 @@ class CaseManager:
             },
         )
         return self._save_case(directory, self.state)
+
+    def migrate_legacy_trace(self, case_id):
+        """Retire explicitement les seules métadonnées historiques de traçabilité.
+
+        L'échange atomique du répertoire exige Linux renameat2. L'appelant doit
+        conserver une sauvegarde préalable et ne pas utiliser d'anciens processus.
+        Les fichiers annexes et les données d'outil sont préservés.
+        """
+        cid = validate_case_id(case_id)
+        directory = self.case_dir(cid)
+        lock_path = directory.parent / ('.lock-' + cid)
+        installation.no_links(lock_path)
+        descriptor = os.open(lock_path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
+        staging = None
+        try:
+            fcntl.flock(descriptor, fcntl.LOCK_EX)
+            case_path = directory / 'case.json'
+            installation.no_links(case_path)
+            state = self._verify_case(json.loads(case_path.read_text(encoding='utf-8')), cid)
+            entries = self._verify_and_load_journal(directory, cid)
+            state.pop('sha256', None)
+            state.pop('sealed_journal_sha256', None)
+            def clean_finding_source(item):
+                source = item.get('source')
+                if isinstance(source, str):
+                    source = re.sub(r'\bstdout SHA-256 [0-9a-fA-F]{64}\b', 'Sortie de l’outil', source)
+                    item['source'] = re.sub(r'[ \t]*\bSHA-256[ \t]+[0-9a-fA-F]{64}\b', '', source)
+
+            for key in ('indicators', 'prepared_commands', 'contexts', 'findings'):
+                for item in state.get(key, []):
+                    if isinstance(item, dict):
+                        item.pop('sha256', None)
+                        if key == 'findings':
+                            clean_finding_source(item)
+                        if key == 'contexts':
+                            item.pop('context_sha256', None)
+            for entry in entries:
+                entry.pop('sha256', None)
+                entry.pop('prev_sha256', None)
+                details = entry['details']
+                if entry['event_type'] in ('finding_recorded', 'command_prepared'):
+                    details.pop('sha256', None)
+                    if entry['event_type'] == 'finding_recorded':
+                        clean_finding_source(details)
+                elif entry['event_type'] == 'conversation_snapshot':
+                    details.pop('snapshot_sha256', None)
+                elif entry['event_type'] == 'command_executed':
+                    details.pop('transcript_sha256', None)
+                elif entry['event_type'] == 'security_audit' and details.get('sha256_scope') in ('stdout', 'results'):
+                    details.pop('sha256', None)
+                    details.pop('sha256_scope', None)
+                elif entry['event_type'] == 'context_selected':
+                    details.pop('context_sha256', None)
+                elif entry['event_type'] == 'analysis_recorded':
+                    for item in details.get('indicators', []):
+                        if isinstance(item, dict):
+                            item.pop('sha256', None)
+            state['revision'] = state.get('revision', 0) + 1
+            staging = Path(tempfile.mkdtemp(prefix='.migration-', dir=directory.parent))
+            staging.rmdir()
+            shutil.copytree(directory, staging, symlinks=True, copy_function=shutil.copy2)
+            installation.atomic_write(staging / 'case.json',
+                (json.dumps(state, ensure_ascii=False, indent=2, sort_keys=True) + '\n').encode(), 0o600)
+            installation.atomic_write(staging / 'journal.jsonl',
+                ''.join(json.dumps(e, ensure_ascii=False, sort_keys=True) + '\n' for e in entries).encode(), 0o600)
+            libc = ctypes.CDLL(None, use_errno=True)
+            rename = libc.renameat2
+            rename.argtypes = (ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint)
+            rename.restype = ctypes.c_int
+            if rename(-100, os.fsencode(directory), -100, os.fsencode(staging), 2) != 0:
+                error = ctypes.get_errno()
+                raise OSError(error, os.strerror(error))
+            # staging désigne désormais l'ancien répertoire après échange.
+            return {'case_id': cid, 'revision': state['revision'], 'journal_entries_count': len(entries)}
+        finally:
+            if staging is not None and staging.exists():
+                shutil.rmtree(staging)
+            os.close(descriptor)
 
     def read_journal(self, case_id=None):
         cid = validate_case_id(case_id or self.active_case_id)
@@ -462,13 +521,11 @@ class CaseManager:
             raise ValueError('Dossier d’enquête introuvable : ' + cid)
         state = self._verify_case(json.loads(case_path.read_text(encoding='utf-8')), cid)
         journal = self._verify_and_load_journal(directory, cid)
-        seal = state.get('sealed_journal_sha256')
-        if seal and (seal != journal[-1]['sha256'] or journal[-1]['event_type'] != 'case_closed'):
-            raise ValueError('Scellement du journal incohérent.')
+        if state.get('closed_at') and (journal[-1]['event_type'] != 'case_closed' or journal[-1]['timestamp'] != state['closed_at']):
+            raise ValueError('Fermeture du dossier incohérente avec le journal.')
         return dict(
             closed_at=state.get('closed_at'),
             archived_at=state.get('archived_at'),
-            sealed_journal_sha256=seal,
             case_id=cid,
             title=state.get('title', ''),
             path=str(directory),
@@ -478,15 +535,8 @@ class CaseManager:
             prepared_commands_count=len(state['prepared_commands']),
             contexts_count=len(state['contexts']),
             journal_entries_count=len(journal),
-            sha256=state['sha256'],
-            journal_head_sha256=journal[-1]['sha256'],
-            integrity='verified',
-            integrity_scope='stored_checksums_only',
-            integrity_limitations=(
-                'Empreintes locales cohérentes ; aucune signature ni authentification. '
-                'Une réécriture complète ou une troncature du journal peut rester indétectable. '
-                'Écritures de l’état et du journal distinctes, sans transaction durable.'
-            ),
+            revision=state.get('revision', 0),
+            structure='valid',
         )
 
     def list_cases(self):
@@ -495,7 +545,7 @@ class CaseManager:
             return []
         items = []
         for entry in sorted(cases_root.iterdir(), key=lambda p: p.name):
-            if not entry.is_symlink() and not entry.is_dir():
+            if entry.name.startswith('.') or (not entry.is_symlink() and not entry.is_dir()):
                 continue
             cid = entry.name
             try:
@@ -511,9 +561,7 @@ class CaseManager:
                     prepared_commands_count=0,
                     contexts_count=0,
                     journal_entries_count=0,
-                    sha256=None,
-                    journal_head_sha256=None,
-                    integrity='integrity_error: ' + str(exc),
+                    structure='structure_error: ' + str(exc),
                 ))
         return items
 
@@ -668,19 +716,38 @@ def prepare_selected(analysis, number, *, parameters, constraints):
         return refusal('documentation_unavailable', 'Documentation indisponible ou invalide : ' + str(exc))
 
 
+_DISPLAY_LABELS = {
+    'present': 'présent', 'absent': 'absent', 'unknown': 'inconnu',
+    'documented_basis': 'documentation vérifiée', 'needs_review': 'à vérifier',
+    'local': 'copie locale disponible', 'missing': 'copie absente',
+    'unavailable': 'copie inaccessible', 'integrity_error': 'copie différente de la référence',
+    'consulted_local': 'consultée localement', 'not_consulted': 'non consultée',
+    'current': 'à jour', 'stale': 'à réexaminer',
+    'documented': 'version documentée', 'unverified_version': 'version non vérifiée',
+    'valid': 'syntaxe valide', 'invalid': 'invalide',
+}
+
+
+def readable_code(value):
+    return _DISPLAY_LABELS.get(value, 'non renseigné')
+
+
 def render_recommendation(proposal):
     print(safe_display(f"Outil : {proposal['tool']} — {proposal['objective']}"))
     if proposal['tool'] not in commandes.EXACT_VERSIONS:
         print('Recommandation informative ; préparation non prise en charge par ce prototype.')
-    print(safe_display(f"Disponibilité : {proposal['availability']} ; version : {proposal['local_version'] or 'inconnue'} ; base : {proposal['preparation_status']}"))
+    print(safe_display(f"Disponibilité : {readable_code(proposal['availability'])} ; version : {proposal['local_version'] or 'inconnue'} ; base : {readable_code(proposal['preparation_status'])}"))
     if 'ranking_reason' in proposal:
-        print(safe_display('Classement : ' + proposal['ranking_reason']))
+        reason = proposal['ranking_reason']
+        for code in ('present', 'absent', 'unknown', 'documented_basis', 'needs_review'):
+            reason = re.sub(r'(?<=: )' + re.escape(code) + r'(?=[ ;.]|$)', readable_code(code), reason)
+        print(safe_display('Classement : ' + reason))
     print(safe_display('Justification : ' + proposal['justification']))
     for key, label in [('prerequisites', 'Prérequis'), ('limits', 'Limite'), ('safety', 'Précaution'), ('uncertainties', 'Incertitude'), ('restrictions', 'Restriction')]:
         for value in proposal.get(key, []):
             print(safe_display(f'  {label} : {value}'))
     for ref in proposal['references']:
-        print(safe_display(f"  Source : {ref.get('title', ref['id'])} | {ref.get('origin', 'origine absente')} | {ref.get('local_path', 'copie absente')} | version {ref.get('documented_version', 'inconnue')} | consultation {ref.get('consulted_at', 'inconnue')} ({ref.get('date_timezone', 'fuseau non déclaré')}) | {ref['availability']}, {ref['compatibility']}, {ref['freshness']}, {ref['verification']}"))
+        print(safe_display(f"  Source : {ref.get('title', ref['id'])} | {ref.get('origin', 'origine absente')} | {ref.get('local_path', 'copie absente')} | version {ref.get('documented_version', 'inconnue')} | consultation {ref.get('consulted_at', 'inconnue')} ({ref.get('date_timezone', 'fuseau non déclaré')}) | {readable_code(ref['availability'])}, {readable_code(ref['compatibility'])}, {readable_code(ref['freshness'])}, {readable_code(ref['verification'])}"))
     print(safe_display('Résultat attendu, non observé : ' + proposal['expected_result']))
     if proposal.get('interpretation'):
         print(safe_display('Interprétation prudente : ' + proposal['interpretation']))
@@ -691,7 +758,7 @@ def render_analysis(result):
     if not result['indicators']:
         print('Aucun indice reconnu ; préciser avec /indicator TYPE VALEUR.')
     for indicator in result['indicators']:
-        print(safe_display(f"Indice {indicator['type']} : {indicator['normalized'] or indicator['original']} — {indicator['validation']}"))
+        print(safe_display(f"Indice {indicator['type']} : {indicator['normalized'] or indicator['original']} — {readable_code(indicator['validation'])}"))
         print(safe_display(indicator['explanation']))
         for value in indicator['ambiguities']:
             print(safe_display('  Limite : ' + value))
@@ -717,7 +784,7 @@ def render_preparation(result):
         render_recommendation(result['recommendation'])
         result = result['command']
     if result['status'] != 'prepared':
-        print(safe_display(f"Préparation refusée [{result['error']['code']}] : {result['error']['message']}"))
+        print(safe_display(f"Préparation refusée : {result['error']['message']}"))
         return
     print(safe_display('Commande préparée pour examen : ' + result['display']))
     print(safe_display(f"Opération : {result['operation_type']} ; risque : {result['risk']} ; réseau requis par l’outil : {result['network_required']}"))
@@ -727,5 +794,5 @@ def render_preparation(result):
         for value in result[key]:
             print(safe_display(f'{label} : {value}'))
     for source in result['sources']:
-        print(safe_display(f"Syntaxe : {source['title']} ; {source['path']} ; {source['origin']} ; SHA-256 {source['sha256']}"))
+        print(safe_display(f"Syntaxe : {source['title']} ; {source['path']} ; {source['origin']}"))
     print('Approbation humaine en attente. Exécution désactivée. Résultat technique : non exécuté.')

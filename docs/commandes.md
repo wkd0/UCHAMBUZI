@@ -1,4 +1,7 @@
-# Commandes UCHAMBUZI 1.0.0
+# Commandes UCHAMBUZI 2.0.0
+
+Cette référence suit la branche de développement non publiée. Elle comprend
+douze copies embarquées dans la candidate privée 2.0.0 ; la stable publique reste 1.0.0.
 
 Saisissez ces commandes dans `uchambuzi` sur Kali. `/` ouvre la complétion.
 L'accueil est Assist ; les commandes d'investigation demandent `/team 1`.
@@ -17,7 +20,7 @@ L'accueil est Assist ; les commandes d'investigation demandent `/team 1`.
 | `/models` ou `/settings models` | Sélecteur des modèles locaux |
 | `/tools [spécialité ou nom]` | Catalogue interactif par objectif et fiches explicatives |
 | `/tools list` ; `/tools all` | Catalogue complet |
-| `/tools setup` ou `/tools install all` | Préparer les six copies embarquées, après accord global |
+| `/tools setup` ou `/tools install all` | Préparer les douze copies embarquées, après accord global |
 | `/tools install <nom>` | Installer une copie approuvée ; un paquet Kali peut demander apt |
 | `/tools verify <nom>` | Vérifier l'artefact source ; les manifestes installés sont aussi contrôlés à la résolution |
 | `/tools update <nom>` ; `/tools remove <nom>` | Maintenance d'une copie après confirmation |
@@ -40,6 +43,7 @@ L'accueil est Assist ; les commandes d'investigation demandent `/team 1`.
 | `/investigation create <id>` ; `/investigation open <id>` ; `/investigation close` | Créer, ouvrir ou fermer un dossier |
 | `/terminal` ; `! commande` | Shell Bash libre après approbation |
 | `/copy` ; F6 | Copier la sélection ou la dernière réponse |
+| `/copy native` ; F7 | Sélection native du terminal, puis Ctrl+Maj+C ; répéter pour réactiver la souris de l’application |
 | `/report` | Export Markdown du dossier vérifié |
 | `/search <texte>` | Recherche documentaire locale |
 | `/methods [list ou action]` | Consultation et revue humaine des méthodes |
@@ -93,7 +97,7 @@ il interrompt la génération ou arme la sortie au repos. Ctrl+D quitte.
 
 Après création ou ouverture d’un dossier, le sélecteur propose de continuer sans
 sauvegarde, de créer une conversation sauvegardée ou de reprendre une conversation
-du dossier. La reprise vérifie les snapshots contre le journal SHA-256. Elle ne
+du dossier. La reprise contrôle structure, révision et association au dossier, sans empreinte SHA-256. Elle ne
 rétablit aucune autorisation, aucun contexte d’outil ni réponse partielle. Les
 échanges sont stockés sans chiffrement ; la détection de secrets reste partielle.
 Voir les [emplacements et limites de conservation](installation.md#données-et-conservation).
@@ -134,8 +138,8 @@ utiliser `/terminal` pour garder cet état jusqu’à `exit`. Le shell est libre
 peut écrire ailleurs ; seuls sa capture et les fichiers conservés dans le dossier
 sont rattachés à l’enquête. Aucun code proposé par l’IA n’est exécuté automatiquement.
 
-Les captures brutes sont conservées dans `shell/`, avec empreinte SHA-256 et code
-de retour inscrits au journal. Le dernier extrait (24 000 octets maximum) devient
+Les captures brutes sont conservées dans `shell/`, avec horodatage et code
+de retour inscrits au journal, sans empreinte de traçabilité. Le dernier extrait (24 000 octets maximum) devient
 un contexte non fiable pour une question à l’IA ; `/context off` le retire.
 Le journal d’une session interactive conserve une capture terminal, pas une liste
 structurée de toutes les commandes internes. Une session libre peut modifier ses
@@ -145,7 +149,9 @@ Sélectionner une réponse à la souris puis Ctrl+C copie le texte sélectionné
 F6 ou `/copy` copie la sélection, sinon la dernière réponse IA, sinon la dernière
 sortie d’outil. L’envoi utilise OSC 52 et, dans une session graphique compatible,
 xclip, xsel ou wl-copy si disponible. Si le terminal ne prend pas en charge ce
-protocole, Maj+sélection puis Ctrl+Maj+C permet la copie native du terminal.
+protocole, F7 puis sélection et Ctrl+Maj+C permettent la copie native du terminal,
+même en SSH ; F7 réactive ensuite menus et molette. Maj+sélection fonctionne
+également avec les terminaux qui proposent ce raccourci.
 
 
 À la première frappe de `!` dans un prompt vide, la saisie passe en **Shell mode** :

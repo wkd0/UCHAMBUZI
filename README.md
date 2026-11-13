@@ -12,11 +12,14 @@ garde l’enquêteur dans la boucle : chaque opération proposée est expliquée
 classée passive ou active dans les parcours intégrés, puis soumise à son
 approbation avant exécution. Le shell libre est identifié séparément.
 
-**Version : 1.0.0 · Kali Linux amd64 · 12 novembre 2026**
+**Candidate privée : 2.0.0 · Kali Linux amd64 · 13 novembre 2026**
 
-Cette version inclut le catalogue OSINT interactif, le shell libre approuvé,
-la reprise des conversations par dossier et les accès IA nommés. Voir la
-[qualification V1.0.0](docs/releases/1.0.0.md) et le [changelog](CHANGELOG.md).
+Cette candidate inclut douze copies d'outils vérifiées, l'aide locale des outils
+Kali, des résultats lisibles et un journal UTC en clair. Elle conserve le catalogue
+interactif, le shell approuvé, les conversations par dossier et les accès IA nommés.
+Elle retire la garantie de chaînage SHA-256 de la 1.0.0 : voir la
+[compatibilité 2.0.0](docs/releases/2.0.0.md) et le [changelog](CHANGELOG.md).
+La version publique reste 1.0.0 jusqu'à une publication distincte.
 
 [Fonctionnement](#fonctionnement) · [Installation](#installation) ·
 [Démarrage rapide](#démarrage-rapide) · [Commandes](docs/commandes.md) ·
@@ -38,13 +41,12 @@ saisie s'affiche ou se masque dans le menu `/tips`.
 
 Après ouverture d'une enquête, on peut choisir de sauvegarder une conversation
 ou de reprendre une conversation liée à ce dossier. Les échanges sont stockés
-localement sans chiffrement, dans le dossier ; leur empreinte est enregistrée
-dans le journal SHA-256 et vérifiée à la reprise. Aucune autorisation antérieure
+localement sans chiffrement, dans le dossier ; la reprise contrôle leur structure,
+leur révision et leur association au dossier, sans empreinte cryptographique. Aucune autorisation antérieure
 n'est réactivée et les fragments d'une réponse interrompue ne sont pas conservés.
 Les opérations restent consultables avec `/investigation log`. La détection de
-secrets et d'injections reste partielle. Le journal n'est pas signé ni ancré à
-l'extérieur : la restauration simultanée d'un ancien journal et d'une ancienne
-conversation ne peut pas être détectée par ce seul mécanisme.
+secrets et d'injections reste partielle. Le journal n'est ni chaîné ni signé :
+les contrôles de structure ne garantissent pas l'absence de modification du contenu.
 
 La session commence en **Assist**, pour le dialogue général. Choisissez
 `/team 1` pour activer l’**OSINT Team**. Les équipes Red, Blue et Purple sont
@@ -64,15 +66,25 @@ présentent des pistes. Les raccourcis OSINT ouvrent des parcours ciblés :
 
 `/tools` ouvre un catalogue interactif par objectif. Chaque fiche explique le
 rôle de l’outil, pourquoi le choisir, les indices attendus, les résultats et les
-limites. Pour les six copies embarquées, **Préparer** construit une commande
+limites. Pour les six copies disposant d’une action accompagnée, **Préparer** construit une commande
 individuelle soumise à approbation ; **Shell** prépare le chemin vérifié dans la
 saisie libre, sans exécution immédiate. Les autres entrées restent consultables
 avec leur état et leur niveau d’intégration explicites.
 
-Les six copies tierces embarquées sont **gau, Maigret, Holehe, PhoneInfoga,
-Social Analyzer et Blackbird**. Elles sont figées et vérifiées par empreinte
-SHA-256. `/tools setup` les prépare à partir des artefacts locaux ; leur présence
-au catalogue ne signifie pas qu’elles sont déjà installées.
+Chaque fiche distingue l’installation du niveau d’intégration : **Action
+accompagnée**, **Parcours intégré**, **Shell et aide**, **Moteur natif** ou **À venir**.
+Les raccourcis et scénarios disponibles sont indiqués. Un outil Kali installé
+n’implique pas que toutes ses options sont intégrées. Le bouton **Aide** consulte
+la documentation locale en arrière-plan : manuel, fiche embarquée ou `--help`,
+avec indication de la source et de la troncature de l’extrait.
+
+La candidate 2.0.0 embarque **gau, Maigret, Holehe, PhoneInfoga,
+Social Analyzer, Blackbird, Subfinder, HTTPX, DNSX, Photon, TruffleHog et Gitleaks**, soit douze
+copies figées et vérifiées par empreinte SHA-256. `/tools setup` prépare les
+copies livrées à partir des artefacts locaux ; leur présence au catalogue ne
+signifie pas qu’elles sont déjà installées. Les nouvelles copies s’utilisent
+par les parcours indiqués sur leur fiche ou le shell approuvé. Le parcours
+archives utilise gau puis curl.
 
 `/investigation` rassemble les dossiers : créer, ouvrir, renommer, fermer,
 archiver ou supprimer après confirmation. En OSINT avec un dossier actif,
@@ -90,9 +102,14 @@ L’approbation de `/terminal` couvre la session entière.
   ne sont pas exécutés.
 - **Contexte d’enquête** : `/investigation create <id>` ouvre un dossier qui reçoit les
   événements consignés. `/report` exporte un rapport Markdown après contrôle.
-- **Intégrité locale** : le journal est horodaté en UTC et chaîné par SHA-256.
-  Ce contrôle révèle des altérations de la chaîne conservée ; il ne remplace pas
-  une signature externe ni une conservation probatoire indépendante.
+- **Journal local** : les événements sont en clair et horodatés UTC, sans
+  chaînage SHA-256 des dossiers, captures ou conversations. Les contrôles de
+  structure et de révision protègent la cohérence des écritures ; ils ne sont
+  pas une vérification cryptographique ni une garantie d'inaltérabilité.
+- **Compatibilité** : les anciens dossiers restent lisibles, mais les nouveaux
+  dossiers et les dossiers réécrits en 2.0.0 ne sont pas utilisables en 1.0.0.
+  Conservez une sauvegarde complète avant mise à jour et fermez les anciennes
+  sessions. L'ouverture ne retire pas automatiquement les traces historiques.
 - **Données non fiables** : les sorties et fichiers analysés sont traités comme
   des données ; leur contenu n’est pas exécuté comme une commande. La détection
   d’injection reste heuristique.
@@ -111,15 +128,16 @@ dans `/settings` ; ses réglages propres restent ceux de son fournisseur.
 `/ai off` laisse disponibles les fonctions déterministes. Voir le
 [guide d’installation](docs/installation.md) pour préparer le modèle recommandé.
 
-Le menu `/settings` permet aussi de choisir OpenAI ou Grok via une API compatible
-Responses, ou Claude via Claude Code CLI installé séparément. Vous pouvez créer
-plusieurs accès nommés, chacun avec son adresse HTTPS, sa famille, son modèle et
-sa clé. Les clés saisies sont enregistrées dans un fichier distinct accessible
+Le menu `/settings` propose Ollama, les API directes Claude, OpenAI et Grok,
+et un fournisseur externe pour lequel on choisit ensuite la famille IA. Les
+connexions OpenAI et Grok utilisent Responses ; Claude direct utilise l’API
+Messages et Claude externe utilise Claude Code CLI installé séparément. Configurez le fournisseur actif avec son adresse HTTPS, sa famille, son modèle et
+sa clé ; modifiez ces réglages pour changer d’accès. Les clés saisies sont enregistrées dans un fichier distinct accessible
 au seul utilisateur (permissions `0600`) ; ce fichier n'est pas chiffré. Il est
 aussi possible d'utiliser le nom d'une variable d'environnement sans enregistrer
 la clé. Pour les accès Responses, « Rechercher les modèles » demande votre accord
 avant de transmettre la clé à l'adresse indiquée ; une saisie manuelle reste
-possible. Pour Claude Code, saisissez le modèle manuellement. Les modèles et
+possible. Pour Claude direct, le catalogue utilise l’API Anthropic ; pour Claude Code externe, choisissez un alias suggéré (Sonnet, Opus ou Haiku) ou saisissez un identifiant ; sa disponibilité dépend du service. Les modèles et
 adresses suggérés ne garantissent pas leur disponibilité chez votre fournisseur.
 UCHAMBUZI applique des consignes expérimentales adaptées aux familles et aux
 modèles reconnus, sans forcer de température. Avant chaque envoi distant, il
@@ -136,13 +154,14 @@ hors loopback ; un tunnel local peut néanmoins relayer Ollama vers une autre ma
 
 ## Installation
 
-Le paquet utilisateur est destiné à **Kali Linux amd64**. Récupérez
-`uchambuzi_1.0.0-1_amd64.deb` depuis la
-[page des releases de la distribution officielle](https://github.com/wkd0/uchambuzi/releases),
-puis installez-le :
+Le paquet utilisateur est destiné à **Kali Linux amd64**. La candidate porte le
+nom `uchambuzi_2.0.0-1_amd64.deb` ; elle n'est pas encore disponible dans les
+[releases publiques](https://github.com/wkd0/uchambuzi/releases), qui proposent
+la 1.0.0. Lorsque le paquet 2.0.0 validé vous est fourni, vérifiez sa somme de
+contrôle puis, après sauvegarde de vos dossiers et fermeture des sessions :
 
 ```sh
-sudo apt install ./uchambuzi_1.0.0-1_amd64.deb
+sudo apt install ./uchambuzi_2.0.0-1_amd64.deb
 uchambuzi --version
 uchambuzi doctor
 uchambuzi
@@ -167,7 +186,7 @@ préparez les copies locales :
 
 ```text
 /team 1
-/investigation create exercice-v1
+/investigation create exercice-v2
 /tools setup
 /tools list
 /analyze 192.0.2.1
@@ -186,9 +205,9 @@ fictives.
 - [Installation, prérequis et données](docs/installation.md) · [maintenance](docs/mise-a-jour.md)
 - [Référence des commandes](docs/commandes.md) · [première session](docs/utilisation-terminal.md)
 - [Interface Textual](docs/focus-textual-ux.md) · [Assist et Teams](docs/assist-teams.md)
-- [Fonctionnalités V1](docs/fonctionnalites.md) · [outils OSINT et limites](docs/outils-osint.md)
+- [Fonctionnalités](docs/fonctionnalites.md) · [outils OSINT et limites](docs/outils-osint.md)
 - [Composants tiers et licences](THIRD_PARTY.md) · [sources vendor](vendor/README.uchambuzi.md)
-- [Changelog](CHANGELOG.md) · [qualification V1.0.0](docs/releases/1.0.0.md)
+- [Changelog](CHANGELOG.md) · [candidate 2.0.0](docs/releases/2.0.0.md) · [historique 1.0.0](docs/releases/1.0.0.md)
 
 ## Développement
 

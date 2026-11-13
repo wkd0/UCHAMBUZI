@@ -140,12 +140,12 @@ PROVIDER_TIMEOUTS = {'ollama': 300.0, 'openai': 120.0, 'grok': 120.0, 'anthropic
 
 IA_DEFAULTS = dict(provider='ollama', model='redsage-qwen3:8b-dpo', host='127.0.0.1',
                    port=11434, timeout=PROVIDER_TIMEOUTS['ollama'], active_team='assist',
-                   api_base_url='', api_key_env='')
+                   api_base_url='', api_key_env='', connection_kind='direct')
 
 REMOTE_DEFAULTS = {
     'openai': ('https://api.openai.com/v1', 'OPENAI_API_KEY', 'gpt-6-luna'),
     'grok': ('https://api.x.ai/v1', 'XAI_API_KEY', 'grok-4.3'),
-    'anthropic': ('https://api.anthropic.com', 'ANTHROPIC_AUTH_TOKEN', 'sonnet'),
+    'anthropic': ('https://api.anthropic.com', 'ANTHROPIC_API_KEY', 'claude-sonnet-4-6'),
 }
 
 
@@ -155,6 +155,8 @@ def validate_ia(values):
     candidate = dict(IA_DEFAULTS, **values)
     if candidate['provider'] not in ('ollama', 'openai', 'grok', 'anthropic'):
         raise SettingsError('Fournisseur IA non pris en charge.')
+    if candidate['connection_kind'] not in ('direct', 'external'):
+        raise SettingsError('Type de connexion invalide.')
     host = candidate['host']
     if not isinstance(host, str) or not host or len(host) > 253 or not re.fullmatch(r'[A-Za-z0-9._:-]+', host):
         raise SettingsError('Hôte invalide : indiquez un nom ou une adresse sans URL.')
@@ -211,6 +213,8 @@ class IASettings:
                 raise SettingsError('Objet JSON attendu.')
             # Les clés historiques ou futures restent intactes lors d'une édition.
             known = {k: v for k, v in payload.items() if k in IA_DEFAULTS}
+            if 'connection_kind' not in known and known.get('provider') == 'anthropic':
+                known['connection_kind'] = 'external'  # Anciennes configurations : Claude Code.
             self.values = validate_ia(known)
             self._extra = {k: v for k, v in payload.items() if k not in IA_DEFAULTS}
             self.loaded = True
@@ -273,8 +277,9 @@ def create_ia_runtime(values):
         from focus_providers import ConfiguredOllamaRuntime
         return ConfiguredOllamaRuntime(values['model'], values['port'], values['timeout'], host=values['host'])
     if values['provider'] == 'anthropic':
-        from focus_claude_runtime import ClaudeCodeRuntime
-        return ClaudeCodeRuntime(values['model'], values['api_base_url'],
+        from focus_claude_runtime import ClaudeCodeRuntime, AnthropicAPIRuntime
+        runtime = AnthropicAPIRuntime if values.get('connection_kind') == 'direct' else ClaudeCodeRuntime
+        return runtime(values['model'], values['api_base_url'],
                                  token_env=values['api_key_env'], timeout=values['timeout'])
     from focus_responses_runtime import ResponsesRuntime
     return ResponsesRuntime(values['model'], values['api_base_url'], family=values['provider'],

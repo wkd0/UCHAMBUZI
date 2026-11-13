@@ -24,8 +24,9 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, Input, OptionList, Select, Static
 from textual.widgets.option_list import Option
 
-from tool_guidance import OBJECTIVES, guide_for
+from tool_guidance import OBJECTIVES, guide_for, integration_for
 from tools_catalog import discover_tools, load_catalog
+from focus_tool_registry import osint_documentation
 
 
 @dataclass(frozen=True)
@@ -66,6 +67,8 @@ class ToolsBrowserModal(ModalScreen[ToolBrowserChoice | None]):
         self._loading = True
         self._load_error = ''
         self._showing_help = False
+        self._help_cache = {}
+        self._help_loading = set()
 
     def compose(self) -> ComposeResult:
         with Vertical(id='tools-browser'):
@@ -124,7 +127,7 @@ class ToolsBrowserModal(ModalScreen[ToolBrowserChoice | None]):
             return 'vérification en cours'
         state = self.states.get(tool['id'])
         if self._ready(tool):
-            return 'prêt'
+            return 'installé' if tool['source'] == 'kali' else 'prêt'
         if tool['source'] == 'vendored' and tool.get('artifact'):
             return 'à installer ou à réparer'
         if state and state.state == 'missing_dependency':
@@ -138,7 +141,7 @@ class ToolsBrowserModal(ModalScreen[ToolBrowserChoice | None]):
         options.clear_options()
         for row in self.visible_tools:
             title = Text(row['name'], style='bold')
-            title.append('\n' + self._status(row), style='dim')
+            title.append('\n' + self._status(row) + ' · ' + integration_for(row['id'])['label'], style='dim')
             options.add_option(Option(title, id=row['id']))
         index = next((i for i, row in enumerate(self.visible_tools)
                       if row['id'] == self.selected_tool_id), 0)
@@ -155,9 +158,12 @@ class ToolsBrowserModal(ModalScreen[ToolBrowserChoice | None]):
             self.query_one('#tools-card', Static).update('Aucun outil pour cet objectif.')
             return
         guide = guide_for(tool['id'])
+        integration = integration_for(tool['id'])
         state = self.states.get(tool['id'])
         activity = 'actif' if tool['activity'] == 'active' else 'passif'
-        lines = [tool['name'], '', 'À quoi sert-il ?', guide['purpose'], '',
+        lines = [tool['name'], '', 'Intégration : ' + integration['label'], integration['detail'],
+                 'Parcours disponibles : ' + (' · '.join(integration['routes']) or 'aucun'),
+                 '', 'À quoi sert-il ?', guide['purpose'], '',
                  'Pourquoi le choisir ?', guide['why'], '',
                  'Ce qu’il faut fournir', guide['input_label'], '',
                  'Ce que tu obtiendras', guide['outputs'], '',
@@ -188,12 +194,31 @@ class ToolsBrowserModal(ModalScreen[ToolBrowserChoice | None]):
         self._refresh_actions()
 
     def _local_help(self, tool):
+        row = self._help_cache.get(tool['id'])
+        if row:
+            return ('Source : ' + row['source'] + '\n'
+                    + 'Extrait tronqué : ' + ('oui' if row['documentation_tronquee'] else 'non')
+                    + '\nVersion installée : non vérifiée par cette aide\n\n' + row['documentation'])
+        if tool['id'] in self._help_loading:
+            return 'Lecture de la documentation locale en cours…'
         root = Path(__file__).resolve().parents[1] / 'data/documentation'
         for name in (tool['id'] + '.md', tool['id'] + '-kali.md'):
             source = root / name
             if source.is_file() and not source.is_symlink():
                 return source.read_text(encoding='utf-8', errors='replace')[:16000]
         return 'Pas de fiche locale détaillée. Utiliser le shell avec --help après vérification de l’exécutable.'
+
+    async def _load_help(self, tool_id):
+        try:
+            rows = await asyncio.to_thread(osint_documentation, tool_id)
+            if rows:
+                self._help_cache[tool_id] = rows[0]
+        except (ValueError, OSError):
+            pass  # Keep the shipped reference available when local probes fail.
+        finally:
+            self._help_loading.discard(tool_id)
+        if self.is_mounted and self.selected_tool_id == tool_id and self._showing_help:
+            self._render_card()
 
     def _refresh_actions(self):
         tool = self._tool()
@@ -250,6 +275,10 @@ class ToolsBrowserModal(ModalScreen[ToolBrowserChoice | None]):
             self.action_cancel()
         elif action == 'help':
             self._showing_help = True
+            tool = self._tool()
+            if tool and tool['id'] not in self._help_cache and tool['id'] not in self._help_loading:
+                self._help_loading.add(tool['id'])
+                self.run_worker(self._load_help(tool['id']), group='tools-browser-help')
             self._render_card()
             self.query_one('#tools-card-scroll').scroll_end(animate=False)
         elif action in ('prepare', 'shell', 'install', 'verify') and not event.button.disabled:

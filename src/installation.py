@@ -125,8 +125,22 @@ PRE_RESUME_OSINT_PAYLOAD = OSINT_PAYLOAD
 OSINT_PAYLOAD += ('src/focus_resume.py',)
 PRE_PROVIDER_PROFILES_PAYLOAD = OSINT_PAYLOAD
 OSINT_PAYLOAD += ('src/focus_provider_profiles.py',)
+AI_CALIBRATION_FILES = (
+    'src/ai_calibration/__init__.py',
+    'src/ai_calibration/response_guides.py',
+)
+PRE_AI_CALIBRATION_PAYLOAD = OSINT_PAYLOAD
+OSINT_PAYLOAD += AI_CALIBRATION_FILES
+PRE_AI_PROVIDER_REFACTOR_PAYLOAD = OSINT_PAYLOAD
+AI_CALIBRATION_FILES += ('src/ai_calibration/providers.py',)
+OSINT_PAYLOAD += ('src/ai_calibration/providers.py',)
+PRE_AMASS_GUIDE_PAYLOAD = OSINT_PAYLOAD
+OSINT_PAYLOAD += ('data/documentation/amass.md', 'docs/amass-v5.md')
 KNOWN_PAYLOAD_SETS = (
+    frozenset(PRE_AMASS_GUIDE_PAYLOAD),
     frozenset(PRE_PROVIDER_PROFILES_PAYLOAD),
+    frozenset(PRE_AI_CALIBRATION_PAYLOAD),
+    frozenset(PRE_AI_PROVIDER_REFACTOR_PAYLOAD),
     frozenset(PRE_BROWSER_OSINT_PAYLOAD),
     frozenset(PRE_RESUME_OSINT_PAYLOAD),
     frozenset(PRE_BROWSER_OSINT_PAYLOAD + ('src/focus_resume.py',)),
@@ -168,7 +182,8 @@ FOCUS_COMPONENT_GROUPS = {
     'eight_modes': ('src/focus_modes.py', 'src/focus_profiles.py'),
     'scenarios': ('src/focus_scenarios.py', 'src/focus_orchestrator.py'),
     'ai_providers': ('src/focus_ai.py', 'src/focus_providers.py', 'src/focus_model_profiles.py',
-                     'src/focus_responses_runtime.py', 'src/focus_claude_runtime.py'),
+                     'src/focus_responses_runtime.py', 'src/focus_claude_runtime.py',
+                     *AI_CALIBRATION_FILES),
     'sessions_and_storage': ('src/focus_sessions.py', 'src/focus_storage.py', 'src/focus_workspace.py'),
     'kali_tools': (
         'src/focus_tools.py', 'src/focus_tool_conversation.py',
@@ -290,6 +305,11 @@ if 'vendor/blackbird/docs/LICENSE' in PAYLOAD:
     KNOWN_PAYLOAD_SETS += (frozenset(PAYLOAD) - {'vendor/blackbird/docs/LICENSE'},)
     if 'src/focus_resume.py' in PAYLOAD:
         KNOWN_PAYLOAD_SETS += (frozenset(PAYLOAD) - {'vendor/blackbird/docs/LICENSE', 'src/focus_resume.py'},)
+KNOWN_PAYLOAD_SETS += tuple(
+    payload - {'data/documentation/amass.md', 'docs/amass-v5.md'}
+    for payload in (frozenset(PAYLOAD),) + KNOWN_PAYLOAD_SETS
+    if 'data/documentation/amass.md' in payload
+)
 
 
 def inspect_component_coverage(source=None):
@@ -1126,7 +1146,7 @@ FORBIDDEN_PRIVATE_FILES = (
 )
 
 
-def build_deb_package(source, output_dir, *, version='1.0.0-1'):
+def build_deb_package(source, output_dir, *, version='2.0.0-1'):
     """Construit un paquet Debian natif (.deb) pour Kali Linux sans aucun document interne."""
     import gzip
     source = Path(source).resolve()

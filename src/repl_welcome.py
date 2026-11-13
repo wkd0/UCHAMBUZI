@@ -25,7 +25,7 @@ from focus_banner_logo import banner_logo
 from focus_teams import TEAMS, active_teams
 from repl_theme import UITheme
 
-VERSION = '1.0.0'
+VERSION = '2.0.0'
 TAGLINE = "Assistant d'investigation Cyber, Forensic & OSINT sous Kali Linux"
 
 

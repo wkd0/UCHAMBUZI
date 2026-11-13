@@ -222,13 +222,6 @@ TRUSTED = {'whatsmyname': {'executable': 'whatsmyname', 'source': 'builtin',
           'license': 'MIT',
           'activity': 'active',
           'needs_network': True},
- 'waybackurls': {'executable': 'waybackurls',
-                 'source': 'vendored',
-                 'upstream_url': 'https://github.com/tomnomnom/waybackurls',
-                 'version_cmd': [],
-                 'license': 'NOASSERTION',
-                 'activity': 'passive',
-                 'needs_network': True},
  'gau': {'executable': 'gau',
          'source': 'vendored',
          'upstream_url': 'https://github.com/lc/gau',
@@ -349,32 +342,51 @@ def discover_tools(tools, *, path=None):
     wanted = {row['executable'] for row in tools if row['source'] == 'kali'}
     registry.descriptions = {k: v for k, v in registry.descriptions.items() if k in wanted}
     # Explicit PATH override is discovery only, never executed (test or external PATH).
-    inventory = registry.discover() if path is None else {}
+    system_path = '/usr/bin:/bin'
+    inventory = registry.discover(search_path=system_path) if path is None else {}
     states = {}
     for row in tools:
         key, name = row['id'], row['executable']
-        present = shutil.which(name, path=path)
+        present = shutil.which(name, path=system_path if path is None else path)
         if row['source'] == 'builtin':
             states[key] = ToolState('installed', diagnostic='Moteur Python natif ; dataset local.')
         elif row['source'] == 'vendored':
             from tools_installer import ToolsInstaller
             installer = ToolsInstaller(tools)
             verified = row['artifact'] is not None and installer.executable(key) is not None
+            diagnostic = ('Copie UCHAMBUZI vérifiée.' if verified else
+                          'Copie UCHAMBUZI non verifiee ; aucun binaire PATH execute.')
+            if row['artifact'] is None:
+                diagnostic = 'Aucun artefact vérifié distribué ; installation et exécution indisponibles.'
+                if row['license'] == 'NOASSERTION':
+                    diagnostic += ' Licence amont non déclarée.'
             states[key] = ToolState('installed' if verified else 'unverified',
                 row['version_pin'] if verified else None,
-                'Copie UCHAMBUZI vérifiée.' if verified else 'Copie UCHAMBUZI non verifiee ; aucun binaire PATH execute.')
+                diagnostic)
         elif not present:
             states[key] = ToolState('available', diagnostic='Paquet Kali disponible ; non installe.')
         else:
             probe = inventory.get(name)
             missing = bool(probe and probe.probe_status == 'spawn_error')
+            diagnostic = ('Binaire présent ; moteur et base non vérifiés. Pour Amass v5, '
+                          'enum -h peut démarrer le moteur et attendre le réseau. '
+                          'Consulter la fiche Amass et docs/amass-v5.md.' if key == 'amass' else '')
             # A script can exist while its interpreter has been removed.
             try:
                 with open(present, 'rb') as script:
-                    header = script.read(256).split(b'\n', 1)[0]
+                    prefix = script.read(4096)
+                    header = prefix.split(b'\n', 1)[0]
                 if header.startswith(b'#!'):
                     interpreter = header[2:].strip().split()[0].decode('utf-8')
                     missing = missing or not Path(interpreter).is_file()
+                # Kali's Amass wrapper downloads data before handling even --help.
+                # Recognize that wrapper without executing its downloader or sudo.
+                if (key == 'amass' and b'libpostal_data' in prefix
+                        and b'/usr/share/libpostal/transliteration' in prefix
+                        and not Path('/usr/share/libpostal/transliteration').exists()):
+                    missing = True
+                    diagnostic = ('Données libpostal absentes ; le lanceur Kali demande un téléchargement '
+                                  'amont avec privilèges. Aucun téléchargement automatique par UCHAMBUZI.')
             except (OSError, UnicodeError, IndexError):
                 missing = True
             version = probe.version if probe else None
@@ -389,7 +401,8 @@ def discover_tools(tools, *, path=None):
                     if result.status == 'succeeded' and re.fullmatch(r'[a-zA-Z0-9.+:~_-]{1,128}', value):
                         version = value + ' (paquet)'
             states[key] = ToolState('missing_dependency' if missing else 'installed',
-                version, 'Version non verifiee' if version is None else '')
+                version, diagnostic or ('Interpréteur ou dépendance locale manquant.' if missing else
+                                       'Version non verifiee' if version is None else ''))
     return states
 
 
@@ -402,6 +415,7 @@ def render_tools(console, query='', *, tools=None, states=None):
     from rich.table import Table
     from rich.text import Text
     from rich import box
+    from tool_guidance import integration_for
     rows = load_catalog() if tools is None else validate_catalog({'schema_version': 1, 'tools': list(tools)})
     query = query.strip().casefold()
     if query in ('list', 'all'):
@@ -413,17 +427,21 @@ def render_tools(console, query='', *, tools=None, states=None):
     selected = [detail] if detail else [r for r in rows if not query or query in r['specialties']]
     states = discover_tools(selected) if states is None else states
     table = Table(title='OSINT Team — outils', box=box.ROUNDED, expand=True)
-    for name in ('Nom', 'Specialite', 'Activite', 'Etat'):
-        table.add_column(name, overflow='fold')
+    for name in ('Nom', 'Specialite', 'Activite', 'Etat', 'Intégration'):
+        table.add_column(name, overflow='fold', min_width=15 if name == 'Nom' else None)
     for row in selected:
         table.add_row(*(Text(x) for x in (row['name'], ', '.join(row['specialties']),
-            'actif' if row['activity'] == 'active' else 'passif', '[À venir]' if row['source'] == 'vendored' and not row['artifact'] else LABELS[states[row['id']].state])))
+            'actif' if row['activity'] == 'active' else 'passif', '[À venir]' if row['source'] == 'vendored' and not row['artifact'] else LABELS[states[row['id']].state],
+            integration_for(row['id'])['label'])))
     console.print(table)
     console.print('Préparer les copies embarquées : /tools setup · Détail : /tools <nom>', markup=False)
     console.print('Les slash pilotent UCHAMBUZI ; ! commande et /terminal donnent accès à Bash libre.', markup=False)
     if detail:
         from tool_guidance import guide_for
         guide = guide_for(detail['id'])
+        integration = integration_for(detail['id'])
+        console.print('Intégration : ' + integration['label'] + ' · ' + integration['detail'], markup=False)
+        console.print('Parcours disponibles : ' + (' · '.join(integration['routes']) or 'aucun'), markup=False)
         for label, key in (('À quoi sert cet outil', 'purpose'), ('Pourquoi le choisir', 'why'),
                            ('Indice attendu', 'input_label'), ('Résultats attendus', 'outputs'),
                            ('Limites', 'limits'), ('Exemple natif', 'example')):

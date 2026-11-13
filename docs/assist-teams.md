@@ -29,6 +29,14 @@ l'autorisation d'exécuter chaque commande. Entrée refuse l'accusé de lecture 
 `o` puis Entrée l'enregistre localement pour cette version du texte. Le panneau
 Rich natif est recalculé par Textual lors des redimensionnements.
 
+Avant une réponse OSINT portant sur un outil reconnu, la ligne **État local**
+affiche le contrôle de sa présence. Cette ligne vient de l’application et reste
+distincte de la réponse du modèle. Une copie non préparée ou non vérifiée n’est
+pas déclarée prête ; sa fiche `/tools <outil>` permet de vérifier ou installer
+la copie approuvée. Une copie vérifiée permet de préparer une commande, sans
+garantir son démarrage ou les résultats des services contactés. L’exécution
+reste soumise à une approbation séparée.
+
 Vérification sur Kali :
 
 ```sh

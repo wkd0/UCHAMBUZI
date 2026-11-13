@@ -269,6 +269,11 @@ class HTTPProvider:
             if settings.context_size is not None:
                 params['num_ctx'] = settings.context_size
             if self.local:
+                # Qwen3 defaults to putting its reasoning in Ollama's separate
+                # `thinking` field. Focus currently streams only user-facing
+                # content, so request concise final answers explicitly.
+                if model.casefold().startswith(('qwen3:', 'qwen3-', 'redsage-qwen3:')):
+                    body['think'] = False
                 body['options'] = params
             else:
                 body.update(params)

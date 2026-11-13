@@ -10,6 +10,7 @@
 # Copyright     : (c) 2026 Wakanda (WKD) et contributeurs respectifs
 # ============================================================================
 """Terminal intégré; seules les vérifications locales de version peuvent lancer des outils."""
+import parcours
 import argparse
 from contextlib import redirect_stdout
 from io import StringIO
@@ -33,7 +34,7 @@ import commandes
 from parcours import (analyse, prepare_selected, refusal, render_analysis, render_preparation,
                       context_for_choice, CaseManager, methods_reviews, stage_corpus_file)
 
-VERSION = '1.0.0'
+VERSION = '2.0.0'
 REPOSITORY = 'https://github.com/wkd0/UCHAMBUZI.git'
 SOURCE_BRANCH = 'beta'
 
@@ -439,14 +440,8 @@ def interactive(model=None, port=11434, timeout=DEFAULT_TIMEOUT, runtime=None, c
                 target_path = s[len('/audit '):].strip()
                 report = audit_file_prompt_injection(target_path)
                 cases.record_security_audit(report)
-                risk_label = 'DÉTECTÉ' if report['injection_detected'] else 'aucun motif détecté'
-                scope = 'préfixe inspecté' if report['truncated'] else 'fichier lu'
-                body = (f"Fichier : {report['path']}\nSHA-256 ({scope}) : {report['sha256']}"
-                        + f"\nOctets inspectés : {report['bytes_inspected']}"
-                        + f"\nInjection de prompt : {risk_label}\nMotifs détectés : {', '.join(report['detected_patterns']) or 'aucun'}"
-                        + '\nDétection heuristique : aucune garantie d’absence d’injection. '
-                        + 'La lecture peut modifier les métadonnées d’accès ; utiliser une copie de travail. '
-                        + 'Cette empreinte ne constitue pas une signature ni une chaîne de conservation.')
+                from focus_ui import audit_description
+                body = audit_description(report)
                 print(terminal_panel('Audit anti-injection de prompt', body))
             elif s.startswith('/search '):
                 query = s[len('/search '):].strip()
@@ -462,7 +457,7 @@ def interactive(model=None, port=11434, timeout=DEFAULT_TIMEOUT, runtime=None, c
                             lines.append(f"[{result['kind']}] {result['id']} (score {result['score']}) — {item['objective']} [fiche outil]")
                         else:
                             lines.append(f"[{result['kind']}] {result['id']} (score {result['score']}) — {item.get('title', result['id'])}"
-                                         + f" [source : {item['availability']}, {item['verification']}, {item['freshness']}, {item['compatibility']}]")
+                                         + f" [source : {parcours.readable_code(item['availability'])}, {parcours.readable_code(item['verification'])}, {parcours.readable_code(item['freshness'])}, {parcours.readable_code(item['compatibility'])}]")
                     print(terminal_panel('Recherche documentaire pondérée', '\n'.join(lines)))
             elif s == '/methods' or s.startswith('/methods '):
                 arg = s[len('/methods'):].strip()
@@ -520,23 +515,22 @@ def interactive(model=None, port=11434, timeout=DEFAULT_TIMEOUT, runtime=None, c
                         body = (f"Dossier : {info['case_id']}"
                                 + (f" — {info['title']}" if info['title'] else '')
                                 + f"\nChemin : {info['path']}\nIndices : {info['indicators_count']} ; commandes : {info['prepared_commands_count']} ; contextes : {info['contexts_count']}"
-                                + f"\nJournal : {info['journal_entries_count']} événement(s) ; empreintes : {info['integrity']}\nSHA-256 : {info['sha256']}"
-                                + f"\n{info['integrity_limitations']}")
+                                + f"\nJournal : {info['journal_entries_count']} événement(s)")
                         print(terminal_panel('Dossier d’enquête', body))
                 elif arg in ('list', 'liste'):
                     items = cases.list_cases()
                     if not items:
                         print(terminal_panel('Dossiers d’enquête', 'Aucun dossier d’enquête enregistré.'))
                     else:
-                        lines = [f"{it['case_id']} : {it['indicators_count']} indice(s), {it['prepared_commands_count']} commande(s), {it['journal_entries_count']} jnl ({it['integrity']})" for it in items]
-                        lines.append('Contrôles des empreintes locales uniquement ; aucune signature ni garantie de chaîne de conservation.')
+                        lines = [f"{it['case_id']} : {it['indicators_count']} indice(s), {it['prepared_commands_count']} commande(s), {it['journal_entries_count']} événement(s)" + ('' if it.get('structure') == 'valid' else ' — dossier inaccessible : contrôle échoué') for it in items]
                         print(terminal_panel('Dossiers d’enquête', '\n'.join(lines)))
                 elif arg in ('log', 'journal'):
                     if not cases.active_case_id:
                         print('Aucun dossier actif ; ouvrez un dossier avec /investigation <id>.')
                     else:
                         entries = cases.read_journal()
-                        lines = [f"#{e['seq']} [{e['timestamp']}] {e['event_type']} — {e['summary']} (sha256:{e['sha256'][:12]})" for e in entries]
+                        from focus_ui import journal_description
+                        lines = [f"#{e['seq']} [{e['timestamp']}] {journal_description(e)}" for e in entries]
                         print(terminal_panel('Journal d’enquête horodaté', '\n'.join(lines)))
                 elif action == 'rename':
                     cases.rename_case(action_parts[1] if len(action_parts) > 1 else '')
@@ -580,8 +574,6 @@ def interactive(model=None, port=11434, timeout=DEFAULT_TIMEOUT, runtime=None, c
                         'Dossier d’enquête actif',
                         f"Dossier : {info['case_id']}" + (f" — {info['title']}" if info['title'] else '')
                         + f"\nChemin : {info['path']}\nIndices : {info['indicators_count']} ; commandes : {info['prepared_commands_count']} ; contextes : {info['contexts_count']}"
-                        + f"\nEmpreintes : {info['integrity']} (SHA-256 : {info['sha256'][:16]}…)"
-                        + f"\n{info['integrity_limitations']}"
                     ))
             elif s == '/reset':
                 for saved_session in sessions.values():
@@ -635,7 +627,8 @@ def interactive(model=None, port=11434, timeout=DEFAULT_TIMEOUT, runtime=None, c
                 print(terminal_panel('Outils — présence locale', '\n'.join(f"{item['id']} : {item['executable_path'] or 'absent'}" for item in items)))
             elif s.startswith('/prepare '):
                 result = prepare_interactive(analysis, int(s.split(maxsplit=1)[1]))
-                show_result('Commande préparée et avertissements', render_preparation, result)
+                from focus_ui import render_preparation_readable
+                show_result('Commande préparée et avertissements', render_preparation_readable, result)
                 analysis = dict(analysis, last_preparation=result)
                 latest_analysis = analysis
                 context_enabled = False

@@ -1,8 +1,9 @@
-# Documentation UCHAMBUZI 1.0.0
+# Documentation UCHAMBUZI 2.0.0
 
-Les guides décrivent la version 1.0.0 publiée le 12 novembre 2026. Le
-[changelog](../CHANGELOG.md) présente le périmètre livré et la
-[note V1](releases/1.0.0.md) précise les contrôles et leurs limites.
+Les guides courants décrivent la candidate privée 2.0.0 du 13 novembre 2026,
+non publiée. La version publique reste 1.0.0. Le [changelog](../CHANGELOG.md)
+et la [note 2.0.0](releases/2.0.0.md) précisent le contenu et la rupture
+concernant le journal et la compatibilité des dossiers.
 
 | Guide | Contenu |
 | --- | --- |
@@ -14,19 +15,19 @@ Les guides décrivent la version 1.0.0 publiée le 12 novembre 2026. Le
 | [Interaction Textual](focus-textual-ux.md) | Saisie, raccourcis, streaming et thèmes |
 | [Assist et Teams](assist-teams.md) | Sélection et limites des pôles |
 | [Fonctionnalités](fonctionnalites.md) | Périmètre de la V1 |
-| [Outils OSINT](outils-osint.md) | Six copies embarquées et limites |
+| [Outils OSINT](outils-osint.md) | Catalogue, copies embarquées et limites |
 | [WhatsMyName et Blackbird](osint-wmn-blackbird.md) | Moteur natif et restrictions |
 | [Moteur IA](focus-ai.md) | Contexte, streaming et limites |
 | [Composants tiers](../THIRD_PARTY.md) | Révisions, licences et notices |
-| [Paquet Debian](../packaging/README.md) | Construction et vérification |
-| [V1.0.0](releases/1.0.0.md) | Recette du candidat et décision de publication |
+| [2.0.0](releases/2.0.0.md) | Candidate privée et compatibilité |
+| [1.0.0](releases/1.0.0.md) | Historique de la première stable |
 | [Changelog](../CHANGELOG.md) | Changements par version |
 | [Feuille de route](roadmap.md) | Évolutions prévues |
 
 ## Références et historique
 
-Les autres pages `docs/*.md` portent un avertissement de portée. Elles conservent
-les contrats de composants, options expérimentales et recettes antérieures.
+Les références de composants conservées portent un avertissement de portée.
+Les rapports internes de recette et d'intégration sont exclus de la distribution.
 La note stable dans `releases/` conserve une photographie datée ; les anciennes
 notes de bêta ont été retirées. Les manuels intégrés dans `data/documentation/` sont des références
 techniques d'outils ; leur intégrité est contrôlée par le catalogue documentaire.

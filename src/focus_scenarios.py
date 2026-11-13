@@ -1593,7 +1593,7 @@ OSINT_PLAYBOOK_SCENARIOS: dict[str, FocusScenario] = {
             "3. Extraction des certificats SSL/TLS émis sur crt.sh via curl.",
             "4. Énumération passive des sous-domaines via subfinder ou amass.",
             "5. Empreinte technologique HTTP via whatweb (action active).",
-            "6. Exploration des URLs archivées sur Wayback Machine via waybackurls.",
+            "6. Exploration des URLs archivées sur Wayback Machine via gau.",
         ),
         ai_instructions=(
             "Tu guides l'enquêteur pas à pas dans l'analyse OSINT d'un nom de domaine. "
@@ -1608,7 +1608,7 @@ OSINT_PLAYBOOK_SCENARIOS: dict[str, FocusScenario] = {
             "[Pivots d'investigation]",
         ),
         recommended_tool_categories=('osint_tools', 'network_discovery', 'domain_recon'),
-        recommended_tools=('whois', 'dig', 'curl', 'subfinder', 'whatweb', 'waybackurls'),
+        recommended_tools=('whois', 'dig', 'curl', 'subfinder', 'whatweb', 'gau'),
         prerequisites=("Nom de domaine syntaxiquement valide.",),
         limits_and_precautions=(
             "L'étape whatweb est active et contacte directement l'infrastructure cible.",
@@ -1777,9 +1777,8 @@ OSINT_PLAYBOOK_SCENARIOS: dict[str, FocusScenario] = {
             ScenarioParameter('target', "Nom de domaine ou URL cible", 'string', True),
         ),
         methodology=(
-            "1. Extraction des URLs archivées sur Wayback Machine via waybackurls.",
-            "2. Recoupement multi-fournisseurs d'archives via gau.",
-            "3. Consultation de disponibilité d'instantanés via curl sur l'API Wayback.",
+            "1. Recoupement multi-fournisseurs d'archives via gau.",
+            "2. Consultation de disponibilité d'instantanés via curl sur l'API Wayback.",
         ),
         ai_instructions=(
             "Tu guides l'exploration des archives web historiques. "
@@ -1793,7 +1792,7 @@ OSINT_PLAYBOOK_SCENARIOS: dict[str, FocusScenario] = {
             "[Pivots historiques]",
         ),
         recommended_tool_categories=('osint_tools', 'archive_tools', 'web_recon'),
-        recommended_tools=('waybackurls', 'gau', 'curl'),
+        recommended_tools=('gau', 'curl'),
         prerequisites=("Nom de domaine ou URL accessible dans les archives publiques.",),
         limits_and_precautions=("Consultation d'archives publiques sans contact avec le serveur actuel.",),
         completion_criteria=("Les ressources historiques identifiées sont documentées au dossier.",),

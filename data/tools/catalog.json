@@ -112,7 +112,7 @@
       "license": "Apache-2.0",
       "upstream_url": "https://www.kali.org/tools/amass/",
       "artifact": null,
-      "notes": "Paquet APT : amass. Lecture du catalogue uniquement ; aucune installation. Fonctions sans clé ni compte uniquement. Niveau actif conservateur pour les outils mixtes."
+      "notes": "Paquet APT : amass. v5.1.3 : données libpostal requises sur Kali ; enum lance un moteur dépendant du réseau même pour -h. Présence distincte de disponibilité du moteur et de la base. Lecture locale SQLite via subs possible ; voir docs/amass-v5.md. Aucun démarrage, téléchargement ni création de base automatique. Sources sans clé ni compte uniquement."
     },
     {
       "id": "sublist3r",
@@ -532,7 +532,7 @@
       "source": "vendored",
       "executable": "holehe",
       "version_cmd": [],
-      "version_pin": "1.61-14da70f",
+      "version_pin": "1.61-14da70f-r1",
       "input_types": [
         "email"
       ],
@@ -542,7 +542,7 @@
       "upstream_url": "https://github.com/megadose/holehe",
       "artifact": {
         "file": "holehe-linux-x86_64-cp313.zip",
-        "sha256": "4540683c166cdd71b23a83519608d5080e2d3659d3cbc72d0e37799874de89b2",
+        "sha256": "f20603d3e623c78e8c783b2c11d3a3fd33efff60ab843e05fc77bb59eafb0fb6",
         "install": "venv"
       },
       "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Bundle Python 3.13 Linux x86_64, dépendances incluses."
@@ -582,7 +582,7 @@
       "source": "vendored",
       "executable": "subfinder",
       "version_cmd": [],
-      "version_pin": null,
+      "version_pin": "2.17.0",
       "input_types": [
         "domain"
       ],
@@ -590,8 +590,12 @@
       "needs_network": true,
       "license": "MIT",
       "upstream_url": "https://github.com/projectdiscovery/subfinder",
-      "artifact": null,
-      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+      "artifact": {
+        "file": "subfinder_2.17.0_linux_amd64.zip",
+        "sha256": "a39c3e5c7a26ef3c430915c4d6cbf7716a00f26769a75e9405aba796142eba37",
+        "install": "binary"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Linux x86_64."
     },
     {
       "id": "httpx",
@@ -603,7 +607,7 @@
       "source": "vendored",
       "executable": "httpx",
       "version_cmd": [],
-      "version_pin": null,
+      "version_pin": "1.12.0",
       "input_types": [
         "url",
         "domain"
@@ -612,8 +616,12 @@
       "needs_network": true,
       "license": "MIT",
       "upstream_url": "https://github.com/projectdiscovery/httpx",
-      "artifact": null,
-      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+      "artifact": {
+        "file": "httpx_1.12.0_linux_amd64.zip",
+        "sha256": "9d8439e8b6c9aa7d1e2314817a392e00d5178da3af5652f7475f88868f418f76",
+        "install": "binary"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Linux x86_64."
     },
     {
       "id": "dnsx",
@@ -625,7 +633,7 @@
       "source": "vendored",
       "executable": "dnsx",
       "version_cmd": [],
-      "version_pin": null,
+      "version_pin": "1.3.1",
       "input_types": [
         "domain"
       ],
@@ -633,29 +641,12 @@
       "needs_network": true,
       "license": "MIT",
       "upstream_url": "https://github.com/projectdiscovery/dnsx",
-      "artifact": null,
-      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
-    },
-    {
-      "id": "waybackurls",
-      "name": "waybackurls",
-      "team": "osint",
-      "specialties": [
-        "web_archive"
-      ],
-      "source": "vendored",
-      "executable": "waybackurls",
-      "version_cmd": [],
-      "version_pin": "8d27cf3",
-      "input_types": [
-        "domain"
-      ],
-      "activity": "passive",
-      "needs_network": true,
-      "license": "NOASSERTION",
-      "upstream_url": "https://github.com/tomnomnom/waybackurls",
-      "artifact": null,
-      "notes": "[À venir] Aucune copie distribuée ; installation bloquée faute de licence amont déclarée."
+      "artifact": {
+        "file": "dnsx_1.3.1_linux_amd64.zip",
+        "sha256": "438b964653056dd51dcfe614b1a16f8bced3cc48a1d27bc07cc6fdf2ef2a9533",
+        "install": "binary"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Linux x86_64."
     },
     {
       "id": "gau",
@@ -692,7 +683,7 @@
       "source": "vendored",
       "executable": "photon",
       "version_cmd": [],
-      "version_pin": null,
+      "version_pin": "1.3.0-r1",
       "input_types": [
         "url"
       ],
@@ -700,8 +691,12 @@
       "needs_network": true,
       "license": "GPL-3.0",
       "upstream_url": "https://github.com/s0md3v/Photon",
-      "artifact": null,
-      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+      "artifact": {
+        "file": "photon-linux-x86_64-cp313.zip",
+        "sha256": "ac893cae1d209cf5aebc931afdbf52592b909a57738c131bac3fdbb4c9aac10f",
+        "install": "venv"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Linux x86_64. Python 3.13 ; mise à jour amont désactivée."
     },
     {
       "id": "trufflehog",
@@ -713,7 +708,7 @@
       "source": "vendored",
       "executable": "trufflehog",
       "version_cmd": [],
-      "version_pin": null,
+      "version_pin": "3.99.8",
       "input_types": [
         "file"
       ],
@@ -721,8 +716,12 @@
       "needs_network": true,
       "license": "AGPL-3.0",
       "upstream_url": "https://github.com/trufflesecurity/trufflehog",
-      "artifact": null,
-      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+      "artifact": {
+        "file": "trufflehog_3.99.8_linux_amd64.zip",
+        "sha256": "f0e5b0f391beee8b8cb4f6b6d95db74399757d51690f537375e1cd1fbe7870f9",
+        "install": "binary"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Linux x86_64."
     },
     {
       "id": "gitleaks",
@@ -734,7 +733,7 @@
       "source": "vendored",
       "executable": "gitleaks",
       "version_cmd": [],
-      "version_pin": null,
+      "version_pin": "8.30.1",
       "input_types": [
         "file"
       ],
@@ -742,8 +741,12 @@
       "needs_network": false,
       "license": "MIT",
       "upstream_url": "https://github.com/gitleaks/gitleaks",
-      "artifact": null,
-      "notes": "[À venir] Déclaration uniquement, version et artefact à vérifier par A3. Fonctions sans clé ni compte uniquement."
+      "artifact": {
+        "file": "gitleaks_8.30.1_linux_x64.zip",
+        "sha256": "d6a64b1a35a98ae2b0d29b62e7f0c4e65534edaf987ecd51bcfb33f54a56b2b9",
+        "install": "binary"
+      },
+      "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Linux x86_64."
     },
     {
       "id": "social-analyzer",
@@ -756,7 +759,7 @@
       "source": "vendored",
       "executable": "social-analyzer",
       "version_cmd": [],
-      "version_pin": "0.45-c585f42",
+      "version_pin": "0.45-c585f42-r1",
       "input_types": [
         "username"
       ],
@@ -766,7 +769,7 @@
       "upstream_url": "https://github.com/qeeqbox/social-analyzer",
       "artifact": {
         "file": "social-analyzer-linux-x86_64-cp313.zip",
-        "sha256": "79994ce8ed580b4d173db2b6b3933d0ecd92c558a65c9b192f736cdbf5e96ca4",
+        "sha256": "ed9bbea6384be8f7b8e0846a17743f3873097d602c9ad426b33d7d030942b124",
         "install": "venv"
       },
       "notes": "Copie locale vérifiée, installation hors ligne depuis vendor/. Bundle Python 3.13 Linux x86_64, dépendances incluses."

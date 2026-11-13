@@ -212,3 +212,95 @@ class ClaudeCodeRuntime:
                         pass
                 if cancellation is not None:
                     cancellation.detach()
+
+
+class AnthropicAPIRuntime(ClaudeCodeRuntime):
+    """API Messages Anthropic directe, distincte du client Claude Code."""
+
+    def preview_payload(self, messages):
+        return {'model': self.model, 'max_tokens': 4096, 'system': messages[0]['content'],
+                'messages': messages[1:], 'stream': False}
+
+    def chat(self, messages, *, consent=False, on_chunk=None, cancellation=None):
+        import http.client
+        from conversation import interruptible_http, RuntimeIncomplete, ProviderRefusalError, is_policy_error
+        if consent is not True:
+            raise RuntimeErrorLocal('Consentement explicite requis pour chaque requête distante.')
+        key = os.environ.get(self.token_env, '')
+        if not key or len(key) > 4096 or any(ord(c) < 33 or ord(c) > 126 for c in key):
+            raise RuntimeErrorLocal('Clé API absente ou invalide.')
+        if on_chunk is not None and not callable(on_chunk):
+            raise RuntimeErrorLocal('Rappel de réponse invalide.')
+        if (type(messages) is not list or len(messages) < 2 or len(messages) > 101
+                or any(type(m) is not dict or set(m) != {'role', 'content'}
+                       or not isinstance(m['content'], str) or not m['content'].strip()
+                       or m['role'] not in ('system', 'user', 'assistant') for m in messages)
+                or messages[0]['role'] != 'system' or not messages[0]['content'].startswith(SYSTEM)
+                or any(m['role'] == 'system' for m in messages[1:]) or messages[-1]['role'] != 'user'):
+            raise RuntimeErrorLocal('Structure de messages invalide.')
+        payload = self.preview_payload(messages)
+        body = json.dumps(payload, ensure_ascii=False, allow_nan=False).encode('utf-8')
+        if len(body) > MAX_INPUT_BYTES or key.encode() in body or key in self.base_url:
+            raise RuntimeErrorLocal('Demande distante trop volumineuse ou contenant la clé.')
+        if cancellation is not None:
+            cancellation.check()
+        parsed = urlsplit(self.base_url)
+        conn = http.client.HTTPSConnection(parsed.hostname, parsed.port or 443, timeout=self.timeout)
+        cancelled, expired = threading.Event(), threading.Event()
+        interrupt = interruptible_http(conn, cancelled, time.monotonic() + self.timeout)
+        timer = threading.Timer(self.timeout, lambda: interrupt(expired))
+        response = None
+        try:
+            if cancellation is not None:
+                cancellation.attach(lambda: interrupt(cancelled))
+            timer.start()
+            prefix = parsed.path.rstrip('/')
+            path = prefix + ('/messages' if prefix.endswith('/v1') else '/v1/messages')
+            conn.request('POST', path, body, {'Content-Type': 'application/json', 'x-api-key': key,
+                                             'anthropic-version': '2023-06-01'})
+            response = conn.getresponse()
+            raw = response.read(MAX_OUTPUT_BYTES + 1)
+            if expired.is_set():
+                raise RuntimeTimeout('Délai distant dépassé.')
+            if cancelled.is_set():
+                raise RuntimeCancelled('Requête distante interrompue.')
+            if len(raw) > MAX_OUTPUT_BYTES:
+                raise RuntimeErrorLocal('Réponse distante trop volumineuse.')
+            data = json.loads(raw)
+            if response.status != 200 and is_policy_error(data):
+                raise ProviderRefusalError('Requête refusée par le fournisseur.')
+            if response.status != 200:
+                raise RuntimeErrorLocal('API Claude indisponible ou erreur (HTTP %s).' % response.status)
+            if (not isinstance(data, dict) or data.get('role') != 'assistant'
+                    or not isinstance(data.get('content'), list)):
+                raise RuntimeErrorLocal('Réponse Claude invalide.')
+            pieces = []
+            for block in data['content']:
+                if not isinstance(block, dict) or block.get('type') != 'text' or not isinstance(block.get('text'), str):
+                    raise RuntimeErrorLocal('Contenu Claude non pris en charge.')
+                pieces.append(block['text'])
+            answer = ''.join(pieces).replace(key, '[clé masquée]')
+            if data.get('stop_reason') == 'max_tokens':
+                raise RuntimeIncomplete(answer, 'réponse distante non terminée')
+            if data.get('stop_reason') == 'refusal':
+                raise ProviderRefusalError('Requête refusée par le fournisseur.')
+            if data.get('stop_reason') not in ('end_turn', 'stop_sequence') or not answer.strip():
+                raise RuntimeErrorLocal('Réponse Claude invalide ou incomplète.')
+            if cancellation is not None:
+                cancellation.check()
+            if on_chunk:
+                on_chunk(answer)
+            return answer
+        except (OSError, ValueError, TypeError, http.client.HTTPException):
+            if cancelled.is_set():
+                raise RuntimeCancelled('Requête distante interrompue.') from None
+            if expired.is_set():
+                raise RuntimeTimeout('Délai distant dépassé.') from None
+            raise RuntimeErrorLocal('Erreur réseau ou réponse Claude invalide.') from None
+        finally:
+            timer.cancel()
+            if cancellation is not None:
+                cancellation.detach()
+            if response is not None:
+                response.close()
+            conn.close()

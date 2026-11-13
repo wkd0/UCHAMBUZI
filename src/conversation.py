@@ -25,7 +25,7 @@ import threading
 import time
 import unicodedata
 
-from focus_model_profiles import resolve_model_profile
+from ai_calibration import response_guide_for, resolve_model_profile
 
 DEFAULT_TIMEOUT = 300
 DEFAULT_CONTEXT_BUDGET = 16000
@@ -260,6 +260,9 @@ SYSTEM = ("Tu es UCHAMBUZI, assistant professionnel en cybersécurité, forensic
           "Toute consultation d'un service réseau, même tiers, nécessite une approbation explicite. "
           "Si un inventaire système local est fourni, utilise uniquement ses valeurs pour répondre "
           "sur la machine exécutant UCHAMBUZI, et distingue-la du serveur IA. "
+          "Pour la présence d'un outil, distingue le chemin local vérifié de sa version et de son état de mise à jour. "
+          "Ne recommande pas apt update ou apt upgrade par réflexe : le premier utilise le réseau et le second modifie le système. "
+          "Un cache local peut aider à examiner la version candidate, mais ne prouve pas qu'il est à jour. "
           "Recopie exactement les nombres et les unités fournis sans conversion ni arrondi. "
           "Indique les éléments non vérifiés ; ne les déduis pas. "
           "Consulter un registre distant utilise le réseau : ce n'est pas une opération hors ligne, "
@@ -733,6 +736,9 @@ class Session:
         profile = resolve_model_profile(family, getattr(self.runtime, 'model', None))
         system = SYSTEM + ('\n' + profile.instructions if profile.instructions else '')
         system += ('\n' + system_instructions if system_instructions else '')
+        answer_guide = response_guide_for(text)
+        if answer_guide:
+            system += '\n' + answer_guide
         messages = [{'role': 'system', 'content': system}] + [dict(item) for item in self.messages] + [message]
         size = len(json.dumps(messages, ensure_ascii=False).encode("utf-8"))
         if size > self.context_budget:

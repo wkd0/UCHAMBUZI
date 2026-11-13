@@ -839,8 +839,8 @@ class SocialAnalyzer():
 
         if ARGV.list:
             self.setup_logger(argv=ARGV)
-            self.list_all_websites()
             self.init_logic()
+            self.list_all_websites()
         elif ARGV.mode == "fast":
             if ARGV.username != "" and ARGV.websites != "":
                 ret = self.check_user_cli(ARGV)
@@ -895,8 +895,8 @@ class SocialAnalyzer():
 
         if ARGV.list:
             self.setup_logger(argv=ARGV)
-            self.list_all_websites()
             self.init_logic()
+            self.list_all_websites()
         elif ARGV.mode == "fast":
             if ARGV.username != "" and ARGV.websites != "":
                 ret = self.check_user_cli(ARGV)

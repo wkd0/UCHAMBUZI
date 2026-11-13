@@ -62,9 +62,15 @@ PROBES.update(ip=('-Version',), ss=('-V',), dig=('-v',), exiftool=('-ver',),
 HELP_OPTIONS = {'nmap': ('--reason',), 'journalctl': ('--since',), 'strings': ('--all',)}
 
 # Fixed allowlist: queries never become executable names or arguments.
-OSINT_DOCUMENTED_TOOLS = ('whois', 'dig', 'exiftool', 'theharvester', 'amass', 'recon-ng', 'sublist3r', 'curl',
-                          'subfinder', 'gau', 'maigret', 'blackbird', 'holehe',
-                          'whatsmyname', 'phoneinfoga')
+OSINT_DOCUMENTED_TOOLS = (
+    'whois', 'dig', 'dnsrecon', 'dnsenum', 'amass', 'sublist3r', 'fierce',
+    'theharvester', 'dmitry', 'whatweb', 'wafw00f', 'sherlock', 'spiderfoot',
+    'recon-ng', 'exiftool', 'mat2', 'foremost', 'binwalk', 'strings', 'metagoofil',
+    'curl', 'nmap', 'subfinder', 'gau', 'maigret', 'blackbird', 'social-analyzer',
+    'holehe', 'whatsmyname', 'phoneinfoga',
+    'httpx', 'dnsx', 'photon', 'trufflehog', 'gitleaks',
+)
+DOCUMENTED_EXECUTABLES = {'theharvester': 'theHarvester'}
 DOCUMENTATION_DIR = Path(__file__).resolve().parents[1] / 'data' / 'documentation'
 
 def _documentation_text(raw, limit=2000):
@@ -77,50 +83,180 @@ def _reference(name):
     for filename in (name + '.md', name + '-kali.md'):
         try:
             with (DOCUMENTATION_DIR / filename).open('rb') as handle:
-                text = _documentation_text(handle.read(8192))
+                text = _documentation_text(handle.read(8192), limit=2001)
             if text.strip():
                 return text, 'fiche locale ' + filename + ' (version installée non vérifiée)'
         except OSError:
             continue
     return None, None
 
-def osint_documentation(query):
-    """Retrieve bounded local references; never execute investigation commands."""
-    names = [name for name in OSINT_DOCUMENTED_TOOLS
-             if re.search(r'(?<![\w-])' + re.escape(name) + r'(?![\w-])', query, re.IGNORECASE)][:2]
+def _osint_documentation_names(query):
+    """Relie les indices aux outils du catalogue, sans dériver de pseudonyme."""
+    matches = []
+    for name in OSINT_DOCUMENTED_TOOLS:
+        match = re.search(r'(?<![\w-])' + re.escape(name) + r'(?![\w-])', query, re.IGNORECASE)
+        if match:
+            matches.append((match.start(), name))
+    names = [name for _, name in sorted(matches)[:2]]
     if not names:
         text = query.casefold()
-        if re.search(r'\b(domaine|domain|dns|sous-domaines?)\b', text):
+        if re.search(r'[\w.+-]+@[\w.-]+\.[a-z]{2,}|\b(email|courriel|adresse électronique)\b', text):
+            names = ['holehe']
+        elif re.search(r'\b(domaine|domain|dns|sous-domaines?)\b', text):
             names = ['dig', 'whois']
         elif re.search(r'\b(métadonnées|metadonnees|exif|image|photo)\b', text):
             names = ['exiftool']
-        elif re.search(r'\b(email|courriel|adresse électronique)\b', text):
-            names = ['theharvester']
+        elif re.search(r'\b(pseudo(?:nyme)?s?|username)\b', text):
+            names = ['whatsmyname', 'maigret']
+        elif re.search(r'\b(téléphone|telephone|numéro|numero)\b', text):
+            names = ['phoneinfoga']
+    return names
+
+
+def osint_catalog_context(query):
+    """Inventaire compact et rôles réels, sans commande, sonde ni réseau."""
+    from tools_catalog import load_catalog
+    from tools_installer import ToolsInstaller
+    from tool_guidance import guide_for, integration_for
+
+    tools = load_catalog()
+    installer = ToolsInstaller(tools)
+    relevant = set(_osint_documentation_names(query))
+    inventory, details = [], []
+    for tool in tools:
+        key = tool['id']
+        if relevant and key not in relevant:
+            continue
+        integration = integration_for(key)
+        if tool['source'] == 'builtin':
+            state = 'intégré'
+        elif tool['source'] == 'vendored':
+            if not tool.get('artifact'):
+                state = 'indisponible'
+            else:
+                try:
+                    state = 'copie vérifiée' if installer.executable(key) else 'copie non préparée ou non vérifiée'
+                except (OSError, ValueError):
+                    state = 'copie non vérifiée'
+        else:
+            state = ('chemin système présent' if shutil.which(tool['executable'], path='/usr/bin:/bin')
+                     else 'absent')
+        inventory.append([key, state, ','.join(tool['input_types']), integration['level']])
+        if key in relevant:
+            guide = guide_for(key)
+            preparation_possible = state in ('intégré', 'copie vérifiée', 'chemin système présent')
+            details.append(dict(outil=key, etat=state, role=guide['purpose'],
+                                preparation_possible=preparation_possible,
+                                controle_local=('intégrité de la copie contrôlée, sans essai de démarrage'
+                                                if state == 'copie vérifiée' else
+                                                'chemin présent, version et dépendances non contrôlées'
+                                                if state == 'chemin système présent' else state),
+                                limites=guide['limits'], entrees=tool['input_types'],
+                                parcours=integration['routes'] if preparation_possible else [],
+                                activite=tool['activity'],
+                                reseau=tool['needs_network'],
+                                fiche='/tools ' + key,
+                                sens_parcours=('Les parcours préparent une recherche et demandent une approbation ; '
+                                                'ils ne sont pas des commandes de documentation.')))
+    return dict(outils_pertinents=details,
+                outils_repertories=[tool['id'] for tool in tools],
+                portee_inventaire='Outils pertinents pour cette demande seulement.' if relevant else 'Catalogue complet.',
+                colonnes_inventaire=['outil', 'presence_locale', 'types_indices', 'integration'],
+                inventaire=inventory,
+                limite_verification=('Présence système = chemin trouvé seulement ; version et dépendances non sondées. '
+                                     'guided = action accompagnée ; builtin = moteur natif ; '
+                                     'workflow = parcours intégré ; shell = shell et aide ; planned = indisponible. '
+                                     'La présence au catalogue ne prouve pas que l’outil peut être exécuté.'))
+
+
+def osint_availability_notice(context):
+    """État factuel issu du contrôle local, affiché séparément du texte du modèle."""
+    catalogue = context.get('catalogue_outils') if isinstance(context, dict) else None
+    if not isinstance(catalogue, dict):
+        return None
+    lines = []
+    for tool in catalogue.get('outils_pertinents', ()):
+        state = tool['etat']
+        if tool['preparation_possible']:
+            outcome = 'Préparation possible ; exécution soumise à approbation.'
+        else:
+            outcome = 'Disponibilité non confirmée ; consulter ' + tool['fiche'] + '.'
+        lines.append('État local — ' + tool['outil'] + ' : ' + state + '. ' + outcome)
+    return '\n'.join(lines) if lines else None
+
+
+def osint_documentation(query):
+    """Retrieve bounded local references; never execute investigation commands."""
+    from tools_catalog import load_catalog
+    from tools_installer import ToolsInstaller
+
+    names = _osint_documentation_names(query)
     if not names:
         return []
     man = shutil.which('man', path='/usr/bin:/bin')
+    tools = {tool['id']: tool for tool in load_catalog()}
+    installer = ToolsInstaller(tools.values())
     rows = []
     for name in names:
-        executable = shutil.which(name)
-        row = {'outil': name, 'presence': 'present' if executable else 'absent',
-               'version': 'non verifiee'}
+        tool = tools[name]
+        if tool['source'] == 'kali':
+            executable = shutil.which(tool['executable'], path='/usr/bin:/bin')
+        elif tool['source'] == 'vendored' and tool.get('artifact'):
+            executable = installer.executable(name)
+        else:
+            executable = None
+        native = tool['source'] == 'builtin'
+        row = {'outil': name, 'presence': 'present' if executable or native else 'absent',
+               'version': 'non verifiee',
+               'portee_presence': ('Moteur Python intégré ; aucun exécutable shell requis.' if native else
+                                   'PATH système uniquement ; dépendances non sondées.' if tool['source'] == 'kali'
+                                   else 'Copies embarquées vérifiées uniquement ; aucun homonyme PATH exécuté.')}
         documentation, source = None, None
-        if executable and man:
+        source_kind, truncated = 'absente', False
+        # Amass v5 starts its network-dependent engine even for enum -h.
+        # Prefer the qualified reference, and never use help as a readiness probe.
+        if name == 'amass':
+            if executable:
+                from tools_catalog import discover_tools
+                state = discover_tools([tool])[name]
+                if state.state == 'missing_dependency':
+                    documentation, source = state.diagnostic, 'diagnostic des prérequis locaux'
+                    source_kind = 'diagnostic'
+            if not documentation:
+                documentation, source = _reference(name)
+                if documentation:
+                    source_kind = 'fiche'
+            if not documentation and executable:
+                documentation = state.diagnostic or 'Moteur Amass non vérifié ; consulter docs/amass-v5.md.'
+                source, source_kind = 'diagnostic local Amass', 'diagnostic'
+        if not documentation and executable and man and tool['source'] == 'kali':
             result = run(man, ('--', name), timeout=2, output_limit=16384)
             if result.status in ('succeeded', 'output_limit') and result.stdout.strip():
-                documentation = _documentation_text(result.stdout)
+                documentation = _documentation_text(result.stdout, limit=2001)
                 source = 'man local, extrait potentiellement tronque'
+                source_kind = 'man'
+                truncated = result.status == 'output_limit'
         if not documentation:
             documentation, source = _reference(name)
-        if not documentation and executable and name != 'whatsmyname':
+            if documentation:
+                source_kind = 'fiche'
+        if not documentation and executable and name not in ('whatsmyname', 'amass'):
             result = run(executable, ('--help',), timeout=2, output_limit=8192)
             if result.status in ('succeeded', 'output_limit'):
-                documentation = _documentation_text(result.stdout + result.stderr)
+                documentation = _documentation_text(result.stdout + result.stderr, limit=2001)
                 source = 'aide locale --help, extrait potentiellement tronque'
-        row['documentation'] = documentation or (
+                source_kind = 'help'
+                truncated = result.status == 'output_limit'
+        row['documentation'] = documentation[:2000] if documentation else (
             'Aucune syntaxe locale vérifiée. Ne pas inventer de commande ni d’option ; '
             'demander une aide locale validée avant toute proposition.')
         row['source'] = source if documentation else 'diagnostic local : sources absentes ou illisibles'
+        row['type_source'] = source_kind
+        row['documentation_tronquee'] = bool(documentation and (truncated or len(documentation) > 2000))
+        from tool_guidance import integration_for
+        integration = integration_for(name)
+        row['integration'] = integration['label']
+        row['parcours'] = integration['routes']
         rows.append(row)
     return rows
 
@@ -161,13 +297,14 @@ class ToolRegistry:
                 tuple(item['capabilities']),item['limits']))
         self.descriptions = staged.descriptions
 
-    def discover(self, *, budget=12.0, per_probe=0.7):
+    def discover(self, *, budget=12.0, per_probe=0.7, search_path=None):
         if not 0 < budget <= 60 or not 0 < per_probe <= 3:
             raise ValueError('Bornes de decouverte invalides')
         deadline = time.monotonic() + budget
         inventory = {}
         for name in self.descriptions:
-            path = shutil.which(name)
+            path = (shutil.which(name, path=search_path) if search_path is not None
+                    else shutil.which(name))
             if not path:
                 inventory[name] = InstalledTool(name, None, None, 'absent')
                 continue

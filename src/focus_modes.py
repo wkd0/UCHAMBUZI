@@ -353,7 +353,6 @@ BUILTIN_MODES: dict[str, FocusMode] = {
             'sherlock',
             'holehe',
             'phoneinfoga',
-            'waybackurls',
             'gau',
             'gitleaks',
             'trufflehog',

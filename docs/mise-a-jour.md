@@ -1,6 +1,6 @@
 # Mise à jour et maintenance sous Kali Linux
 
-> Version publiée : 1.0.0 (12 novembre 2026). Utiliser Python 3.13 et python3.13-venv pour les bundles ; voir les [commandes courantes](commandes.md), le [changelog](../CHANGELOG.md) et la [recette V1](releases/1.0.0.md).
+> Candidate privée : 2.0.0 (13 novembre 2026), non publiée. La stable publique reste 1.0.0. Voir la [compatibilité 2.0.0](releases/2.0.0.md). Utiliser Python 3.13 et python3.13-venv pour les bundles ; voir les [commandes courantes](commandes.md), le [changelog](../CHANGELOG.md) et la [recette V1](releases/1.0.0.md).
 
 Ces procédures s’exécutent sur Kali. Fermez les sessions UCHAMBUZI avant une
 mise à jour et conservez une sauvegarde privée de vos dossiers d’enquête.
@@ -33,7 +33,7 @@ Obtenez le `.deb` validé par votre canal de distribution et contrôlez son empr
 avec la référence reçue par un canal de confiance. Depuis son répertoire sur Kali :
 
 ```bash
-sudo apt install ./uchambuzi_1.0.0-1_amd64.deb
+sudo apt install ./uchambuzi_2.0.0-1_amd64.deb
 /usr/bin/uchambuzi --version
 /usr/bin/uchambuzi doctor
 /usr/bin/uchambuzi

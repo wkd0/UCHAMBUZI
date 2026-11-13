@@ -27,6 +27,16 @@ OBJECTIVES = (
 )
 
 GUIDED_TOOLS = frozenset(('maigret', 'blackbird', 'social-analyzer', 'holehe', 'gau', 'phoneinfoga'))
+# Shared with the REPL so the catalogue advertises the routes actually offered.
+QUICK_TOOL_SPECS = {
+    '/pseudo': ('username', (('whatsmyname', ()), ('maigret', ('--timeout', '10')),
+                             ('blackbird', ('--username',)),
+                             ('social-analyzer', ('--mode', 'fast', '--output', 'json', '--username')))),
+    '/domaine': ('domain', (('whois', ()), ('dig', ()), ('subfinder', ('-d',)), ('gau', ()))),
+    '/email': ('email', (('holehe', ()),)),
+    '/archive': ('url', (('gau', ()),)),
+    '/photo': ('image', (('exiftool', ('-config', '', '--')), ('mat2', ('--show', '--')))),
+}
 _INPUTS = {
     'username': ('Pseudonyme', 'enquete_demo'), 'email': ('Adresse email', 'analyste@example.org'),
     'domain': ('Domaine', 'example.org'), 'url': ('URL HTTP(S)', 'https://example.org'),
@@ -70,14 +80,14 @@ _DESCRIPTIONS = {
     'dig': ('Interroger les enregistrements DNS.', 'Vérifier la résolution et les services déclarés d’un domaine.', 'Réponses DNS avec type, valeur et TTL.', 'Réponse dépendante du résolveur et de l’instant ; elle ne prouve pas la propriété d’un hôte.'),
     'dnsrecon': ('Énumérer des informations DNS selon plusieurs méthodes.', 'Approfondir une cartographie DNS ciblée.', 'Enregistrements, noms et résultats des méthodes choisies.', 'Certaines méthodes sont actives ; chaque option doit être choisie et expliquée.'),
     'dnsenum': ('Énumérer les noms et enregistrements liés à un domaine.', 'Recouper une découverte DNS avec un autre outil.', 'Noms et enregistrements découverts.', 'L’énumération peut provoquer des requêtes actives ; la couverture n’est pas exhaustive.'),
-    'amass': ('Cartographier des noms et relations d’infrastructure.', 'Explorer les liens entre un domaine et son exposition publique.', 'Noms, adresses et relations selon les sources sélectionnées.', 'Fonctions et sources variables ; seules celles sans compte ni clé sont admises au catalogue UCHAMBUZI.'),
+    'amass': ('Cartographier des noms et relations d’infrastructure.', 'Explorer les liens entre un domaine et son exposition publique, ou relire une base locale avec subs.', 'Noms, adresses et relations selon les sources sélectionnées.', 'Amass v5.1.3 : libpostal requis sur Kali ; enum démarre un moteur dépendant du réseau avant même -h. Sa présence ne prouve pas que le moteur et la base sont prêts. subs peut lire SQLite localement. Voir docs/amass-v5.md ; seules les sources sans compte ni clé sont admises.'),
     'sublist3r': ('Rechercher des sous-domaines dans des sources publiques.', 'Compléter une première liste de noms.', 'Sous-domaines potentiels.', 'Sources parfois indisponibles ; un nom trouvé ne prouve pas son activité actuelle.'),
     'fierce': ('Effectuer une reconnaissance DNS.', 'Explorer la structure de nommage d’un domaine.', 'Noms et adresses issus de recherches DNS.', 'Les recherches sont actives et doivent être bornées à un périmètre autorisé.'),
-    'theharvester': ('Collecter des traces publiques de domaines, hôtes et adresses email.', 'Rassembler une première vue d’exposition depuis plusieurs sources.', 'Noms, adresses et autres données selon les sources disponibles.', 'Les sources exigeant compte ou clé ne sont pas retenues. Aucune action accompagnée n’est encore qualifiée ici.'),
+    'theharvester': ('À partir d’un domaine fourni, collecter des traces publiques telles que des hôtes et adresses email.', 'Rassembler une première vue d’exposition depuis plusieurs sources.', 'Noms, adresses et autres données selon les sources disponibles.', 'Ne déduit pas des domaines associés à partir d’une adresse email. Les sources exigeant compte ou clé ne sont pas retenues. Aucune action accompagnée n’est encore qualifiée ici.'),
     'dmitry': ('Rassembler des informations de reconnaissance réseau.', 'Comparer plusieurs informations techniques sur un hôte.', 'Données de domaine, d’hôte et résultats des fonctions choisies.', 'L’outil combine des fonctions différentes, dont certaines actives ; éviter les lancements globaux non expliqués.'),
     'whatweb': ('Identifier les technologies apparentes d’un service web.', 'Comprendre les composants déclarés par un site.', 'Signatures techniques et en-têtes observés.', 'Contacte le serveur ; les signatures peuvent être trompeuses et ne prouvent pas une version vulnérable.'),
     'wafw00f': ('Rechercher des indices de protection WAF sur un site.', 'Contextualiser les réponses filtrées d’un service web.', 'Familles de protections potentielles.', 'Détection heuristique par requêtes actives, pas preuve d’une configuration de sécurité.'),
-    'sherlock': ('Rechercher un pseudonyme sur différentes plateformes.', 'Recouper des profils possibles avec un moteur supplémentaire.', 'URL et états de présence possibles.', 'Déjà représenté au catalogue Kali mais sans action accompagnée qualifiée dans cette version ; doublons et faux positifs possibles.'),
+    'sherlock': ('Rechercher un pseudonyme sur différentes plateformes.', 'Recouper des profils possibles avec un moteur supplémentaire.', 'URL et états de présence possibles.', 'Intégré au scénario email-pseudo, sans préparation individuelle depuis cette fiche ; doublons et faux positifs possibles.'),
     'spiderfoot': ('Orchestrer des collectes OSINT par modules.', 'Relier différents types d’indices lors d’une investigation plus large.', 'Événements et relations issus des modules sélectionnés.', 'Tous les modules ne sont pas utilisables sans compte ou clé. Leur sélection doit être qualifiée avant une intégration accompagnée.'),
     'recon-ng': ('Organiser des recherches OSINT dans une console à modules.', 'Travailler sur des données et transformations dans un espace dédié.', 'Enregistrements et exports des modules utilisés.', 'La console et les modules ont leurs propres commandes ; aucun téléchargement de module ni lancement global implicite.'),
     'exiftool': ('Lire les métadonnées d’un fichier.', 'Relever dates, appareil ou coordonnées déclarées dans un média.', 'Champs de métadonnées et informations techniques.', 'Les métadonnées peuvent avoir été modifiées ; elles ne prouvent pas la provenance.'),
@@ -91,7 +101,6 @@ _DESCRIPTIONS = {
     'subfinder': ('Rechercher des sous-domaines dans des sources tierces.', 'Compléter une cartographie de domaine.', 'Liste de noms potentiels.', 'Artefact vérifié non embarqué : indisponible dans cette version. Certaines sources exigent une clé et sont exclues.'),
     'httpx': ('Caractériser les réponses de services HTTP.', 'Trier des services web découverts.', 'États HTTP et caractéristiques selon les options.', 'Artefact vérifié non embarqué ; les sondes contactent les services.'),
     'dnsx': ('Effectuer des vérifications DNS sur une liste de noms.', 'Valider ou enrichir des noms découverts.', 'Enregistrements et états de résolution.', 'Artefact vérifié non embarqué ; les requêtes réseau doivent être bornées.'),
-    'waybackurls': ('Retrouver des URL historiques dans des archives.', 'Explorer l’historique d’un domaine.', 'Liste d’URL archivées.', 'Installation bloquée : aucun artefact approuvé et licence non déclarée. Utiliser gau si disponible.'),
     'photon': ('Explorer les liens et ressources d’un site.', 'Cartographier les références publiques d’un site.', 'URL et ressources découvertes.', 'Artefact vérifié non embarqué ; exploration active avec risques de volume et de périmètre.'),
     'trufflehog': ('Rechercher des secrets potentiels dans des données.', 'Examiner l’exposition de secrets dans un dépôt ou fichier.', 'Correspondances à qualifier.', 'Artefact vérifié non embarqué ; certains modes valident les secrets en réseau, ce qui doit être distingué d’une analyse locale.'),
     'gitleaks': ('Détecter des motifs de secrets dans des fichiers ou dépôts.', 'Effectuer un premier contrôle local d’exposition de secrets.', 'Correspondances avec emplacement et règle.', 'Artefact vérifié non embarqué ; faux positifs possibles et aucun secret trouvé ne doit être réutilisé automatiquement.'),
@@ -102,6 +111,39 @@ def _entry(tool_id, rows):
     if not isinstance(tool_id, str):
         raise ValueError('Identifiant d’outil attendu.')
     return next((row for row in rows if row['id'] == tool_id), None)
+
+
+def integration_for(tool_id):
+    """Describe implemented entry points, independently of installation state."""
+    tool = _entry(tool_id, load_catalog())
+    if tool is None:
+        raise ValueError('Outil absent du catalogue approuvé.')
+    if tool['source'] == 'vendored' and not tool.get('artifact'):
+        return dict(level='planned', label='À venir', routes=(),
+                    detail='Aucune copie vérifiée distribuée ; aucun parcours exécutable proposé.')
+    routes = [command + ' <indice>' for command, (_, operations) in QUICK_TOOL_SPECS.items()
+              if any(name == tool_id for name, _ in operations)]
+    from osint_playbooks import list_playbooks
+    for playbook in list_playbooks():
+        # An alternative is only a suggestion, not an implemented replacement.
+        if any(step.tool_id == tool_id and
+               shlex.split(step.command_template)[0] == tool['executable']
+               for step in playbook.steps):
+            routes.append('/scenario ' + playbook.slug + ' <indice>')
+    if tool_id in GUIDED_TOOLS:
+        routes.insert(0, '/tools run ' + tool_id + ' <indice>')
+        level, label = 'guided', 'Action accompagnée'
+        detail = 'Préparation individuelle disponible ; seules les options prévues sont intégrées.'
+    elif tool['source'] == 'builtin':
+        level, label = 'builtin', 'Moteur natif'
+        detail = 'Moteur intégré à UCHAMBUZI ; aucun exécutable shell.'
+    elif routes:
+        level, label = 'workflow', 'Parcours intégré'
+        detail = 'Utilisable dans les parcours indiqués ; pas de préparation individuelle depuis cette fiche.'
+    else:
+        level, label = 'shell', 'Shell et aide'
+        detail = 'Fiche descriptive et aide locale ; aucun parcours intégré pour cet outil.'
+    return dict(level=level, label=label, routes=tuple(routes), detail=detail)
 
 
 def guide_for(tool_id):
@@ -123,6 +165,7 @@ def guide_for(tool_id):
         'gau': 'gau example.org',
         'phoneinfoga': 'phoneinfoga scan -n +33601020304 --env-file /dev/null -D numverify -D googlecse -D ovh -D googlesearch',
         'whatsmyname': '/pseudo enquete_demo',
+        'amass': 'amass -h',
     }
     hints = {
         'maigret': '--timeout 10 borne le délai des requêtes ; le pseudonyme est un argument positionnel. Le délai global UCHAMBUZI reste distinct.',
@@ -132,6 +175,7 @@ def guide_for(tool_id):
         'gau': 'Le parcours accompagné fournit seulement le domaine ou l’URL ; les URL retournées viennent de services tiers, pas d’une vérification du site cible.',
         'phoneinfoga': 'scan -n introduit le numéro ; --env-file /dev/null évite le chargement d’une configuration à clés ; -D désactive les cinq scanners réseau ou à clé nommés.',
         'whatsmyname': 'Utiliser /pseudo <pseudo> : le moteur natif n’a pas de commande shell.',
+        'amass': 'v5.1.3 : -h, engine -h et subs -h sont des aides locales ; enum -h peut attendre le moteur pendant 60 s. Ne pas le sonder automatiquement. Lecture locale : subs -config CONFIG_LOCALE -dir DOSSIER_BASE -d example.test -names -nocolor. Voir docs/amass-v5.md pour la configuration isolée et le diagnostic réseau.',
     }
     return dict(purpose=purpose, why=why, input_label=label, input_kind=kind,
                 outputs=outputs, limits=limits,

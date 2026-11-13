@@ -9,14 +9,76 @@
 # ============================================================================
 """Moteur Focus asynchrone; aucune persistance ou autorisation d'outil implicite."""
 import asyncio
+import json
+import re
+import shutil
 import threading
 import time
 
 from focus_contracts import Message, Role, TextDelta, TurnFinished, TurnStarted, TurnState
+from ai_calibration import response_guide_for, resolve_model_profile
 from focus_modes import create_default_mode_engine
-from focus_model_profiles import resolve_model_profile
-from conversation import ProviderRefusalError
+from conversation import (ProviderRefusalError, SYSTEM, asks_local_system,
+                          local_system_inventory, sanitize_prompt_data)
 from focus_providers import GenerationSettings, HTTPProvider, ProviderError, interrupt_connection
+
+
+_LOCAL_TOOL_STATUS_PATTERNS = tuple(re.compile(pattern, re.IGNORECASE) for pattern in (
+    r'\b(?:is|are)\s+([a-z][a-z0-9_.+-]{0,63})\s+(?:installed|present|available|current|version)\b',
+    r'\b([a-z][a-z0-9_.+-]{0,63})\s+(?:(?:is|are)\s+)?installed\b',
+    r'\b([a-z][a-z0-9_.+-]{0,63})\s+est-(?:il|elle)\s+(?:installé|installée|présent|présente|disponible|à\s+jour|version)\b',
+    r'\b([a-z][a-z0-9_.+-]{0,63})\s+est\s+(?:installé|installée|à\s+jour)\b',
+    r'\b([a-z][a-z0-9_.+-]{0,63})\s+(?:(?:is|are)\s+)?(?:up[ -]to[ -]date|à\s+jour)\b',
+))
+
+
+def _local_facts_for(text, provider):
+    """Collecte des faits locaux limités à la question, uniquement pour un modèle local."""
+    if not provider.local:
+        return None
+    facts = {}
+    if asks_local_system(text):
+        facts['inventaire_systeme_local'] = local_system_inventory()
+    tools = []
+    seen = set()
+    for pattern in _LOCAL_TOOL_STATUS_PATTERNS:
+        for match in pattern.finditer(text):
+            name = match.group(1).casefold()
+            if name in seen or name in {'and', 'et', 'la', 'le', 'les', 'the', 'a', 'an'}:
+                continue
+            # « mise à jour » is a common French noun phrase, not a command
+            # named `mise` whose installation status the user asked about.
+            if name == 'mise' and 'à jour' in match.group(0).casefold():
+                continue
+            if name == 'jour' and 'mise à jour' in text[max(0, match.start() - 8):match.end()].casefold():
+                continue
+            seen.add(name)
+            path = shutil.which(name)
+            tools.append({'commande': name, 'presence': 'présente' if path else 'absente',
+                          'chemin': path})
+    if tools:
+        facts['outils_locaux'] = tools
+    return facts or None
+
+
+def _local_tool_status_answer(facts):
+    """Répond sans modèle aux demandes dont la présence locale est vérifiée."""
+    tools = facts.get('outils_locaux') if isinstance(facts, dict) else None
+    if not isinstance(tools, list) or len(tools) != 1:
+        return None
+    tool = tools[0]
+    if not isinstance(tool, dict) or not isinstance(tool.get('commande'), str):
+        return None
+    name = tool['commande']
+    if tool.get('presence') == 'présente' and isinstance(tool.get('chemin'), str):
+        return (f"Vérification locale : `{name}` est présent dans le PATH "
+                f"({tool['chemin']}). Sa version installée et son état de mise à jour "
+                "n'ont pas été vérifiés. Aucune requête réseau ni modification du système n'a été effectuée.")
+    if tool.get('presence') == 'absente':
+        return (f"Vérification locale : `{name}` n'a pas été trouvé dans le PATH. "
+                "Cela ne suffit pas à confirmer l'état de son paquet ni à conclure qu'il n'est pas installé. "
+                "Aucune requête réseau ni modification du système n'a été effectuée.")
+    return None
 
 
 class FocusAI:
@@ -84,6 +146,20 @@ class FocusAI:
             return True
         return False
 
+    def system_instructions(self, question):
+        """Compose le prompt réellement envoyé, commun à l'aperçu et au transport."""
+        instructions = SYSTEM + '\n' + self.mode_engine.compose_active_instructions(
+            active_scenario=self.scenario)
+        family = self.provider_id if self.provider_id in (
+            'ollama', 'openai', 'anthropic', 'grok', 'xai') else ''
+        profile = resolve_model_profile(family, self.model_id)
+        if profile.instructions:
+            instructions += '\n' + profile.instructions
+        answer_guide = response_guide_for(question)
+        if answer_guide:
+            instructions += '\n' + answer_guide
+        return instructions
+
     async def stream(self, turn_id: str, message: Message, *, allow_external=False):
         if self._busy:
             raise ProviderError('turn_active')
@@ -112,16 +188,26 @@ class FocusAI:
             return
         try:
             self.settings.validate(provider.capabilities)
-            instructions = self.mode_engine.compose_active_instructions(active_scenario=self.scenario)
-            family = provider.id if provider.id in ('ollama', 'openai', 'anthropic', 'grok', 'xai') else ''
-            profile = resolve_model_profile(family, self.model_id)
-            if profile.instructions:
-                instructions += '\n' + profile.instructions
+            # Même consigne pour l'aperçu de consentement et la requête envoyée.
+            instructions = self.system_instructions(message.text)
             if any(not isinstance(m, Message) or m.role not in (Role.USER, Role.ASSISTANT) for m in self.history):
                 raise ProviderError('invalid_history')
             messages = [{'role': 'system', 'content': instructions}]
             messages.extend({'role': m.role.value, 'content': m.text} for m in self.history)
-            messages.append({'role': 'user', 'content': message.text})
+            local_facts = _local_facts_for(message.text, provider)
+            local_answer = _local_tool_status_answer(local_facts)
+            if local_answer:
+                yield TextDelta(turn_id, local_answer)
+                yield TurnFinished(turn_id, TurnState.COMPLETE)
+                return
+            if local_facts:
+                content = json.dumps({
+                    'demande': sanitize_prompt_data(message.text),
+                    'contexte_technique_local_non_fiable': sanitize_prompt_data(local_facts),
+                }, ensure_ascii=False, allow_nan=False, separators=(',', ':'))
+            else:
+                content = message.text
+            messages.append({'role': 'user', 'content': content})
         except ProviderError as exc:
             yield TurnFinished(turn_id, TurnState.FAILED, exc.code, 'Parametres ou historique invalides.')
             return

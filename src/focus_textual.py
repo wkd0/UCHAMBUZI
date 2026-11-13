@@ -567,29 +567,28 @@ class SettingsModal(ModalScreen[dict | None]):
         from focus_settings import REMOTE_DEFAULTS
         owner = self.app.repl
         self._active_provider = owner.settings.values['provider']
-        self._form_provider = self._active_provider
+        self._form_family = self._active_provider if self._active_provider != 'ollama' else 'openai'
+        self._active_connection = owner.settings.values.get('connection_kind', 'direct')
+        self._form_provider = 'external' if self._active_provider != 'ollama' and self._active_connection == 'external' else self._active_provider
         self._active_model = getattr(owner.adapter, 'model', None) or owner.settings.values['model']
         host = owner.host
         endpoint = f"[{host}]:{owner.port}" if ':' in host else f"{host}:{owner.port}"
         self._endpoint = endpoint
         from focus_provider_profiles import ProviderProfiles
         self._profiles = ProviderProfiles(owner.settings)
-        try:
-            profiles = self._profiles.list()
-        except ValueError:
-            profiles = {}
         with VerticalScroll(id="settings-dialog"):
             yield Static("◈ Configuration UCHAMBUZI & Moteur IA", id="settings-title")
-            yield Static("Accès enregistrés", id="settings-profile-label", classes="settings-label")
-            yield Select([(name, name) for name in sorted(profiles)], prompt="Choisir un accès enregistré", id="settings-profile")
-            yield Static("Nom de l’accès (ex. MrBoi · Grok)", id="settings-profile-name-label", classes="settings-label")
-            yield Input(placeholder="Nom de cet accès", id="settings-profile-name")
-            yield Static("Clé API · laisser vide pour conserver la clé du profil", id="settings-secret-label", classes="settings-label")
-            yield Input(password=True, placeholder="Clé API", id="settings-secret")
             yield Static("Fournisseur IA", classes="settings-label")
-            yield Select([('Ollama', 'ollama'), ('OpenAI · Responses', 'openai'),
-                          ('Grok · Responses', 'grok'), ('Claude Code', 'anthropic')],
-                         value=self._active_provider, allow_blank=False, id='settings-provider')
+            yield Select([('Ollama local', 'ollama'), ('Claude API', 'anthropic'),
+                          ('OpenAI API', 'openai'), ('Grok API', 'grok'),
+                          ('Fournisseur externe', 'external')],
+                         value=self._form_provider, allow_blank=False, id='settings-provider')
+            yield Static('Famille du modèle chez le fournisseur externe', id='settings-family-label', classes='settings-label')
+            yield Select([('Claude · Claude Code', 'anthropic'), ('OpenAI · Responses', 'openai'),
+                          ('Grok · Responses', 'grok')], value=self._active_provider if self._active_provider != 'ollama' else 'openai',
+                         allow_blank=False, id='settings-family')
+            yield Static("Clé API · laisser vide pour conserver la clé actuelle", id="settings-secret-label", classes="settings-label")
+            yield Input(password=True, placeholder="Clé API", id="settings-secret")
             yield Static("Option 1 · Modèle actif (Ollama local)", id="settings-model-label", classes="settings-label")
             yield Select([(Text(self._active_model + "  ✓ ACTIF"), self._active_model)],
                          value=self._active_model, allow_blank=False, id="settings-model")
@@ -621,7 +620,7 @@ class SettingsModal(ModalScreen[dict | None]):
         for label in self.query(".settings-label"):
             label.styles.color = theme.secondary
         self._probe_worker = None
-        self._show_provider_fields(self._active_provider)
+        self._show_provider_fields(self._form_provider)
         if self._active_provider == 'ollama':
             self.call_after_refresh(self.action_test_connection)
         else:
@@ -629,7 +628,13 @@ class SettingsModal(ModalScreen[dict | None]):
 
     def _show_provider_fields(self, provider):
         remote = provider != 'ollama'
-        for selector in ('#settings-profile-name-label', '#settings-profile-name', '#settings-secret-label', '#settings-secret', '#settings-remote-models', '#settings-discover'):
+        if provider == 'external' and self.query_one('#settings-family', Select).value == 'anthropic':
+            self.query_one('#settings-remote-models', Select).set_options([
+                ('Claude Sonnet · alias à vérifier', 'sonnet'), ('Claude Opus · alias à vérifier', 'opus'),
+                ('Claude Haiku · alias à vérifier', 'haiku')])
+        self.query_one('#settings-family-label').display = provider == 'external'
+        self.query_one('#settings-family').display = provider == 'external'
+        for selector in ('#settings-secret-label', '#settings-secret', '#settings-remote-models', '#settings-discover'):
             self.query_one(selector).display = remote
         for selector in ('#settings-remote-model-label', '#settings-remote-model', '#settings-api-url-label',
                          '#settings-api-url', '#settings-key-env-label', '#settings-key-env'):
@@ -644,24 +649,22 @@ class SettingsModal(ModalScreen[dict | None]):
         if event.select.id == 'settings-remote-models':
             self.query_one('#settings-remote-model', Input).value = str(event.value)
             return
-        if event.select.id == 'settings-profile':
-            try:
-                values = self._profiles.activate(str(event.value), self.app.repl.settings.values)
-                self.query_one('#settings-provider', Select).value = values['provider']
-                self._form_provider = values['provider']
-                self.query_one('#settings-profile-name', Input).value = str(event.value)
-                self.query_one('#settings-api-url', Input).value = values['api_base_url']
-                self.query_one('#settings-key-env', Input).value = values['api_key_env']
-                self.query_one('#settings-remote-model', Input).value = values['model']
+        if event.select.id == 'settings-family':
+            if self.query_one('#settings-provider', Select).value == 'external' and str(event.value) != self._form_family:
+                from focus_settings import REMOTE_DEFAULTS
+                self.query_one('#settings-key-env', Input).value = REMOTE_DEFAULTS[str(event.value)][1]
                 self.query_one('#settings-secret', Input).value = ''
-                self._show_provider_fields(values['provider'])
-            except (ValueError, OSError) as exc:
-                self._show_error(exc)
+                self.query_one('#settings-remote-model', Input).value = REMOTE_DEFAULTS[str(event.value)][2]
+                self.query_one('#settings-remote-models', Select).set_options([])
+                self._show_provider_fields('external')
+            self._form_family = str(event.value)
             return
         if event.select.id != 'settings-provider':
             return
         from focus_settings import REMOTE_DEFAULTS
         provider = str(event.value)
+        if provider != self._form_provider:
+            self.query_one('#settings-secret', Input).value = ''
         if provider != self._form_provider and provider in REMOTE_DEFAULTS:
             url, key_env, model = REMOTE_DEFAULTS[provider]
             self.query_one('#settings-api-url', Input).value = url
@@ -671,14 +674,19 @@ class SettingsModal(ModalScreen[dict | None]):
             selector = self.query_one('#settings-model', Select)
             selector.set_options([('redsage-qwen3:8b-dpo · suggestion provisoire', 'redsage-qwen3:8b-dpo')])
             selector.value = 'redsage-qwen3:8b-dpo'
+        elif provider != self._form_provider and provider == 'external':
+            self.query_one('#settings-api-url', Input).value = ''
+            self.query_one('#settings-secret', Input).value = ''
         self._form_provider = provider
         self._show_provider_fields(provider)
 
     def _values(self) -> dict:
         from focus_settings import validate_ia, SettingsError, PROVIDER_TIMEOUTS
-        provider = self.query_one('#settings-provider', Select).value
+        choice = self.query_one('#settings-provider', Select).value
+        provider = self.query_one('#settings-family', Select).value if choice == 'external' else choice
         if provider != 'ollama':
             return validate_ia(dict(self.app.repl.settings.values, provider=provider,
+                connection_kind='external' if choice == 'external' else 'direct',
                 model=self.query_one('#settings-remote-model', Input).value.strip(),
                 api_base_url=self.query_one('#settings-api-url', Input).value.strip(),
                 api_key_env=self.query_one('#settings-key-env', Input).value.strip(),
@@ -689,7 +697,7 @@ class SettingsModal(ModalScreen[dict | None]):
             raise SettingsError("Format attendu : hôte:port (IPv6 : [::1]:11434).")
         host = host.removeprefix('[').removesuffix(']')
         return validate_ia(dict(self.app.repl.settings.values,
-            provider='ollama', model=self.query_one('#settings-model', Select).value,
+            provider='ollama', connection_kind='direct', model=self.query_one('#settings-model', Select).value,
             host=host, port=int(port), api_base_url='', api_key_env='',
             timeout=PROVIDER_TIMEOUTS['ollama']))
 
@@ -753,14 +761,11 @@ class SettingsModal(ModalScreen[dict | None]):
             return
         try:
             values = self._values()
-            name = self.query_one('#settings-profile-name', Input).value.strip()
             key = self.query_one('#settings-secret', Input).value
-            if values['provider'] != 'ollama' and (name or key):
-                if not name:
-                    raise ValueError('Indiquez un nom pour cet accès.')
-                values = self._profiles.save(name, values, key)
-                self.query_one('#settings-secret', Input).value = ''
+            if values['provider'] != 'ollama' and key:
+                values = self._profiles.save_active_key(values, key)
             self.app.repl.apply_ia_settings(values)
+            self.query_one('#settings-secret', Input).value = ''
         except (OSError, ValueError, TypeError, OverflowError) as exc:
             self._show_error(exc)
             return
@@ -773,8 +778,8 @@ class SettingsModal(ModalScreen[dict | None]):
         try:
             values = self._values()
             key = self.query_one('#settings-secret', Input).value or os.environ.get(values['api_key_env'], '')
-            if values['provider'] == 'anthropic':
-                raise ValueError('Claude Code : saisissez le modèle manuellement.')
+            if values['provider'] == 'anthropic' and values['connection_kind'] == 'external':
+                raise ValueError('Claude Code : choisissez un alias suggéré ou saisissez un identifiant.')
             if not key:
                 raise ValueError('Saisissez la clé ou chargez un accès enregistré.')
         except (ValueError, OSError) as exc:
@@ -907,6 +912,21 @@ class ResponsiveLinuxDriver(LinuxDriver):
     seul ne suffit donc pas pour livrer Échap en moins de 50 ms.
     """
 
+    native_selection = True
+
+    def set_native_selection(self, enabled: bool) -> None:
+        """Laisse le terminal hôte sélectionner sans exiger OSC 52, même en SSH."""
+        if enabled:
+            self._disable_mouse_support()
+        self.native_selection = enabled
+        if not enabled:
+            self._enable_mouse_support()
+
+    def _enable_mouse_support(self) -> None:
+        # Une reprise après suspend() doit conserver le choix de l'utilisateur.
+        if not self.native_selection:
+            super()._enable_mouse_support()
+
     def run_input_thread(self) -> None:
         import codecs
         import selectors
@@ -945,6 +965,7 @@ class UchambuziApp(App):
         Binding("ctrl+c", "quit_app", "Quitter", show=True),
         Binding("escape", "dismiss_menu", "Fermer menu", show=False),
         Binding("f2", "select_team", "Changer de Team", show=False),
+        Binding("f7", "toggle_native_selection", "Sélection terminal", show=False),
     ]
 
     def __init__(
@@ -963,6 +984,7 @@ class UchambuziApp(App):
         self.port = port
         self.timeout = timeout
         self.context_budget = context_budget
+        self._native_selection = True
         
         # Thème UCHAMBUZI
         active_theme_key = theme_id if theme_id in THEMES else load_theme_preference()
@@ -1141,7 +1163,10 @@ class UchambuziApp(App):
             (f"Dossier: {case_label}", style),
         ]
         if width >= 85:
-            fields.append(('/help', style))
+            hint = 'Ctrl+Maj+C/V · F7: souris app' if self._native_selection else 'F7: sélection terminal'
+            if width >= 120:
+                hint += ' · /help'
+            fields.append((hint, style))
         # Préserver le dossier lorsque le terminal est étroit.
         if width < 85 and sum(Text(label).cell_len for label, _ in fields) + 13 > width:
             fields[3] = (case_label if case else 'Sans dossier', style)
@@ -1418,7 +1443,7 @@ class UchambuziApp(App):
         items = [SelectorItem(id=':none', title='Continuer sans sauvegarder',
                               description='Les prochains échanges restent temporaires'),
                  SelectorItem(id=':new', title='Nouvelle conversation sauvegardée',
-                              description='Texte local non chiffré · empreinte journalisée SHA-256')]
+                              description='Conversation enregistrée localement en texte non chiffré')]
         items.extend(SelectorItem(id=item['id'], title=safe_display(item['name']),
                                   description=('Intégrité non vérifiée · reprise refusée' if item['corrupt'] else
                                                'Reprendre · ' + str(item.get('updated') or '')),
@@ -1512,7 +1537,7 @@ class UchambuziApp(App):
             self._print_system(Text('Sauvegarde suspendue : ' + safe_display(exc)))
 
     def open_case_selector(self) -> None:
-        """Ouvre un dossier existant avec les contrôles d'intégrité du moteur."""
+        """Ouvre un dossier existant avec les contrôles de structure du moteur."""
         try:
             cases = self.case_manager.list_cases()
         except (OSError, ValueError) as exc:
@@ -1522,8 +1547,8 @@ class UchambuziApp(App):
                               description='Choisir un identifiant et un titre pour une nouvelle enquête')]
         for case in cases:
             current = case['case_id'] == self.case_manager.active_case_id
-            available = case.get('integrity') == 'verified'
-            status = 'Intégrité à vérifier' if not available else ('Archivé' if case.get('archived_at') else ('Clôturé' if case.get('closed_at') else 'Ouvert'))
+            available = case.get('structure') == 'valid'
+            status = 'Dossier inaccessible' if not available else ('Archivé' if case.get('archived_at') else ('Clôturé' if case.get('closed_at') else 'Ouvert'))
             items.append(SelectorItem(
                 id=case['case_id'], title=safe_display(case['case_id']),
                 description=f"{safe_display(case.get('title') or 'Sans titre')} · {status}",
@@ -1540,7 +1565,7 @@ class UchambuziApp(App):
                     self._start_background(self._run_approved_command_async('/investigation', f'open {item.id}'),
                                            "Ouverture du dossier")
                 else:
-                    self._print_system('Dossier non ouvert : vérifiez son intégrité avec /investigation status.')
+                    self._print_system('Dossier non ouvert : vérifiez sa structure avec /investigation status.')
             self.prompt_input.focus()
 
         self.slash_menu.display = False
@@ -1692,6 +1717,8 @@ class UchambuziApp(App):
         action = None
         if key in ('ctrl+shift+c', 'f6'):
             action = self.action_copy_response
+        elif key == 'f7':
+            action = self.action_toggle_native_selection
         elif key == 'ctrl+c':
             action = self.action_quit_app
         elif key in ('escape', 'ctrl+u'):
@@ -1907,7 +1934,12 @@ class UchambuziApp(App):
     def action_quit_app(self) -> None:
         selected = self.screen.get_selected_text()
         if selected:
-            self.copy_to_clipboard(selected)
+            self.screen.clear_selection()
+            if self._current_ai_task is not None:
+                self._interrupt_ai()
+            elif self.prompt_input.value:
+                self.prompt_input.action_clear_prompt()
+                self.slash_menu.display = False
             self._quit_armed_at = None
             return
         if self.prompt_input.value:
@@ -2160,7 +2192,9 @@ class UchambuziApp(App):
             self._start_background(self._shell_turn(None), 'Terminal libre')
             return
         if cmd == '/copy':
-            if arg.strip().lower() in ('commande', 'command'):
+            if arg.strip().lower() in ('native', 'terminal'):
+                self.action_toggle_native_selection()
+            elif arg.strip().lower() in ('commande', 'command'):
                 command = getattr(self, '_last_prepared_command', None)
                 if command:
                     self.copy_to_clipboard(command)
@@ -2252,6 +2286,7 @@ class UchambuziApp(App):
             self.open_model_selector()
             return
 
+        renderable = None
         with self.repl.console.capture() as capture:
             if cmd == '/help':
                 self.repl.handle_help()
@@ -2262,7 +2297,7 @@ class UchambuziApp(App):
             elif cmd == '/investigation':
                 self.repl.handle_case(arg)
             elif cmd == '/indicator':
-                self.repl.handle_indicator(arg)
+                renderable = self.repl.handle_indicator(arg)
             elif cmd == '/target':
                 self.repl.handle_target(arg)
             elif cmd == '/audit':
@@ -2286,7 +2321,7 @@ class UchambuziApp(App):
             elif cmd == '/search':
                 self.repl.handle_search(arg)
             elif cmd == '/analyze':
-                self.repl.handle_analyze(arg)
+                renderable = self.repl.handle_analyze(arg)
             elif cmd == '/reset':
                 if self.repl.session:
                     self.repl.session.reset()
@@ -2299,7 +2334,9 @@ class UchambuziApp(App):
         self.update_status()
 
         output = capture.get().strip()
-        if output:
+        if renderable is not None:
+            self._print_system(renderable)
+        elif output:
             self._print_system(Text.from_ansi(output))
 
     async def _shell_turn(self, command):
@@ -2329,26 +2366,26 @@ class UchambuziApp(App):
             self.repl.finish_shell(result)
         self._print_system(Text.from_ansi(capture.get()))
 
+    def action_toggle_native_selection(self):
+        """Bascule vers la sélection du terminal, indépendante du clipboard distant."""
+        self._native_selection = not self._native_selection
+        driver = self._driver
+        if isinstance(driver, ResponsiveLinuxDriver):
+            driver.set_native_selection(self._native_selection)
+        self.screen.clear_selection()
+        self.update_status()
+        if self._native_selection:
+            self.notify('Sélection terminal : glissez sur le texte puis Ctrl+Maj+C. '
+                        'F7 réactive les clics et la molette de l’application.', timeout=8)
+        else:
+            self.notify('Souris de l’application réactivée : menus et défilement.')
+
     def copy_to_clipboard(self, text):
         super().copy_to_clipboard(text)
-        # VMware desktop terminals may not implement OSC 52; use their native
-        # clipboard when a graphical session is available. SSH retains OSC 52.
-        import shutil
-        import subprocess
-        command = None
-        if os.environ.get('WAYLAND_DISPLAY') and shutil.which('wl-copy'):
-            command = ['wl-copy']
-        elif os.environ.get('DISPLAY'):
-            if shutil.which('xclip'):
-                command = ['xclip', '-selection', 'clipboard']
-            elif shutil.which('xsel'):
-                command = ['xsel', '--clipboard', '--input']
-        if command:
-            try:
-                subprocess.run(command, input=text.encode('utf-8'), timeout=2,
-                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            except (OSError, subprocess.TimeoutExpired):
-                pass
+        # Copie explicite seulement : la sélection native reste gérée par le
+        # terminal ; le repli graphique sert F6 et /copy sous qterminal.
+        from focus_clipboard import copy_text
+        copy_text(text)
 
     def action_copy_response(self):
         selected = self.screen.get_selected_text()
@@ -2361,16 +2398,18 @@ class UchambuziApp(App):
             text = self.repl.transcript.records[-1].output
         if text:
             self.copy_to_clipboard(text)
-            self.notify('Texte envoyé au presse-papiers du terminal (OSC 52).')
+            self.notify('Copie demandée. Collez avec Ctrl+Maj+V. '
+                        'La sélection du terminal permet aussi Ctrl+Maj+C.', timeout=8)
         else:
             self.notify('Aucune réponse ou sortie à copier.')
 
-    def _run_approved_command(self, command: str, argument: str) -> str:
+    def _run_approved_command(self, command: str, argument: str) -> str | Panel:
         """Exécute les handlers synchrones dans un worker ; l'approbation revient à Textual."""
         with self.repl.console.capture() as capture:
             allowed = self.repl._command_allowed(command, self.active_team_name)
         if not allowed:
             return capture.get().strip()
+        renderable = None
         with self.repl.console.capture() as capture:
             if command == '/prepare':
                 self.repl.handle_prepare(argument)
@@ -2379,14 +2418,16 @@ class UchambuziApp(App):
             elif command == '/methods':
                 self.repl.handle_methods(argument)
             elif command == '/investigation':
-                self.repl.handle_case(argument)
+                renderable = self.repl.handle_case(argument)
             elif command == '/scenario':
                 self.repl.handle_scenario(argument)
             elif command == '/target':
                 self.repl.handle_target(argument)
             else:
                 self.repl.handle_quick(command, argument)
-        return capture.get().strip()
+        # Un panneau déjà rendu en ANSI se replie dans la zone de dialogue,
+        # plus étroite que le terminal. Garder l'objet pour le layout et resize.
+        return renderable if isinstance(renderable, Panel) else capture.get().strip()
 
     async def _activate_team(self, slug: str) -> None:
         if slug in ("assist", "assistant", "0"):
@@ -2458,7 +2499,7 @@ class UchambuziApp(App):
             self.prompt_input.prompt_history.clear()
             self.prompt_input.remember('')
         if output:
-            self._print_system(Text.from_ansi(output))
+            self._print_system(Text.from_ansi(output) if isinstance(output, str) else output)
         if changed and action in ('open', 'create') and self.case_manager.active_case_id:
             self.call_after_refresh(self._choose_conversation)
 
@@ -2592,6 +2633,10 @@ class UchambuziApp(App):
         if _prepared is None:
             try:
                 context, instructions = self.repl._prepare_ai_context(query, self.active_team_name)
+                from focus_repl import evidence_scope_notice
+                notice = evidence_scope_notice(context)
+                if notice:
+                    self._print_system(Text(notice))
             except (ValueError, TypeError, RuntimeError, RuntimeErrorLocal) as exc:
                 self._print_system(Text('Aucun envoi : ' + safe_display(exc)))
                 return
@@ -2606,6 +2651,10 @@ class UchambuziApp(App):
                 self._print_system('Session modifiée ; aucun envoi.')
                 return
 
+        from focus_tool_registry import osint_availability_notice
+        availability = osint_availability_notice(context)
+        if availability:
+            self._print_system(Text(availability))
         pending_save = self._persist_start(query)
         self.dialogue.display = True
         thinking = ThinkingIndicator(model_name=getattr(self.adapter, 'model', 'Ollama'))

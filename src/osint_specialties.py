@@ -116,7 +116,7 @@ _SPECIALTIES_CATALOG: tuple[OSINTSpecialty, ...] = (
         description='Exploration d’historiques web, endpoints archivés, URLs passées (Wayback Machine).',
         input_types=('domain', 'url'),
         recommended_tools=(
-            'waybackurls', 'gau',
+            'gau',
         ),
     ),
 )
@@ -479,7 +479,7 @@ def suggest_pivots(findings: Any) -> list[PivotSuggestion]:
                 pivot_type='web_archive',
                 pivot_value=val,
                 specialty='web_archive',
-                recommended_tools=('waybackurls', 'gau'),
+                recommended_tools=('gau',),
                 activity='passive',
                 explanation="Récupérer l'historique des URLs archivées sur la Wayback Machine pour détecter d'anciens endpoints.",
             ))
@@ -617,7 +617,7 @@ def suggest_pivots(findings: Any) -> list[PivotSuggestion]:
                 pivot_type='web_archive',
                 pivot_value=val,
                 specialty='web_archive',
-                recommended_tools=('waybackurls', 'gau', 'photon'),
+                recommended_tools=('gau', 'photon'),
                 activity='passive',
                 explanation="Rechercher les versions antérieures de la page archivées sur le web.",
             ))
@@ -685,6 +685,12 @@ def extract_candidate_pivots(tool_name: str, stdout: str) -> list[dict]:
     if not isinstance(tool_name, str) or not isinstance(stdout, str):
         return []
     tool = tool_name.casefold()
+    # Holehe répète l'adresse cible et liste des services, pas de nouvelles
+    # entités attribuables à la cible. Même un statut positif reste à qualifier ;
+    # les domaines des services et les liens du bandeau ne sont pas des pivots.
+    # La sortie brute reste consignée par le parcours d'exécution.
+    if tool == 'holehe':
+        return []
     text = re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]', '', stdout[:1_000_000])
     result, seen = [], set()
 

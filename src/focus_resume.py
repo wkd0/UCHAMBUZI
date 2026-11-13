@@ -11,17 +11,18 @@
 
 L'hote construit ResumeSessions(SessionManager(root), case_manager), puis appelle
 create() ou open(id, recover_interrupted=True) apres ouverture explicite du dossier.
-Les snapshots resident dans cases/<id>/sessions ; leur SHA-256 canonique est
-ancre dans le journal du dossier, sans texte de conversation. Les anciennes
-sessions globales et les snapshots non ancres ne sont pas migres automatiquement.
+Les conversations resident dans cases/<id>/sessions ; leur identifiant et leur
+revision sont consignes dans le journal sans texte ni empreinte. Les anciennes
+sessions globales et les conversations sans evenement correspondant ne sont pas
+migrees automatiquement.
 Le parametre de recuperation n'est utilisable que si aucun moteur ne travaille
 encore sur cette session. Chaque modification de Session reste atomique et peut
 lever ConflictError. list_sessions() ne liste que le dossier actif verifie.
 
 Les fichiers snapshot et journal ne forment pas une transaction atomique : une
-divergence est refusee, sans reparation automatique. La chaine n'est ni signee
-ni ancree hors du dossier : une restauration coherente des deux fichiers ou une
-reecriture complete du journal peut rester indetectable.
+divergence de revision est refusee, sans reparation automatique. Une modification
+du contenu a revision identique ou une restauration coherente des deux fichiers
+peut rester indetectable : aucune verification cryptographique n'est declaree.
 
 Pour afficher les fragments, utiliser session.data['messages']. Pour alimenter
 un moteur conversation.Session neuf et vide, affecter conversation_messages(session)
@@ -34,8 +35,6 @@ secrets par l'hote ; les detections automatiques ne sont pas exhaustives.
 """
 import contextlib
 import fcntl
-import hashlib
-import json
 import os
 
 import installation
@@ -43,11 +42,6 @@ from conversation import detect_prompt_injection, sanitize_prompt_data
 from focus_sessions import Session, SessionManager, _validate
 from focus_storage import ConflictError, CorruptSession
 from parcours import validate_case_id
-
-
-def _digest(data):
-    payload = json.dumps(data, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False)
-    return hashlib.sha256(payload.encode('utf-8')).hexdigest()
 
 
 class _AnchoredStorage:
@@ -66,11 +60,13 @@ class _AnchoredStorage:
         directory = cases.case_dir(cid, create=False)
         if self.base.root != directory:
             raise ValueError('Session associee a un autre dossier')
-        fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        lock_path = directory.parent / ('.lock-' + cid)
+        installation.no_links(lock_path)
+        fd = os.open(lock_path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
         try:
             fcntl.flock(fd, fcntl.LOCK_EX)
             case_id, created = self.owner._case()
-            if case_id != cid or cases.state is None or cases.state.get('sha256') != cases.status(cid)['sha256']:
+            if case_id != cid or cases.state is None or cases.state.get('revision', 0) != cases.status(cid)['revision']:
                 raise ConflictError('Dossier modifie par une autre session ; le rouvrir')
             installation.no_links(self.base.sessions)
             installation.no_links(self.base.path(sid))
@@ -85,13 +81,11 @@ class _AnchoredStorage:
         if (data.get('case_id'), data.get('case_created')) != (cid, created):
             raise ValueError('Session associee a un autre dossier')
         entries = self.owner.cases._verify_and_load_journal(directory, cid)
-        anchor = next((e['details'] for e in reversed(entries)
-                       if e.get('event_type') == 'conversation_snapshot'
-                       and isinstance(e.get('details'), dict)
-                       and e['details'].get('session_id') == sid), None)
-        if (anchor is None or anchor.get('revision') != data['revision']
-                or anchor.get('snapshot_sha256') != _digest(data)):
-            raise CorruptSession('Conversation non ancree ou incoherente avec le journal ; reprise refusee')
+        last = next((e['details'] for e in reversed(entries)
+                     if e.get('event_type') == 'conversation_snapshot'
+                     and e['details'].get('session_id') == sid), None)
+        if last is None or last.get('revision') != data['revision']:
+            raise CorruptSession('Conversation absente du journal ou révision incohérente')
         return data
 
     def write(self, sid, data, expected):
@@ -107,8 +101,8 @@ class _AnchoredStorage:
                 raise ConflictError('Session absente ou supprimee')
             self.base.write_locked(sid, data, expected)
             self.owner.cases._append_journal(directory, cid, 'conversation_snapshot',
-                'Empreinte de conversation enregistree.',
-                {'session_id': sid, 'revision': data['revision'], 'snapshot_sha256': _digest(data)})
+                'Conversation enregistrée.',
+                {'session_id': sid, 'revision': data['revision']})
             journal_fd = os.open(directory / 'journal.jsonl', os.O_RDONLY | os.O_NOFOLLOW)
             try:
                 os.fsync(journal_fd)
@@ -140,7 +134,7 @@ class ResumeSessions:
     def _case(self):
         case_id = validate_case_id(self.cases.active_case_id)
         status = self.cases.status(case_id)
-        if status['integrity'] != 'verified' or status['closed_at'] or status['archived_at']:
+        if status['structure'] != 'valid' or status['closed_at'] or status['archived_at']:
             raise ValueError('Dossier actif indisponible ou non verifie')
         return case_id, status['created_at']
 

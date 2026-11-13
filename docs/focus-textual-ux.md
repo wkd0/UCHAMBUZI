@@ -31,6 +31,26 @@ saisis.
 | Ctrl+C, génération en cours et saisie vide | Interrompre la génération |
 | Ctrl+C, saisie vide et moteur au repos | Afficher l'invite de sortie ; une seconde pression sous 3 secondes quitte |
 | Ctrl+D | Quitter directement |
+| F6 ou `/copy` | Envoyer la sélection, sinon la dernière réponse, au presse-papiers |
+| F7 ou `/copy native` | Basculer entre sélection du terminal et souris de l’application |
+
+Pour copier avec les raccourcis du terminal, appuyez sur **F7**, sélectionnez le
+texte en faisant glisser la souris, puis utilisez **Ctrl+Maj+C** (coller :
+Ctrl+Maj+V). Cette sélection fonctionne aussi en SSH sans transmission du
+presse-papiers. Appuyez à nouveau sur F7 pour retrouver les clics dans les menus
+et le défilement de la conversation à la molette ; PageUp/PageDown restent
+disponibles dans les deux modes. La barre d’état rappelle le mode sous les
+grandes largeurs. Avec de nombreux terminaux, maintenir Maj pendant la sélection
+permet également de sélectionner nativement sans changer de mode.
+
+En mode souris de l’application, la sélection est automatiquement envoyée au
+terminal au relâchement ; Ctrl+C copie aussi une sélection existante. La copie
+utilise OSC 52 et, en session graphique locale, le presse-papiers système.
+Certains terminaux ignorent OSC 52 : en SSH, un outil de copie installé sur Kali
+ne suffit pas à atteindre le presse-papiers de l’ordinateur hôte. F7 permet alors
+la copie native sans installer de service ni modifier la configuration SSH.
+Ctrl+Maj+C est généralement traité directement par le terminal ; il copie sa
+sélection native et peut ne jamais être transmis à UCHAMBUZI.
 
 Les collages conservent leurs sauts de ligne. La saisie grandit de une à six
 lignes. Un clic de lecture dans l'historique laisse la prochaine frappe

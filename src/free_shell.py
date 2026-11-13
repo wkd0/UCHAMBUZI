@@ -9,7 +9,6 @@
 # Copyright     : (c) 2026 Wakanda (WKD) et contributeurs respectifs
 # ============================================================================
 """Only explicit human input enters this shell, never model or tool output."""
-import hashlib
 import os
 from pathlib import Path
 import shlex
@@ -49,17 +48,14 @@ def execute_shell(command, directory):
     result = subprocess.run(['script', '--quiet', '--return', '--flush',
                              '--command', shell_command, '--log-out', str(log.resolve())],
                             cwd=workspace, env=environment)
-    # Hash the full raw transcript without putting an unbounded log in memory.
-    digest = hashlib.sha256()
     with log.open('rb') as stream:
-        for block in iter(lambda: stream.read(65536), b''):
-            digest.update(block)
+        stream.seek(0, os.SEEK_END)
         stream.seek(max(0, stream.tell() - 24000))
         decoded = stream.read().decode('utf-8', errors='replace').replace('\r\n', '\n')
         excerpt = safe_display(Text.from_ansi(decoded).plain)
     return dict(tool='bash', command=command if command is not None else '/bin/bash -i',
                 activity='unrestricted', cwd=str(workspace), started_at=started,
                 finished_at=datetime.now(timezone.utc).isoformat(), returncode=result.returncode,
-                transcript=str(log), transcript_sha256=digest.hexdigest(),
+                transcript=str(log),
                 stdout_excerpt=excerpt, excerpt_truncated=log.stat().st_size > 24000,
                 detected_patterns=detect_prompt_injection([excerpt]))

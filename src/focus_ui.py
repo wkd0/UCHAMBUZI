@@ -10,6 +10,7 @@
 """Moteur TUI conversationnel UCHAMBUZI Focus ; points de raccordement pour missions 03, 04 et 05."""
 from __future__ import annotations
 
+import parcours
 import asyncio
 from dataclasses import dataclass, field
 from enum import Enum
@@ -60,6 +61,63 @@ from focus_editor import FocusEditor
 from focus_assembly import ToolUI
 from focus_settings_catalog import InteractiveCatalog
 from focus_terminal_keys import TerminalKeys
+
+
+def journal_description(entry):
+    """Présente le résumé enregistré sans exposer les types techniques."""
+    summary = str(entry.get('summary', ''))
+    if entry.get('event_type') == 'conversation_snapshot':
+        summary = 'Conversation enregistrée.'
+    elif entry.get('event_type') == 'command_prepared':
+        translations = {'Préparation enregistrée (prepared).': 'Préparation enregistrée (commande prête).',
+                        'Préparation enregistrée (refused).': 'Préparation enregistrée (commande refusée).'}
+        summary = translations.get(summary, summary)
+    elif entry.get('event_type') == 'security_audit':
+        for suffix, replacement in ((' (injection=True).', ' (motif suspect détecté).'),
+                                    (' (injection=False).', ' (aucun motif suspect détecté).')):
+            if summary.startswith('Audit anti-injection sur ') and summary.endswith(suffix):
+                summary = summary[:-len(suffix)] + replacement
+                break
+    return safe_display(summary)
+
+
+def audit_description(report):
+    result = 'Motifs suspects détectés' if report['injection_detected'] else 'Aucun motif suspect détecté'
+    extent = 'lecture partielle' if report['truncated'] else 'lecture complète'
+    labels = {'override_instruction': 'tentative de remplacement des consignes',
+              'role_delimiter': 'délimiteur de rôle', 'fake_execution': 'fausse exécution',
+              'forced_conclusion': 'conclusion imposée', 'jailbreak_persona': 'contournement des restrictions',
+              'bidi_or_format_control': 'caractère de contrôle de direction'}
+    patterns = ', '.join(labels.get(code, 'autre motif suspect') for code in report['detected_patterns']) or 'aucun'
+    return (f"Fichier : {safe_display(report['path'])}\n"
+            f"Analyse heuristique anti-injection : {result}.\n"
+            f"Motifs relevés : {patterns}\n"
+            f"Contenu examiné : {report['bytes_inspected']} octets ({extent}).\n"
+            "La détection recherche des motifs connus ; elle ne garantit pas l’absence d’injection.")
+
+
+def render_preparation_readable(result):
+    """Affiche la commande et ses avertissements sans les métadonnées internes."""
+    command = result.get('command', result)
+    if command.get('status') != 'prepared':
+        error = command.get('error') or {}
+        print(safe_display('Préparation refusée : ' + str(error.get('message', 'raison indisponible'))))
+        return
+    print(safe_display('Commande préparée : ' + str(command.get('display', ''))))
+    operation = {'local': 'locale', 'active': 'active', 'passive': 'passive'}.get(command.get('operation_type'), command.get('operation_type', ''))
+    risk = {'moderate': 'modéré', 'low': 'faible', 'high': 'élevé'}.get(command.get('risk'), command.get('risk', ''))
+    print(safe_display(f"Opération : {operation} ; risque : {risk} ; réseau requis : {'oui' if command.get('network_required') else 'non'}"))
+    recommendation = result.get('recommendation') or {}
+    for key, label in [('safety', 'Précaution'), ('restrictions', 'Restriction'), ('uncertainties', 'Incertitude')]:
+        for value in recommendation.get(key, []):
+            print(safe_display(f'{label} : {value}'))
+    for item in command.get('parameter_explanations', []):
+        print(safe_display(f"  {item['argument']} : {item['explanation']}"))
+    for label, key in [('Prérequis', 'prerequisites'), ('Limite', 'limitations')]:
+        for value in command.get(key, []):
+            value = value.replace(' ; aucune garantie de chaîne de conservation', '').replace('; aucune garantie de chaîne de conservation', '')
+            print(safe_display(f'{label} : {value}'))
+    print('Approbation humaine requise avant toute exécution.')
 
 
 class UIState(str, Enum):
@@ -1688,16 +1746,7 @@ class FocusTUIController:
                 target_path = normalized[len('/audit '):].strip()
                 report = audit_file_prompt_injection(target_path)
                 self.cases.record_security_audit(report)
-                risk_label = 'DÉTECTÉ' if report['injection_detected'] else 'aucun motif détecté'
-                scope = 'préfixe inspecté' if report['truncated'] else 'fichier lu'
-                body = (
-                    f"Fichier : {report['path']}\nSHA-256 ({scope}) : {report['sha256']}"
-                    f"\nOctets inspectés : {report['bytes_inspected']}"
-                    f"\nInjection de prompt : {risk_label}\nMotifs détectés : {', '.join(report['detected_patterns']) or 'aucun'}"
-                    '\nDétection heuristique : aucune garantie d’absence d’injection. '
-                    'La lecture peut modifier les métadonnées d’accès ; utiliser une copie de travail. '
-                    'Cette empreinte ne constitue pas une signature ni une chaîne de conservation.'
-                )
+                body = audit_description(report)
                 self.active_section = 1
                 self.add_panel(1, 'Audit anti-injection de prompt', body)
                 if self.state == UIState.WELCOME:
@@ -1721,7 +1770,7 @@ class FocusTUIController:
                         else:
                             lines.append(
                                 f"[{result['kind']}] {result['id']} (score {result['score']}) — {item.get('title', result['id'])}"
-                                f" [source : {item['availability']}, {item['verification']}, {item['freshness']}, {item['compatibility']}]"
+                                f" [source : {parcours.readable_code(item['availability'])}, {parcours.readable_code(item['verification'])}, {parcours.readable_code(item['freshness'])}, {parcours.readable_code(item['compatibility'])}]"
                             )
                     self.add_panel(1, 'Recherche documentaire pondérée', '\n'.join(lines))
                 if self.state == UIState.WELCOME:
@@ -1811,8 +1860,7 @@ class FocusTUIController:
                             f"Dossier : {info['case_id']}"
                             + (f" — {info['title']}" if info['title'] else '')
                             + f"\nChemin : {info['path']}\nIndices : {info['indicators_count']} ; commandes : {info['prepared_commands_count']} ; contextes : {info['contexts_count']}"
-                            + f"\nJournal : {info['journal_entries_count']} événement(s) ; empreintes : {info['integrity']}\nSHA-256 : {info['sha256']}"
-                            + f"\n{info['integrity_limitations']}"
+                            + f"\nJournal : {info['journal_entries_count']} événement(s)"
                         )
                         self.add_panel(1, 'Dossier d’enquête', body)
                 elif arg in ('list', 'liste'):
@@ -1821,10 +1869,9 @@ class FocusTUIController:
                         self.add_panel(1, 'Dossiers d’enquête', 'Aucun dossier d’enquête enregistré.')
                     else:
                         lines = [
-                            f"{it['case_id']} : {it['indicators_count']} indice(s), {it['prepared_commands_count']} commande(s), {it['journal_entries_count']} jnl ({it['integrity']})"
+                            f"{it['case_id']} : {it['indicators_count']} indice(s), {it['prepared_commands_count']} commande(s), {it['journal_entries_count']} événement(s)" + ('' if it.get('structure') == 'valid' else ' — dossier inaccessible : contrôle échoué')
                             for it in items
                         ]
-                        lines.append('Contrôles des empreintes locales uniquement ; aucune signature ni garantie de chaîne de conservation.')
                         self.add_panel(1, 'Dossiers d’enquête', '\n'.join(lines))
                 elif arg in ('log', 'journal'):
                     if not self.cases.active_case_id:
@@ -1832,7 +1879,7 @@ class FocusTUIController:
                     else:
                         entries = self.cases.read_journal()
                         lines = [
-                            f"#{e['seq']} [{e['timestamp']}] {e['event_type']} — {e['summary']} (sha256:{e['sha256'][:12]})"
+                            f"#{e['seq']} [{e['timestamp']}] {journal_description(e)}"
                             for e in entries
                         ]
                         self.add_panel(1, 'Journal d’enquête horodaté', '\n'.join(lines))
@@ -1905,9 +1952,7 @@ class FocusTUIController:
                         1,
                         'Dossier d’enquête actif',
                         f"Dossier : {info['case_id']}" + (f" — {info['title']}" if info['title'] else '')
-                        + f"\nChemin : {info['path']}\nIndices : {info['indicators_count']} ; commandes : {info['prepared_commands_count']} ; contextes : {info['contexts_count']}"
-                        + f"\nEmpreintes : {info['integrity']} (SHA-256 : {info['sha256'][:16]}…)"
-                        + f"\n{info['integrity_limitations']}",
+                        + f"\nChemin : {info['path']}\nIndices : {info['indicators_count']} ; commandes : {info['prepared_commands_count']} ; contextes : {info['contexts_count']}",
                     )
                 if self.state == UIState.WELCOME:
                     self.state = UIState.CONVERSATION
@@ -2118,8 +2163,7 @@ class FocusTUIController:
         return buf.getvalue().rstrip()
 
     def _finish_preparation(self, result: dict) -> None:
-        from parcours import render_preparation
-        rendered = self._capture_renderer(render_preparation, result)
+        rendered = self._capture_renderer(render_preparation_readable, result)
         self.add_panel(
             1,
             'Commande préparée et avertissements',
